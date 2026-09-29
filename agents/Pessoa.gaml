@@ -6,7 +6,7 @@
 */
 
 
-model Paciente
+model Pessoa
 
 import "../globals/globals.gaml"
 
@@ -40,9 +40,13 @@ species pessoa skills: [moving]
 	
 	rgb cor <- #green;
 	
-	aspect default {
-		draw square(0.5) color: cor;
-	}
+	
+	
+    // Mosquito.gaml
+	// Pessoa.gaml
+aspect default { draw circle(250) color: #blue; }
+
+
 	reflex andar {
 
         do wander;
@@ -59,6 +63,26 @@ species pessoa skills: [moving]
     		dias_Infectado <- 0;
     	}
     	
+    	switch estadoAtual {
+		    match 0 {
+		        cor <- #green;
+		        dias_Infectado <- 0;
+		    }
+		
+		    match 1 {
+				cor <- #red;
+
+		    }
+		    match 2 {
+		    	cor <- #purple;
+		    }
+		    
+		    match 3 {
+		        cor <- #cyan;
+		    }
+		} 
+    	
+    	
     }
     
     action Envelhecer
@@ -71,22 +95,28 @@ species pessoa skills: [moving]
     	if(estadoAtual = 1 and dias_Infectado >= periodo_incubacao)
     	{
 			do MudarEstado;
-			cor <- #red;
-    	}
+			if(rnd(1,10000) <= 2)
+			{
+				do die;
+			}
+			
+    	}	
     	
     	if(estadoAtual = 2 and dias_Infectado >= periodo_incubacao + periodo_viral)
     	{
-
 			do MudarEstado;
-			cor <- #brown;
-    		
+			
     	}
     	
     	if(estadoAtual = 3 and dias_Infectado >= periodo_incubacao + periodo_viral + periodo_recuperacao)
     	{
 			do MudarEstado;
 			cor <- #green;
+			dias_Infectado <- 0;
+			
 		}
+		
+		
     	
     	
     	
@@ -97,6 +127,7 @@ species pessoa skills: [moving]
     		if (rnd(1,48300) = 1+ 484 * PorcentagemExtra)
     		{
     			do die;
+    			mortos_por_dengue <- mortos_por_dengue + 1;
     			// 1 em 48300 = 0,00207% media mundial morte/dia
     		}
     	}
@@ -112,113 +143,12 @@ species pessoa skills: [moving]
     action Nascer
     {
     	if (rnd(1,35714) = 1)
-    		{
-				create pessoa number: 1 with: [
-				    idade::0
-				];    			
-    			// 1 em 48300 = 0,00207% media mundial morte/dia
-    		}	
-    	
+		{
+			create pessoa number: 1 with: [
+			    idade::0
+			];    			
+			// 1 em 48300 = 0,00207% media mundial morte/dia
+		}	
     }
-    
-    
-    
-//    
-//switch estados {
-//    match "Macho" {
-//        write "É macho";
-//    }
-//    match "Femea" {
-//        write "É fêmea";
-//    }
-//    defaut
-//    {
-//    	
-//    }
-//    
-//}
-    
-    
-    
-//    action FicarDoente
-//    {
-//    	if(!doente)
-//    	{
-//    		doente <- true;
-//    	}
-//    	
-//    }
-//    action FicarCurado
-//    {
-//    	if(doente)
-//    	{
-//    		doente <- false;
-//    		
-//    	}
-//    	
-//    }
-//    
-//    reflex nascer
-//    {
-//    	if(rnd(0, 420) < 1)
-//    	{
-//    		create pessoa number:1;
-//    	}
-//    	
-//    }
-//    
-//    
-//    
-//    reflex gastar {
-//    	if(rnd(1, 100) < 30)
-//    	{
-//    		energia <- energia - 1;
-//    	}
-//    	
-//    	if(rnd(1, 100) < 3)
-//    	{
-//    		do FicarDoente;
-//    	}
-//    	
-//    	if(rnd(1, 100) < 3)
-//    	{
-//    		do FicarCurado;
-//    	}
-//    	
-//    	if(doente)
-//    	{
-//    		energia <- energia - 1;
-//    	}
-//    	
-//    	if(energia > 40 and energia <= 80 )
-//		{
-//			if(doente)
-//			{
-//				cor <- #blue;
-//			}
-//			else
-//			{
-//				cor <- #orange;
-//			}
-//			
-//			
-//    		
-//		}
-//		if(energia <= 40)
-//		{
-//    		if(doente)
-//			{
-//				cor <- #purple;
-//			}
-//			else
-//			{
-//				cor <- #red;
-//			}
-//		}
-//    	
-//    	if (energia <= 0) 
-//    	{
-//		    do die;
-//		}
 }
 

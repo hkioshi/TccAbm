@@ -7,3 +7,8 @@
 
 
 model Ambiente
+
+species ambiente
+{
+	aspect default { draw shape color: #lightgray border: #black; }
+}
