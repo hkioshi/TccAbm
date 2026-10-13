@@ -20,18 +20,22 @@ species ovo {
     poca poca_natal_ovo;
 
     action Envelhecer {
-        idade <- idade + 1;
-		poca pop <- poca_natal_ovo;
-
-        if (idade > 10) {
-			remove self from: pop.ovos;
+    	
+    	if(poca contains poca_natal_ovo)
+    	{
+		 	idade <- idade + 1;
+			poca pop <- poca_natal_ovo;
+	
+	        if (idade > 10) {
+				remove self from: pop.ovos;
         	
             create mosquito number: 1 {
                 location <- pop.location;
                 poca_natal <- pop.location;
             }
-
-            do die;
+    	}
+    	
+    	do die;
         }
     }
 }

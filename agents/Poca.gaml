@@ -24,7 +24,7 @@ species poca
          */
         if (qtd_chuva = 0) {
 
-            tamanho <- tamanho - 2;
+            tamanho <- tamanho - 1;
 
             /*
              * A poça não pode ter tamanho negativo.
@@ -99,5 +99,5 @@ species poca
     }
 
     // Poca.gaml
-		aspect default { draw circle(300) color: #cyan; }
+		aspect default { draw circle(250) color: #blue; }
 }

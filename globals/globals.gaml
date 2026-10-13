@@ -11,39 +11,98 @@ import "../agents/Mosquito.gaml"
 import "../agents/Pessoa.gaml"
 import "../agents/Ambiente.gaml"
 import "../agents/Poca.gaml"
-
-/* Insert your model definition here */
-
-
-global 
-{
-	int temperatura;
-	int mes <- 1;
-	int quantidade <- 1000;
-	int mortos_por_dengue <- 0;
-	int dia <- 0;
-	int chuva;
- 	file subprefeituras_shapefile <- file("../Gis/subprefeitura_v2.shp");
-
-    geometry shape <- envelope(subprefeituras_shapefile);
+import "../agents/Mapa.gaml"
 
 
+global {
+    // Dados climáticos
+    int temperatura;
+    float chuva <- 0.0;
+	int velocidade_tempo <- 1;
 	
-	reflex evento when: every(24 #cycles) 
-	{
+	
+    // Tempo
+    int mes <- 1;
+    int dia <- 0;
+    int hora <- 0;
 
-		if(dia > 30)
-		{
-			if(mes != 12)
-			{
-				mes <- mes + 1;
-			}
-			else
-			{
-				mes <- 1;
-			}
+    // Dados epidemiológicos
+    int quantidade_pessoas <- 1000;
+    int mortos_por_dengue <- 0;
+
+    // Dados geográficos
+    file subprefeituras_shapefile <- file("../Gis/subprefeitura_v2.shp");
+	geometry shape <- envelope(subprefeituras_shapefile);
+
+
+    init {
+    	
+    	seed <- 12345.0;
+    	write "Seed utilizada: " + seed;
+
+    	
+        create ambiente from: subprefeituras_shapefile
+    with: [nm_regiao_::read("nm_regiao_")];
+
+		// Leste: 35,01%
+		create pessoa number: int(quantidade_pessoas * 0.3501) {
+		    location <- any_location_in(
+		        one_of(ambiente where (each.nm_regiao_ = "Leste")).shape
+		    );
 		}
 		
+		// Sul: 32,39%
+		create pessoa number: int(quantidade_pessoas * 0.3239) {
+		    location <- any_location_in(
+		        one_of(ambiente where (each.nm_regiao_ = "Sul")).shape
+		    );
+		}
+		
+		// Norte: 19,26%
+		create pessoa number: int(quantidade_pessoas * 0.1926) {
+		    location <- any_location_in(
+		        one_of(ambiente where (each.nm_regiao_ = "Norte")).shape
+		    );
+		}
+		
+		// Oeste: 9,63%
+		create pessoa number: int(quantidade_pessoas * 0.0963) {
+		    location <- any_location_in(
+		        one_of(ambiente where (each.nm_regiao_ = "Oeste")).shape
+		    );
+		}
+		
+		// Centro: 3,70%
+		create pessoa number: int(quantidade_pessoas * 0.0370) {
+		    location <- any_location_in(
+		        one_of(ambiente where (each.nm_regiao_ = "Centro")).shape
+		    );
+		}
+	        write "Pessoas: " + length(pessoa);
+	        write "Subprefeituras: " + length(ambiente);
+	    }
+	
+	reflex atualizar_hora when: every(10 #cycles) {
+	    hora <- (hora + 1) mod 24;
+	}
+	
+
+    
+	reflex evento when: every(240 * velocidade_tempo #cycles) 
+	{
+
+		dia <- dia + 1;
+
+	    if (dia > 30) {
+	        dia <- 1;
+	
+	        if (mes < 12) {
+	            mes <- mes + 1;
+	        } else {
+	            mes <- 1;
+	        }
+	    }
+			
 		ask pessoa {
         	do Envelhecer;
         	do Nascer;
@@ -159,6 +218,8 @@ global
 		    }
 		}
 		
+		write quantidade_chuva; 
+		
     	dia <- dia + 1;
     	temperatura <- rnd(15,35);
     	
@@ -171,35 +232,31 @@ global
 		    int quantidade_pocas <- 0;
 		
 		    if (quantidade_chuva <= 10) {
-		        quantidade_pocas <- 1;
+		        quantidade_pocas <- 10;
 		    }
 		    else if (quantidade_chuva <= 30) {
-		        quantidade_pocas <- 2;
+		        quantidade_pocas <- 20;
 		    }
 		    else if (quantidade_chuva <= 60) {
-		        quantidade_pocas <- 3;
+		        quantidade_pocas <- 30;
 		    }
 		    else {
-		        quantidade_pocas <- 5;
+		        quantidade_pocas <- 50;
 		    }
 		
 		    create poca number: quantidade_pocas {
 		        tamanho <- 1;
+		        location <- any_location_in(
+                	one_of(ambiente)
+                		.shape);
+                		
+               
+		        
 		    }
 		}
 	}	
-	init
-	{
-
-		create ambiente from: subprefeituras_shapefile;
-		create pessoa number: quantidade
-		{
-			location <- any_location_in(one_of(ambiente));
-		}
-		write "Tamanho do mundo: " + world.shape.width + " x " + world.shape.height;
-		write "Pessoas: " + length(pessoa);
-		write "Exemplo de posição: " + first(pessoa).location;
-
-	}
+	
+	
+	
 		
 }

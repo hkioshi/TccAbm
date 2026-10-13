@@ -8,7 +8,12 @@
 
 model Ambiente
 
-species ambiente
-{
-	aspect default { draw shape color: #lightgray border: #black; }
+species ambiente {
+	
+	string nm_regiao_;
+    aspect default {
+        draw shape color: #yellow border: #black;
+    }
 }
+
+
