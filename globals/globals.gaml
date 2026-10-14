@@ -28,7 +28,7 @@ global {
 	geometry shape <- envelope(subprefeituras_shapefile); // Nao mexer | caso de se trocar o nome nao sei o que acontece mas faz o mapa sumir
 	// Dados epidemiológicos
 	
-	int quantidade_pessoas <- 1000;
+	int quantidade_pessoas <- 11911; // escala de 1:1000
 	int mortos_por_dengue <- 0;
 	int mortes_menor_1_ano <- 0;       // Menores de 1 ano
 	int mortes_1_a_19_anos <- 0;       // 1 a 19 anos
@@ -38,34 +38,37 @@ global {
 	int mortes_80_anos_ou_mais <- 0;   // 80 anos ou mais
 	
 
-
+	//| Região | População  | Participação |
+	//| ------ | ---------- | ------------ |
+	//| Centro | 563.877    | 5,0%         |
+	//| Norte  | 1.229.117  | 10,9%        |
+	//| Leste  | 4.011.035  | 35,6%        |
+	//| Sul    | 5.239.732  | 46,6%        |
+	//| Oeste  | 1.208.299  | 10,7%        |
+	//| Total  | 11.252.060 | 100%         |
+	//https://gestaourbana.prefeitura.sp.gov.br/wp-content/uploads/2024/05/IU_64_censo-2022-1.pdf	
 	init {
 		seed <- 12345.0;
 		write "Seed utilizada: " + seed;
 		create ambiente from: subprefeituras_shapefile with: [nm_regiao_::read("nm_regiao_")];
 
-		// Leste: 35,01%
-		create pessoa number: int(quantidade_pessoas * 0.3501) {
+		create pessoa number: int(quantidade_pessoas * 0.3560) {
 			location <- any_location_in(one_of(ambiente where (each.nm_regiao_ = "Leste")).shape);
 		}
 
-		// Sul: 32,39%
-		create pessoa number: int(quantidade_pessoas * 0.3239) {
+				create pessoa number: int(quantidade_pessoas * 0.4660) {
 			location <- any_location_in(one_of(ambiente where (each.nm_regiao_ = "Sul")).shape);
 		}
 
-		// Norte: 19,26%
-		create pessoa number: int(quantidade_pessoas * 0.1926) {
+				create pessoa number: int(quantidade_pessoas * 0.1090) {
 			location <- any_location_in(one_of(ambiente where (each.nm_regiao_ = "Norte")).shape);
 		}
 
-		// Oeste: 9,63%
-		create pessoa number: int(quantidade_pessoas * 0.0963) {
+		create pessoa number: int(quantidade_pessoas * 0.1070) {
 			location <- any_location_in(one_of(ambiente where (each.nm_regiao_ = "Oeste")).shape);
 		}
 
-		// Centro: 3,70%
-		create pessoa number: int(quantidade_pessoas * 0.0370) {
+		create pessoa number: int(quantidade_pessoas * 0.0500) {
 			location <- any_location_in(one_of(ambiente where (each.nm_regiao_ = "Centro")).shape);
 		}
 

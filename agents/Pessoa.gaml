@@ -6,31 +6,52 @@ model Pessoa
 
 import "../globals/globals.gaml"
 species pessoa skills: [moving] {
-
-// Identificação e saúde
-	int idade <- rnd(10 * 365, 80 * 365);
-	int espectativaDeVida <- 77 * 365;
-	int idade_avancada <- 2;
 	
+	// =========================
+	// Dados demográficos
+	// =========================
+	int idade <- rnd(10 * 365, 80 * 365);
+	int espectativaDeVida <- 77 * 365; //https://jornal.usp.br/podcast/panorama-paulista-55-expectativa-de-vida/
+	int idade_avancada <- 2;
+
+	// =========================
+	// Estado da pessoa
+	// =========================
 	int estado <- 0;
 	int dias_Infectado <- 0;
-	float mortalidade_menor_1_ano <- 0.106; //https://ojs.thesiseditora.com.br/index.php/jsihs/article/download/407/363/1494
-	float mortalidade_1_a_19_anos <- 0.018;  //https://ojs.thesiseditora.com.br/index.php/jsihs/article/download/407/363/1494
-	float mortalidade_20_a_39_anos <- 0.033; //https://ojs.thesiseditora.com.br/index.php/jsihs/article/download/407/363/1494
-	float mortalidade_40_a_59_anos <- 0.068; //https://ojs.thesiseditora.com.br/index.php/jsihs/article/download/407/363/1494
-	float mortalidade_60_a_79_anos <- 0.271; //https://ojs.thesiseditora.com.br/index.php/jsihs/article/download/407/363/1494
-	float mortalidade_80_anos_ou_mais <- 1.52;	 //https://ojs.thesiseditora.com.br/index.php/jsihs/article/download/407/363/1494
-	float prob_transmissao <- 60.0;//https://aamas.csc.liv.ac.uk/AAMAS/aamas2017/proceedings/pdfs/p426.pdf
-	int periodo_incubacao <- rnd(5, 7); //https://pmc.ncbi.nlm.nih.gov/articles/PMC3670336/ 
-	int periodo_viral <- rnd(4, 5); //https://pmc.ncbi.nlm.nih.gov/articles/PMC3670336/
-	int periodo_recuperacao <- 120; //https://www.nature.com/articles/s41467-019-09193-y
-	float taxa_de_mortalidade_dia <-  0.0019; //https://prefeitura.sp.gov.br/documents/d/licenciamento/10_taxas_de_mortalidade_geral_e_infantil_1980_2023_pdf
-	float taxa_de_mortalidade_dengue;
+
+	// =========================
+	// Taxas de mortalidade por faixa etária
+	// =========================
+	float mortalidade_menor_1_ano <- 0.106; // https://ojs.thesiseditora.com.br/index.php/jsihs/article/download/407/363/1494
+	float mortalidade_1_a_19_anos <- 0.018; // https://ojs.thesiseditora.com.br/index.php/jsihs/article/download/407/363/1494
+	float mortalidade_20_a_39_anos <- 0.033; // https://ojs.thesiseditora.com.br/index.php/jsihs/article/download/407/363/1494
+	float mortalidade_40_a_59_anos <- 0.068; // https://ojs.thesiseditora.com.br/index.php/jsihs/article/download/407/363/1494
+	float mortalidade_60_a_79_anos <- 0.271; // https://ojs.thesiseditora.com.br/index.php/jsihs/article/download/407/363/1494
+	float mortalidade_80_anos_ou_mais <- 1.52; // https://ojs.thesiseditora.com.br/index.php/jsihs/article/download/407/363/1494
+
+	// =========================
+	// Parâmetros epidemiológicos
+	// =========================
+	float prob_transmissao <- 60.0; // https://aamas.csc.liv.ac.uk/AAMAS/aamas2017/proceedings/pdfs/p426.pdf
+	int periodo_incubacao <- rnd(5, 7); // https://pmc.ncbi.nlm.nih.gov/articles/PMC3670336/
+	int periodo_viral <- rnd(4, 5); // https://pmc.ncbi.nlm.nih.gov/articles/PMC3670336/
+	int periodo_recuperacao <- 120; // https://www.nature.com/articles/s41467-019-09193-y
+	float taxa_de_mortalidade_dia <- 0.0019; // https://prefeitura.sp.gov.br/documents/d/licenciamento/10_taxas_de_mortalidade_geral_e_infantil_1980_2023_pdf
+
+	// =========================
+	// Vacinação
+	// =========================
 	bool vacinado <- false;
+
+	// =========================
+	// Aparência
+	// =========================
 	rgb cor <- #green;
 
+	// =========================
 	// Localização e deslocamento
-
+	// =========================
 	point destino;
 	bool em_movimento <- false;
 	float velocidade <- 10.0;
@@ -465,90 +486,50 @@ species pessoa skills: [moving] {
 
 	}
 
+	action Envelhecer {
+		idade <- idade + 1;
+		if (estado > 0) {
+			dias_Infectado <- dias_Infectado + 1;
+		}
 
-    action Envelhecer {
-        idade <- idade + 1;
+		if (estado = 1 and dias_Infectado >= periodo_incubacao) {
+			do MudarEstado;
+		if (idade < 365) {
+			mortes_menor_1_ano <- mortes_menor_1_ano + 1;
+		} else if (idade < 20 * 365) {
+			mortes_1_a_19_anos <- mortes_1_a_19_anos + 1;
+		} else if (idade < 40 * 365) {
+			mortes_20_a_39_anos <- mortes_20_a_39_anos + 1;
+		} else if (idade < 60 * 365) {
+			mortes_40_a_59_anos <- mortes_40_a_59_anos + 1;
+		} else if (idade < 80 * 365) {
+			mortes_60_a_79_anos <- mortes_60_a_79_anos + 1;
+		} else {
+			mortes_80_anos_ou_mais <- mortes_80_anos_ou_mais + 1;
+		}
 
-        if (estado > 0) {
-            dias_Infectado <- dias_Infectado + 1;
-        }
+			mortos_por_dengue <- mortos_por_dengue + 1;
+			do die;
+		} 
 
-        if (estado = 1 and dias_Infectado >= periodo_incubacao) {
-            do MudarEstado;
+		if (estado = 2 and dias_Infectado >= periodo_incubacao + periodo_viral) {
+			do MudarEstado;
+		}
 
-            if (rnd(0.0, 100.0) < taxa_de_mortalidade_dengue) {
+		if (estado = 3 and dias_Infectado >= periodo_incubacao + periodo_viral + periodo_recuperacao) {
+			do MudarEstado;
+		}
 
-			    if (idade < 365) {
-			        mortes_menor_1_ano <- mortes_menor_1_ano + 1;
-			    } else if (idade < 20 * 365) {
-			        mortes_1_a_19_anos <- mortes_1_a_19_anos + 1;
-			    } else if (idade < 40 * 365) {
-			        mortes_20_a_39_anos <- mortes_20_a_39_anos + 1;
-			    } else if (idade < 60 * 365) {
-			        mortes_40_a_59_anos <- mortes_40_a_59_anos + 1;
-			    } else if (idade < 80 * 365) {
-			        mortes_60_a_79_anos <- mortes_60_a_79_anos + 1;
-			    } else {
-			        mortes_80_anos_ou_mais <- mortes_80_anos_ou_mais + 1;
-			    }
-			
-			    mortos_por_dengue <- mortos_por_dengue + 1;
-			    do die;
-			}
-        }
+		if (rnd(0.0000, 1.0000) < taxa_de_mortalidade_dia) {
+			do die;
+		} }
 
-        if (estado = 2 and dias_Infectado >= periodo_incubacao + periodo_viral) {
-            do MudarEstado;
-        }
+	// --------------------------------------------------
+	// Nascimento
+	// --------------------------------------------------
+	action Nascer {
+		if (rnd(1, 35714) = 1) {
+			create pessoa number: 1 with: [idade::0, location::any_location_in(one_of(ambiente).shape)];
+		}
 
-        if (estado = 3 and dias_Infectado >= periodo_incubacao + periodo_viral + periodo_recuperacao) {
-            do MudarEstado;
-     
-        }
-
-        if (rnd(0.0000, 1.0000) < taxa_de_mortalidade_dia) {
-            do die;
-        }
-
-        if (estado > 0) {
-            dias_Infectado <- dias_Infectado + 1;
-        }
-
-        if (estado = 1 and dias_Infectado >= periodo_incubacao) {
-            do MudarEstado;
-
-            if (rnd(1, 10000) <= 2) {
-                do die;
-            }
-        }
-
-        if (estado = 2 and dias_Infectado >= periodo_incubacao + periodo_viral) {
-            do MudarEstado;
-        }
-
-        if (estado = 3 and dias_Infectado >= periodo_incubacao + periodo_viral + periodo_recuperacao) {
-            do MudarEstado;
-        }
-
-        if (idade > espectativaDeVida) {
-            float PorcentagemExtra <- (idade - espectativaDeVida) / 365.0;
-
-            if (rnd(1, 48300) = 1 + 484 * PorcentagemExtra) {
-                do die;
-                mortos_por_dengue <- mortos_por_dengue + 1;
-            }
-        }
-    }
-
-    // --------------------------------------------------
-    // Nascimento
-    // --------------------------------------------------
-    action Nascer {
-        if (rnd(1, 35714) = 1) {
-            create pessoa number: 1 with: [
-                idade::0,
-                location::any_location_in(one_of(ambiente).shape)
-            ];
-        }
-    }
-}
+	} }
