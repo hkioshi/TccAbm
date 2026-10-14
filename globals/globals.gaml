@@ -28,7 +28,7 @@ global {
 	geometry shape <- envelope(subprefeituras_shapefile); // Nao mexer | caso de se trocar o nome nao sei o que acontece mas faz o mapa sumir
 	// Dados epidemiológicos
 	
-	int quantidade_pessoas <- 11911; // escala de 1:1000
+	int quantidade_pessoas <- 1191; // escala de 1:10000
 	int mortos_por_dengue <- 0;
 	int mortes_menor_1_ano <- 0;       // Menores de 1 ano
 	int mortes_1_a_19_anos <- 0;       // 1 a 19 anos
@@ -108,7 +108,10 @@ global {
 		ask ovo {
 			do Envelhecer;
 		}
-
+		//fonte = https://portal.inmet.gov.br/dadoshistoricos 
+		//media dos meses de 2023,24 e 25
+		//somados todos os dias e tiradas as medias
+		
 		float quantidade_chuva;
 		switch mes {
 			match 1 {

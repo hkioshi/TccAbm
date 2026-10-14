@@ -10,7 +10,8 @@ species ambiente {
 	string nm_regiao_;
 
 	aspect default {
-		draw shape color: #yellow border: #black;
+		// Cinza-claro
+		draw shape color: rgb(189, 189, 189) border: #black;
 	}
 
 }

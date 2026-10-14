@@ -13,7 +13,8 @@ species pessoa skills: [moving] {
 	int idade <- rnd(10 * 365, 80 * 365);
 	int espectativaDeVida <- 77 * 365; //https://jornal.usp.br/podcast/panorama-paulista-55-expectativa-de-vida/
 	int idade_avancada <- 2;
-
+	float taxa_natalidade <- 0.00307; //https://prefeitura.sp.gov.br/documents/d/licenciamento/7_taxas_de__natalidade_1980_2023_pdf
+	
 	// =========================
 	// Estado da pessoa
 	// =========================
@@ -47,7 +48,8 @@ species pessoa skills: [moving] {
 	// =========================
 	// Aparência
 	// =========================
-	rgb cor <- #green;
+	rgb cor <- rgb(0, 114, 178);     // Azul
+
 
 	// =========================
 	// Localização e deslocamento
@@ -466,20 +468,22 @@ species pessoa skills: [moving] {
 
 		switch estado {
 			match 0 {
-				cor <- #green;
+				cor <- rgb(0, 114, 178);  // Azul
 				dias_Infectado <- 0;
 			}
 
 			match 1 {
-				cor <- #red;
+				cor <- rgb(230, 159, 0);     // Laranja
 			}
 
 			match 2 {
-				cor <- #purple;
+				cor <- rgb(213, 94, 0);   // Vermelho-alaranjado
+				
 			}
 
 			match 3 {
-				cor <- #cyan;
+				cor <- rgb(0, 158, 115);   // Verde-azulado
+				
 			}
 
 		}
@@ -528,8 +532,12 @@ species pessoa skills: [moving] {
 	// Nascimento
 	// --------------------------------------------------
 	action Nascer {
-		if (rnd(1, 35714) = 1) {
-			create pessoa number: 1 with: [idade::0, location::any_location_in(one_of(ambiente).shape)];
+		if (rnd(0.0, 100.0) < taxa_natalidade)
+		{
+		    create pessoa number: 1 with: [
+		        idade::0,
+		        location::any_location_in(one_of(ambiente).shape)
+		    ];
 		}
 
 	} }
