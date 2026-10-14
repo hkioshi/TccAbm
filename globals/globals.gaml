@@ -4,7 +4,6 @@
 * Author: henrique
 * Tags: 
 */
-
 model globals
 
 import "../agents/Mosquito.gaml"
@@ -13,250 +12,224 @@ import "../agents/Ambiente.gaml"
 import "../agents/Poca.gaml"
 import "../agents/Mapa.gaml"
 
-
 global {
-    // Dados climáticos
-    int temperatura;
-    float chuva <- 0.0;
+// Dados climáticos
+	int temperatura;
+	float chuva <- 0.0;
 	int velocidade_tempo <- 1;
-	
-	
-    // Tempo
-    int mes <- 1;
-    int dia <- 0;
-    int hora <- 0;
 
-    // Dados epidemiológicos
-    int quantidade_pessoas <- 1000;
-    int mortos_por_dengue <- 0;
+	// Tempo
+	int mes <- 1;
+	int dia <- 0;
+	int hora <- 0;
 
-    // Dados geográficos
-    file subprefeituras_shapefile <- file("../Gis/subprefeitura_v2.shp");
+	// Dados epidemiológicos
+	int quantidade_pessoas <- 1000;
+	int mortos_por_dengue <- 0;
+
+	// Dados geográficos
+	file subprefeituras_shapefile <- file("../Gis/subprefeitura_v2.shp");
 	geometry shape <- envelope(subprefeituras_shapefile);
 
-
-    init {
-    	
-    	seed <- 12345.0;
-    	write "Seed utilizada: " + seed;
-
-    	
-        create ambiente from: subprefeituras_shapefile
-    with: [nm_regiao_::read("nm_regiao_")];
+	init {
+		seed <- 12345.0;
+		write "Seed utilizada: " + seed;
+		create ambiente from: subprefeituras_shapefile with: [nm_regiao_::read("nm_regiao_")];
 
 		// Leste: 35,01%
 		create pessoa number: int(quantidade_pessoas * 0.3501) {
-		    location <- any_location_in(
-		        one_of(ambiente where (each.nm_regiao_ = "Leste")).shape
-		    );
+			location <- any_location_in(one_of(ambiente where (each.nm_regiao_ = "Leste")).shape);
 		}
-		
+
 		// Sul: 32,39%
 		create pessoa number: int(quantidade_pessoas * 0.3239) {
-		    location <- any_location_in(
-		        one_of(ambiente where (each.nm_regiao_ = "Sul")).shape
-		    );
+			location <- any_location_in(one_of(ambiente where (each.nm_regiao_ = "Sul")).shape);
 		}
-		
+
 		// Norte: 19,26%
 		create pessoa number: int(quantidade_pessoas * 0.1926) {
-		    location <- any_location_in(
-		        one_of(ambiente where (each.nm_regiao_ = "Norte")).shape
-		    );
+			location <- any_location_in(one_of(ambiente where (each.nm_regiao_ = "Norte")).shape);
 		}
-		
+
 		// Oeste: 9,63%
 		create pessoa number: int(quantidade_pessoas * 0.0963) {
-		    location <- any_location_in(
-		        one_of(ambiente where (each.nm_regiao_ = "Oeste")).shape
-		    );
+			location <- any_location_in(one_of(ambiente where (each.nm_regiao_ = "Oeste")).shape);
 		}
-		
+
 		// Centro: 3,70%
 		create pessoa number: int(quantidade_pessoas * 0.0370) {
-		    location <- any_location_in(
-		        one_of(ambiente where (each.nm_regiao_ = "Centro")).shape
-		    );
+			location <- any_location_in(one_of(ambiente where (each.nm_regiao_ = "Centro")).shape);
 		}
-	        write "Pessoas: " + length(pessoa);
-	        write "Subprefeituras: " + length(ambiente);
-	    }
-	
-	reflex atualizar_hora when: every(10 #cycles) {
-	    hora <- (hora + 1) mod 24;
+
+		write "Pessoas: " + length(pessoa);
+		write "Subprefeituras: " + length(ambiente);
 	}
-	
 
-    
-	reflex evento when: every(240 * velocidade_tempo #cycles) 
-	{
+	reflex atualizar_hora when: every(10 #cycles) {
+		hora <- (hora + 1) mod 24;
+	}
 
+	reflex evento when: every(240 * velocidade_tempo #cycles) {
 		dia <- dia + 1;
+		if (dia > 30) {
+			dia <- 1;
+			if (mes < 12) {
+				mes <- mes + 1;
+			} else {
+				mes <- 1;
+			}
 
-	    if (dia > 30) {
-	        dia <- 1;
-	
-	        if (mes < 12) {
-	            mes <- mes + 1;
-	        } else {
-	            mes <- 1;
-	        }
-	    }
-			
-		ask pessoa {
-        	do Envelhecer;
-        	do Nascer;
-    	}
-    	
-    	ask mosquito {
-        	do Envelhecer;
-    	}
-    	ask (mosquito where (each.sexo = "Femea")) {
-		    do Picar;
 		}
+
+		ask pessoa {
+			do Envelhecer;
+			do Nascer;
+		}
+
+		ask mosquito {
+			do Envelhecer;
+		}
+
+		ask (mosquito where (each.sexo = "Femea")) {
+			do Picar;
+		}
+
 		ask ovo {
 			do Envelhecer;
 		}
 
 		float quantidade_chuva;
-		switch mes 
-		{
-		    match 1 {
-		        if (rnd(100.0) < 73.1) {
-		            quantidade_chuva <- rnd(0.0, 30.0);
-		        } else {
-		            quantidade_chuva <- 0.0;
-		        }
-		    }
-		
-		    match 2 {
-		        if (rnd(100.0) < 62.4) {
-		            quantidade_chuva <- rnd(0.0, 30.0);
-		        } else {
-		            quantidade_chuva <- 0.0;
-		        }
-		    }
-		
-		    match 3 {
-		        if (rnd(100.0) < 49.5) {
-		            quantidade_chuva <- rnd(0.0, 30.0);
-		        } else {
-		            quantidade_chuva <- 0.0;
-		        }
-		    }
-		
-		    match 4 {
-		        if (rnd(100.0) < 42.2) {
-		            quantidade_chuva <- rnd(0.0, 30.0);
-		        } else {
-		            quantidade_chuva <- 0.0;
-		        }
-		    }
-		
-		    match 5 {
-		        if (rnd(100.0) < 21.5) {
-		            quantidade_chuva <- rnd(0.0, 30.0);
-		        } else {
-		            quantidade_chuva <- 0.0;
-		        }
-		    }
-		
-		    match 6 {
-		        if (rnd(100.0) < 27.8) {
-		            quantidade_chuva <- rnd(0.0, 30.0);
-		        } else {
-		            quantidade_chuva <- 0.0;
-		        }
-		    }
-		
-		    match 7 {
-		        if (rnd(100.0) < 18.3) {
-		            quantidade_chuva <- rnd(0.0, 30.0);
-		        } else {
-		            quantidade_chuva <- 0.0;
-		        }
-		    }
-		
-		    match 8 {
-		        if (rnd(100.0) < 16.1) {
-		            quantidade_chuva <- rnd(0.0, 30.0);
-		        } else {
-		            quantidade_chuva <- 0.0;
-		        }
-		    }
-		
-		    match 9 {
-		        if (rnd(100.0) < 15.6) {
-		            quantidade_chuva <- rnd(0.0, 30.0);
-		        } else {
-		            quantidade_chuva <- 0.0;
-		        }
-		    }
-		
-		    match 10 {
-		        if (rnd(100.0) < 48.4) {
-		            quantidade_chuva <- rnd(0.0, 30.0);
-		        } else {
-		            quantidade_chuva <- 0.0;
-		        }
-		    }
-		
-		    match 11 {
-		        if (rnd(100.0) < 41.6) {
-		            quantidade_chuva <- rnd(0.0, 30.0);
-		        } else {
-		            quantidade_chuva <- 0.0;
-		        }
-		    }
-		
-		    match 12 {
-		        if (rnd(100.0) < 53.8) {
-		            quantidade_chuva <- rnd(0.0, 30.0);
-		        } else {
-		            quantidade_chuva <- 0.0;
-		        }
-		    }
-		}
-		
-		write quantidade_chuva; 
-		
-    	dia <- dia + 1;
-    	temperatura <- rnd(15,35);
-    	
-    	ask poca
-    	{
-    		do Envelhecer(quantidade_chuva);
-    	}
-    	if (quantidade_chuva > 0) {
+		switch mes {
+			match 1 {
+				if (rnd(100.0) < 73.1) {
+					quantidade_chuva <- rnd(0.0, 30.0);
+				} else {
+					quantidade_chuva <- 0.0;
+				}
 
-		    int quantidade_pocas <- 0;
-		
-		    if (quantidade_chuva <= 10) {
-		        quantidade_pocas <- 10;
-		    }
-		    else if (quantidade_chuva <= 30) {
-		        quantidade_pocas <- 20;
-		    }
-		    else if (quantidade_chuva <= 60) {
-		        quantidade_pocas <- 30;
-		    }
-		    else {
-		        quantidade_pocas <- 50;
-		    }
-		
-		    create poca number: quantidade_pocas {
-		        tamanho <- 1;
-		        location <- any_location_in(
-                	one_of(ambiente)
-                		.shape);
-                		
-               
-		        
-		    }
+			}
+
+			match 2 {
+				if (rnd(100.0) < 62.4) {
+					quantidade_chuva <- rnd(0.0, 30.0);
+				} else {
+					quantidade_chuva <- 0.0;
+				}
+
+			}
+
+			match 3 {
+				if (rnd(100.0) < 49.5) {
+					quantidade_chuva <- rnd(0.0, 30.0);
+				} else {
+					quantidade_chuva <- 0.0;
+				}
+
+			}
+
+			match 4 {
+				if (rnd(100.0) < 42.2) {
+					quantidade_chuva <- rnd(0.0, 30.0);
+				} else {
+					quantidade_chuva <- 0.0;
+				}
+
+			}
+
+			match 5 {
+				if (rnd(100.0) < 21.5) {
+					quantidade_chuva <- rnd(0.0, 30.0);
+				} else {
+					quantidade_chuva <- 0.0;
+				}
+
+			}
+
+			match 6 {
+				if (rnd(100.0) < 27.8) {
+					quantidade_chuva <- rnd(0.0, 30.0);
+				} else {
+					quantidade_chuva <- 0.0;
+				}
+
+			}
+
+			match 7 {
+				if (rnd(100.0) < 18.3) {
+					quantidade_chuva <- rnd(0.0, 30.0);
+				} else {
+					quantidade_chuva <- 0.0;
+				}
+
+			}
+
+			match 8 {
+				if (rnd(100.0) < 16.1) {
+					quantidade_chuva <- rnd(0.0, 30.0);
+				} else {
+					quantidade_chuva <- 0.0;
+				}
+
+			}
+
+			match 9 {
+				if (rnd(100.0) < 15.6) {
+					quantidade_chuva <- rnd(0.0, 30.0);
+				} else {
+					quantidade_chuva <- 0.0;
+				}
+
+			}
+
+			match 10 {
+				if (rnd(100.0) < 48.4) {
+					quantidade_chuva <- rnd(0.0, 30.0);
+				} else {
+					quantidade_chuva <- 0.0;
+				}
+
+			}
+
+			match 11 {
+				if (rnd(100.0) < 41.6) {
+					quantidade_chuva <- rnd(0.0, 30.0);
+				} else {
+					quantidade_chuva <- 0.0;
+				}
+
+			}
+
+			match 12 {
+				if (rnd(100.0) < 53.8) {
+					quantidade_chuva <- rnd(0.0, 30.0);
+				} else {
+					quantidade_chuva <- 0.0;
+				}
+
+			}
+
 		}
-	}	
-	
-	
-	
-		
-}
+
+		write quantidade_chuva;
+		dia <- dia + 1;
+		temperatura <- rnd(15, 35);
+		ask poca {
+			do Envelhecer(quantidade_chuva);
+		}
+
+		if (quantidade_chuva > 0) {
+			int quantidade_pocas <- 0;
+			if (quantidade_chuva <= 10) {
+				quantidade_pocas <- 10;
+			} else if (quantidade_chuva <= 30) {
+				quantidade_pocas <- 20;
+			} else if (quantidade_chuva <= 60) {
+				quantidade_pocas <- 30;
+			} else {
+				quantidade_pocas <- 50;
+			}
+
+			create poca number: quantidade_pocas {
+				tamanho <- 1;
+				location <- any_location_in(one_of(ambiente).shape);
+			} } } }

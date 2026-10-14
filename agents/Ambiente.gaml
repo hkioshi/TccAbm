@@ -4,16 +4,15 @@
 * Author: henrique
 * Tags: 
 */
-
-
 model Ambiente
 
 species ambiente {
-	
 	string nm_regiao_;
-    aspect default {
-        draw shape color: #yellow border: #black;
-    }
+
+	aspect default {
+		draw shape color: #yellow border: #black;
+	}
+
 }
 
 
