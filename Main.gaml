@@ -28,10 +28,14 @@ experiment MeuExperimento type: gui {
 		create mosquito number: 100 {
 			poca_natal <- pos;
 			location <- pos;
-			infectado <- rnd(0.0, 1.0) < 0.1;
-			cor <- infectado ? #red : #black;
+			estado <- rnd(0,3);
+			switch estado
+			{
+				match 0 {cor <- rgb(204, 121, 167);}
+				match 1 {cor <- rgb(240, 228, 66);}
+				match 2 {cor <- rgb(51, 34, 136);}
+			}
 		}
-
 	}
 
 	output {

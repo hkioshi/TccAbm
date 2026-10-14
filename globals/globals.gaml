@@ -13,7 +13,7 @@ import "../agents/Poca.gaml"
 import "../agents/Mapa.gaml"
 
 global {
-// Dados climáticos
+	// Dados climáticos
 	int temperatura;
 	float chuva <- 0.0;
 	int velocidade_tempo <- 1;
@@ -23,13 +23,21 @@ global {
 	int dia <- 0;
 	int hora <- 0;
 
-	// Dados epidemiológicos
-	int quantidade_pessoas <- 1000;
-	int mortos_por_dengue <- 0;
-
 	// Dados geográficos
 	file subprefeituras_shapefile <- file("../Gis/subprefeitura_v2.shp");
-	geometry shape <- envelope(subprefeituras_shapefile);
+	geometry shape <- envelope(subprefeituras_shapefile); // Nao mexer | caso de se trocar o nome nao sei o que acontece mas faz o mapa sumir
+	// Dados epidemiológicos
+	
+	int quantidade_pessoas <- 1000;
+	int mortos_por_dengue <- 0;
+	int mortes_menor_1_ano <- 0;       // Menores de 1 ano
+	int mortes_1_a_19_anos <- 0;       // 1 a 19 anos
+	int mortes_20_a_39_anos <- 0;      // 20 a 39 anos
+	int mortes_40_a_59_anos <- 0;      // 40 a 59 anos
+	int mortes_60_a_79_anos <- 0;      // 60 a 79 anos
+	int mortes_80_anos_ou_mais <- 0;   // 80 anos ou mais
+	
+
 
 	init {
 		seed <- 12345.0;
