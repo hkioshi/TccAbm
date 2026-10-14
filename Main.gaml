@@ -16,9 +16,7 @@ experiment MeuExperimento type: gui {
 				encontradas <- encontradas + 1;
 				write "Região: " + regiao.nm_regiao_;
 			}
-
 		}
-
 		write "Total encontrado: " + encontradas;
 	}
 
@@ -40,7 +38,6 @@ experiment MeuExperimento type: gui {
 
 	output {
 		display mundo type: 2d {
-			grid mapa;
 			species ambiente aspect: default transparency: 0.5;
 			species pessoa;
 			species mosquito;
