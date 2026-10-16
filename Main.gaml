@@ -20,21 +20,21 @@ experiment MeuExperimento type: gui {
 		write "Total encontrado: " + encontradas;
 	}
 
-	action gerar_mosquito {
-		point pos <- #user_location;
-		write "asda";
-		create mosquito number: 100 {
-			poca_natal <- pos;
-			location <- pos;
-			estado <- rnd(0,3);
-			switch estado
-			{
-				match 0 {cor <- rgb(204, 121, 167);}
-				match 1 {cor <- rgb(240, 228, 66);}
-				match 2 {cor <- rgb(51, 34, 136);}
-			}
-		}
-	}
+//	action gerar_mosquito {
+//		point pos <- #user_location;
+//		write "asda";
+//		create mosquito number: 100 {
+//			poca_natal <- pos;
+//			location <- pos;
+//			estado <- rnd(0,3);
+//			switch estado
+//			{
+//				match 0 {cor <- rgb(204, 121, 167);}
+//				match 1 {cor <- rgb(240, 228, 66);}
+//				match 2 {cor <- rgb(51, 34, 136);}
+//			}
+//		}
+//	}
 
 	output {
 		display mundo type: 2d {
@@ -42,7 +42,7 @@ experiment MeuExperimento type: gui {
 			species pessoa;
 			species mosquito;
 			species poca;
-			event #mouse_down action: gerar_mosquito;
+			//event #mouse_down action: gerar_mosquito;
 		}
 
 		monitor "Ciclo atual" value: cycle;
@@ -51,7 +51,7 @@ experiment MeuExperimento type: gui {
 		monitor "Hora" value: hora;
 		monitor "Pessoas" value: length(pessoa);
 		monitor "Mosquitos" value: length(mosquito);
-		monitor "Ovos" value: length(ovo);
+		monitor "Ovos" value: length(imaturo);
 		monitor "Poças" value: length(poca);
 	}
 

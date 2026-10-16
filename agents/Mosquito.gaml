@@ -109,12 +109,12 @@ species mosquito skills: [moving] {
 		// 2. Reprodução
 		if (!empty(pocas)) {
 			poca pocaAlvo <- one_of(pocas);
-			if (length(pocaAlvo.ovos) < pocaAlvo.tamanho * 20) {
-				create ovo number: 100 returns: novosOvos {
-					poca_natal_ovo <- pocaAlvo;
+			if (length(pocaAlvo.imaturos) < pocaAlvo.tamanho * 20) {
+				create imaturo number: 100 returns: novosImaturos {
+					poca_natal <- pocaAlvo;
 				}
 
-				add novosOvos all: true to: pocaAlvo.ovos;
+				add novosImaturos all: true to: pocaAlvo.imaturos;
 			}
 
 		}

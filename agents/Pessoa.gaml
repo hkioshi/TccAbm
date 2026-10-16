@@ -5,6 +5,7 @@
 model Pessoa
 
 import "../globals/globals.gaml"
+
 species pessoa skills: [moving] {
 	
 	// =========================

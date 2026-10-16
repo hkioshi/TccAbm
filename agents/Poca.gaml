@@ -6,12 +6,12 @@
  */
 model Poca
 
-import "Ovo.gaml"
+import "Imaturo.gaml"
 import "../globals/globals.gaml"
 species poca {
 	rgb cor <- #blue;
 	int tamanho <- 1;
-	list<ovo> ovos <- [];
+	list<imaturo> imaturos <- [];
 
 	action Envelhecer (float qtd_chuva) {
 	/*
@@ -37,10 +37,10 @@ species poca {
              * Se houver mais ovos do que a capacidade,
              * os ovos excedentes morrem.
              */
-			if (length(ovos) > capacidade) {
-				int matar <- length(ovos) - capacidade;
+			if (length(imaturos) > capacidade) {
+				int matar <- length(imaturos) - capacidade;
 				loop i from: 1 to: matar {
-					ask one_of(ovos) {
+					ask one_of(imaturos) {
 						do die;
 					}
 
