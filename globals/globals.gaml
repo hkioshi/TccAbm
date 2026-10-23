@@ -22,23 +22,41 @@ global {
 	int dia <- 0;
 	int hora <- 0;
 
-//	file arquivo_resultados <- file("resultados.csv");
-//
-//	 reflex registrar_resultados {
-//        if (cycle > 0 and cycle mod 24 = 0) {
-//            save [
-//                dia,
-//                length(pessoa),
-//                length(mosquito),
-//                mortos_por_dengue
-//            ]
-//            to: "resultados.csv"
-//            format: "csv"
-//            rewrite: false
-//            header: false;
-//        }
-//    }
+	file arquivo_resultados <- file("resultados.csv");
+	
+	action Relatorio
+{
+    save [
+        dia,
 
+        // Humanos
+        length(pessoa),
+        length(pessoa where (each.estado = 0)),
+        length(pessoa where (each.estado = 1)),
+        length(pessoa where (each.estado = 2)),
+        length(pessoa where (each.estado = 3)),
+
+        // Mosquitos
+        length(mosquito),
+        length(mosquito where (each.estado = 0)),
+        length(mosquito where (each.estado = 1)),
+        length(mosquito where (each.estado = 2)),
+
+        // Mortalidade
+        mortos_por_dengue,
+        mortes_menor_1_ano,
+        mortes_1_a_19_anos,
+        mortes_20_a_39_anos,
+        mortes_40_a_59_anos,
+        mortes_60_a_79_anos,
+        mortes_80_anos_ou_mais
+	    ]
+	    to: "resultados.csv"
+	    format: "csv"
+	    rewrite: false
+	    header: false;
+	}
+			
 	// Dados geográficos
 	file subprefeituras_shapefile <- file("../Gis/subprefeitura_v2.shp");
 	geometry shape <- envelope(subprefeituras_shapefile); // Nao mexer | caso de se trocar o nome nao sei o que acontece mas faz o mapa sumir
@@ -53,6 +71,8 @@ global {
 	int mortes_60_a_79_anos <- 0;      // 60 a 79 anos
 	int mortes_80_anos_ou_mais <- 0;   // 80 anos ou mais
 	
+	float porcentagem_de_vacinados;
+	int eficacia;
 
 	//| Região | População  | Participação |
 	//| ------ | ---------- | ------------ |
@@ -63,13 +83,35 @@ global {
 	//| Oeste  | 1.208.299  | 10,7%        |
 	//| Total  | 11.252.060 | 100%         |
 	//https://gestaourbana.prefeitura.sp.gov.br/wp-content/uploads/2024/05/IU_64_censo-2022-1.pdf	
+	
 	init {
-		if (!file_exists("resultados.csv")) {
-            save ["dia", "pessoas", "mosquitos", "mortes_por_dengue"]
-                to: "resultados.csv"
-                format: "csv"
-                rewrite: true;
-        }
+		save [
+	        "dia",
+	
+	        "humanos_total",
+	        "humanos_suscetiveis",
+	        "humanos_expostos",
+	        "humanos_infectados",
+	        "humanos_recuperados",
+	
+	        "mosquitos_total",
+	        "mosquitos_suscetiveis",
+	        "mosquitos_expostos",
+	        "mosquitos_infectados",
+	
+	        "mortos_por_dengue",
+	        "mortes_menor_1_ano",
+	        "mortes_1_a_19_anos",
+	        "mortes_20_a_39_anos",
+	        "mortes_40_a_59_anos",
+	        "mortes_60_a_79_anos",
+	        "mortes_80_anos_ou_mais"
+	    ]
+	    to: "resultados.csv"
+	    format: "csv"
+	    rewrite: true
+	    header: false;
+	    
 		seed <- 12345.0;
 		write "Seed utilizada: " + seed;
 		create ambiente from: subprefeituras_shapefile with: [nm_regiao_::read("nm_regiao_")];
@@ -89,24 +131,35 @@ global {
 			}
 		}
 
-		create pessoa number: int(quantidade_pessoas * 0.3560) {
-			location <- any_location_in(one_of(ambiente where (each.nm_regiao_ = "Leste")).shape);
+		int qtd_centro <- int(quantidade_pessoas * 0.0370);
+		int qtd_norte <- int(quantidade_pessoas * 0.1929);
+		int qtd_leste <- int(quantidade_pessoas * 0.3485);
+		int qtd_sul <- int(quantidade_pessoas * 0.3262);
+		int qtd_oeste <- quantidade_pessoas - qtd_centro - qtd_norte - qtd_leste - qtd_sul;
+		
+		create pessoa number: qtd_centro {
+		    location <- any_location_in(one_of(ambiente where (each.nm_regiao_ = "Centro")).shape);
+		    vacinado <- rnd(100) < porcentagem_de_vacinados;
 		}
-
-				create pessoa number: int(quantidade_pessoas * 0.4660) {
-			location <- any_location_in(one_of(ambiente where (each.nm_regiao_ = "Sul")).shape);
+		
+		create pessoa number: qtd_norte {
+		    location <- any_location_in(one_of(ambiente where (each.nm_regiao_ = "Norte")).shape);
+		    vacinado <- rnd(100) < porcentagem_de_vacinados;
 		}
-
-				create pessoa number: int(quantidade_pessoas * 0.1090) {
-			location <- any_location_in(one_of(ambiente where (each.nm_regiao_ = "Norte")).shape);
+		
+		create pessoa number: qtd_leste {
+		    location <- any_location_in(one_of(ambiente where (each.nm_regiao_ = "Leste")).shape);
+		    vacinado <- rnd(100) < porcentagem_de_vacinados;
 		}
-
-		create pessoa number: int(quantidade_pessoas * 0.1070) {
-			location <- any_location_in(one_of(ambiente where (each.nm_regiao_ = "Oeste")).shape);
+		
+		create pessoa number: qtd_sul {
+		    location <- any_location_in(one_of(ambiente where (each.nm_regiao_ = "Sul")).shape);
+		    vacinado <- rnd(100) < porcentagem_de_vacinados;
 		}
-
-		create pessoa number: int(quantidade_pessoas * 0.0500) {
-			location <- any_location_in(one_of(ambiente where (each.nm_regiao_ = "Centro")).shape);
+		
+		create pessoa number: qtd_oeste {
+		    location <- any_location_in(one_of(ambiente where (each.nm_regiao_ = "Oeste")).shape);
+		    vacinado <- rnd(100) < porcentagem_de_vacinados;
 		}
 
 		write "Pessoas: " + length(pessoa);
@@ -115,11 +168,14 @@ global {
 
 	reflex atualizar_hora when: every(10 #cycles) {
 		hora <- (hora + 1) mod 24;
+		ask (mosquito where (each.sexo = "Femea")) {
+			do Picar;
+		}
+		
 	}
 
 	reflex evento when: every(240 * velocidade_tempo #cycles) {
-		dia <- dia + 1;
-		if (dia > 30) {
+			if (dia > 30) {
 			dia <- 1;
 			if (mes < 12) {
 				mes <- mes + 1;
@@ -128,7 +184,11 @@ global {
 			}
 
 		}
-
+	
+	
+		write dia;
+		do Relatorio;
+		
 		ask pessoa {
 			do Envelhecer;
 			do Nascer;
@@ -138,14 +198,16 @@ global {
 			do Envelhecer;
 		}
 
-		ask (mosquito where (each.sexo = "Femea")) {
-			do Picar;
-		}
-
-		
-		//fonte = https://portal.inmet.gov.br/dadoshistoricos 
-		//media dos meses de 2023,24 e 25
-		//somados todos os dias e tiradas as medias
+		// Fonte dos dados meteorológicos: INMET - Dados Históricos
+		// https://portal.inmet.gov.br/dadoshistoricos
+		// Foram utilizados os dados diários de 2023, 2024 e 2025.
+		// Para cada mês, foram reunidos os registros dos três anos.
+		// A probabilidade de chuva foi calculada dividindo o número de dias
+		// com precipitação maior que 0 mm pelo total de dias com dados válidos
+		// registrados naquele mês, multiplicando o resultado por 100.
+		// Assim, a probabilidade representa a frequência histórica de dias chuvosos
+		// em cada mês, e não a quantidade de chuva acumulada.
+		// Os valores foram utilizados como referência para a simulação da chuva.
 		
 		float quantidade_chuva;
 		switch mes {
@@ -259,6 +321,8 @@ global {
 
 		}
 
+	
+
 		write quantidade_chuva;
 				ask imaturo {
 			do Envelhecer(quantidade_chuva);
@@ -349,10 +413,7 @@ global {
 			do Envelhecer(quantidade_chuva);
 		}
 		
-		
-		
-		
-		dia <- dia + 1;
+		dia <- dia +1;
 
 		if (quantidade_chuva > 0) {
 			int quantidade_pocas <- 0;

@@ -45,13 +45,14 @@ species pessoa skills: [moving] {
 	// Vacinação
 	// =========================
 	bool vacinado <- false;
-
 	// =========================
 	// Aparência
 	// =========================
-	rgb cor <- rgb(0, 114, 178);     // Azul
+	rgb cor <- #green;     // Verde
 
-
+	aspect default {
+		draw circle(150) color: cor;
+	}
 	// =========================
 	// Localização e deslocamento
 	// =========================
@@ -61,9 +62,7 @@ species pessoa skills: [moving] {
 	float velocidade_parado <- 10.0;
 	float velocidade_andando <- 300.0;
 
-	aspect default {
-		draw circle(150) color: cor;
-	}
+	
 
 	// --------------------------------------------------
 	// Movimento
@@ -469,7 +468,7 @@ species pessoa skills: [moving] {
 
 		switch estado {
 			match 0 {
-				cor <- rgb(0, 114, 178);  // Azul
+				cor <- #green;  // Verde
 				dias_Infectado <- 0;
 			}
 
@@ -492,43 +491,47 @@ species pessoa skills: [moving] {
 	}
 
 	action Envelhecer {
-		idade <- idade + 1;
-		if (estado > 0) {
-			dias_Infectado <- dias_Infectado + 1;
-		}
-
-		if (estado = 1 and dias_Infectado >= periodo_incubacao) {
-			do MudarEstado;
-		if (idade < 365) {
-			mortes_menor_1_ano <- mortes_menor_1_ano + 1;
-		} else if (idade < 20 * 365) {
-			mortes_1_a_19_anos <- mortes_1_a_19_anos + 1;
-		} else if (idade < 40 * 365) {
-			mortes_20_a_39_anos <- mortes_20_a_39_anos + 1;
-		} else if (idade < 60 * 365) {
-			mortes_40_a_59_anos <- mortes_40_a_59_anos + 1;
-		} else if (idade < 80 * 365) {
-			mortes_60_a_79_anos <- mortes_60_a_79_anos + 1;
-		} else {
-			mortes_80_anos_ou_mais <- mortes_80_anos_ou_mais + 1;
-		}
-
-			mortos_por_dengue <- mortos_por_dengue + 1;
-			do die;
-		} 
-
-		if (estado = 2 and dias_Infectado >= periodo_incubacao + periodo_viral) {
-			do MudarEstado;
-		}
-
-		if (estado = 3 and dias_Infectado >= periodo_incubacao + periodo_viral + periodo_recuperacao) {
-			do MudarEstado;
-		}
-
-		if (rnd(0.0000, 1.0000) < taxa_de_mortalidade_dia) {
-			do die;
-		} }
-
+	    idade <- idade + 1;
+	
+	    if (estado > 0 and estado < 3) {
+	        dias_Infectado <- dias_Infectado + 1;
+	    }
+	
+	    // Exposto -> Infectado
+	    if (estado = 1 and dias_Infectado >= periodo_incubacao) {
+	        do MudarEstado;
+	
+	        // Mortalidade por dengue somente após desenvolver a doença
+	        if (rnd(0.0, 1.0) < taxa_de_mortalidade_dia) {
+	            if (idade < 365) {
+	                mortes_menor_1_ano <- mortes_menor_1_ano + 1;
+	            } else if (idade < 20 * 365) {
+	                mortes_1_a_19_anos <- mortes_1_a_19_anos + 1;
+	            } else if (idade < 40 * 365) {
+	                mortes_20_a_39_anos <- mortes_20_a_39_anos + 1;
+	            } else if (idade < 60 * 365) {
+	                mortes_40_a_59_anos <- mortes_40_a_59_anos + 1;
+	            } else if (idade < 80 * 365) {
+	                mortes_60_a_79_anos <- mortes_60_a_79_anos + 1;
+	            } else {
+	                mortes_80_anos_ou_mais <- mortes_80_anos_ou_mais + 1;
+	            }
+	
+	            mortos_por_dengue <- mortos_por_dengue + 1;
+	            do die;
+	        }
+	    }
+	
+	    // Infectado -> Recuperado
+	    if (estado = 2 and dias_Infectado >= periodo_incubacao + periodo_viral) {
+	        do MudarEstado;
+	    }
+	
+	    // Recuperação completa
+	    if (estado = 3 and dias_Infectado >= periodo_incubacao + periodo_viral + periodo_recuperacao) {
+	        do MudarEstado;
+	    }
+	}	
 	// --------------------------------------------------
 	// Nascimento
 	// --------------------------------------------------

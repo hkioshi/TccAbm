@@ -6,8 +6,26 @@ import "agents/Ambiente.gaml"
 import "agents/Poca.gaml"
 import "globals/globals.gaml"
 experiment MeuExperimento type: gui {
-	parameter "Quantidade inicial" var: velocidade_tempo min: 1 max: 5 step: 1;
-
+	parameter "Velocidade do tempo"
+	    var: velocidade_tempo
+	    min: 1
+	    max: 5
+	    step: 1;
+	
+	parameter "Percentual de vacinados (%)"
+	    var: porcentagem_de_vacinados
+	    min: 0.0
+	    max: 100.0
+	    step: 1.0;
+	
+	parameter "Seed"
+	    var: seed
+	    min: 1.0
+	    max: 2147483647.0
+	    step: 1;
+	    
+    parameter "Eficácia da vacina (%)"
+    var: eficacia min: 0 max: 100 step: 1;
 	action clicar {
 		point pos <- #user_location;
 		int encontradas <- 0;
@@ -16,25 +34,11 @@ experiment MeuExperimento type: gui {
 				encontradas <- encontradas + 1;
 				write "Região: " + regiao.nm_regiao_;
 			}
+
 		}
+
 		write "Total encontrado: " + encontradas;
 	}
-
-//	action gerar_mosquito {
-//		point pos <- #user_location;
-//		write "asda";
-//		create mosquito number: 100 {
-//			poca_natal <- pos;
-//			location <- pos;
-//			estado <- rnd(0,3);
-//			switch estado
-//			{
-//				match 0 {cor <- rgb(204, 121, 167);}
-//				match 1 {cor <- rgb(240, 228, 66);}
-//				match 2 {cor <- rgb(51, 34, 136);}
-//			}
-//		}
-//	}
 
 	output {
 		display mundo type: 2d {
@@ -42,17 +46,30 @@ experiment MeuExperimento type: gui {
 			species pessoa;
 			species mosquito;
 			species poca;
-			//event #mouse_down action: gerar_mosquito;
+			event #mouse_down action: clicar;
 		}
 
-		monitor "Ciclo atual" value: cycle;
-		monitor "Dia" value: dia;
-		monitor "Mês" value: mes;
-		monitor "Hora" value: hora;
-		monitor "Pessoas" value: length(pessoa);
-		monitor "Mosquitos" value: length(mosquito);
-		monitor "Ovos" value: length(imaturo);
-		monitor "Poças" value: length(poca);
+		// ─── TEMPO ───
+		monitor "⏱ Ciclo" value: cycle;
+		monitor "📅 Dia" value: dia;
+		monitor "🗓 Mês" value: mes;
+		monitor "🕒 Hora" value: hora;
+
+		// ─── POPULAÇÃO HUMANA ───
+		monitor "👥 Humanos" value: length(pessoa);
+		monitor "🦠 Humanos suscetíveis" value: length(pessoa where (each.estado = 0));
+		monitor "🟡 Humanos expostos" value: length(pessoa where (each.estado = 1));
+		monitor "🔴 Humanos infectados" value: length(pessoa where (each.estado = 2));
+		monitor "🟢 Humanos recuperados" value: length(pessoa where (each.estado = 3));
+
+		// ─── MORTALIDADE ───
+		monitor "⚰ Mortes por dengue" value: mortos_por_dengue;
+
+		// ─── POPULAÇÃO DE MOSQUITOS ───
+		monitor "🦟 Mosquitos" value: length(mosquito);
+		monitor "Mosquitos suscetíveis" value: length(mosquito where (each.estado = 0));
+		monitor "Mosquitos expostos" value: length(mosquito where (each.estado = 1));
+		monitor "Mosquitos infectados" value: length(mosquito where (each.estado = 2));
 	}
 
 }

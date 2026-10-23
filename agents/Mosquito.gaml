@@ -5,6 +5,7 @@
 * Tags: 
 */
 model Mosquito
+import "../globals/globals.gaml"
 
 import "Pessoa.gaml"
 import "Poca.gaml"
@@ -28,8 +29,7 @@ species mosquito skills: [moving] {
 	// =========================
 	float prob_morte <- 0.15;
 	float prob_migracao <- 0.0015;
-	float prob_picada <- 0.5;
-	//0.25
+	float prob_picada <- 0.25;
 	float prob_mutacao <- 0.0;
 	float prob_transmissao <- 27.50;
 
@@ -50,7 +50,7 @@ species mosquito skills: [moving] {
 	rgb cor <- rgb(204, 121, 167);
 
 	aspect default {
-		draw circle(200) color: cor;
+		draw square(150) color: cor;
 	}
 
 	action MudarEstado {
@@ -85,14 +85,15 @@ species mosquito skills: [moving] {
 
 			if (alvo.estado = 0 and estado = 2) {
 				ask alvo {
-					if (alvo.vacinado) {
-					// TODO: Aplicar proteção da vacina.
-					}
-
-					if (rnd(1, 100) <= alvo.prob_transmissao) {
-						do MudarEstado;
-					}
-
+				    float prob_efetiva <- prob_transmissao;
+				
+				    if (vacinado) {
+				        prob_efetiva <- prob_transmissao * (1 - eficacia / 100.0);
+				    }
+				
+				    if (rnd(1, 100) <= prob_efetiva) {
+				        do MudarEstado;
+				    }
 				}
 
 			} else if ((alvo.estado = 1 or alvo.estado = 2) and estado = 0) {
@@ -102,23 +103,20 @@ species mosquito skills: [moving] {
 				}
 
 			}
-
-		}
-
-		list<poca> pocas <- poca where (each distance_to self <= 50000);
-		// 2. Reprodução
-		if (!empty(pocas)) {
-			poca pocaAlvo <- one_of(pocas);
-			if (length(pocaAlvo.imaturos) < pocaAlvo.tamanho * 20) {
-				create imaturo number: 100 returns: novosImaturos {
-					poca_natal <- pocaAlvo;
+			list<poca> pocas <- poca where (each distance_to self <= 50000);
+			// 2. Reprodução
+			if (!empty(pocas)) {
+				poca pocaAlvo <- one_of(pocas);
+				if (length(pocaAlvo.imaturos) < pocaAlvo.tamanho * 20) {
+					create imaturo number: 100 returns: novosImaturos {
+						poca_natal <- pocaAlvo;
+					}
+	
+					add novosImaturos all: true to: pocaAlvo.imaturos;
 				}
-
-				add novosImaturos all: true to: pocaAlvo.imaturos;
+	
 			}
-
 		}
-
 	}
 
 	action Envelhecer {
@@ -144,32 +142,32 @@ species mosquito skills: [moving] {
 			do wander speed: velocidade;
 		}
 
-		if (rnd(0.000, 1.000) < prob_migracao) {
-			point a <- any_location_in(one_of(ambiente).shape);
-			int i <- estado;
-			create mosquito number: 1 {
-				location <- a;
-				poca_natal <- a;
-				estado <- i;
-				switch estado {
-					match 0 {
-						cor <- rgb(204, 121, 167);
-					}
-
-					match 1 {
-						cor <- rgb(240, 228, 66);
-					}
-
-					match 2 {
-						cor <- rgb(51, 34, 136);
-					}
-
-				}
-
-			}
-
-			do die;
-		}
+//		if (rnd(0.000, 1.000) < prob_migracao) {
+//			point a <- any_location_in(one_of(ambiente).shape);
+//			int i <- estado;
+//			create mosquito number: 1 {
+//				location <- a;
+//				poca_natal <- a;
+//				estado <- i;
+//				switch estado {
+//					match 0 {
+//						cor <- rgb(204, 121, 167);
+//					}
+//
+//					match 1 {
+//						cor <- rgb(240, 228, 66);
+//					}
+//
+//					match 2 {
+//						cor <- rgb(51, 34, 136);
+//					}
+//
+//				}
+//
+//			}
+//
+//			do die;
+//		}
 
 	}
 
