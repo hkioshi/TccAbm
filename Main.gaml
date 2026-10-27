@@ -71,5 +71,69 @@ experiment MeuExperimento type: gui {
 		monitor "Mosquitos expostos" value: length(mosquito where (each.estado = 1));
 		monitor "Mosquitos infectados" value: length(mosquito where (each.estado = 2));
 	}
+}
 
+
+experiment E03Variabilidade type: batch
+    repeat: 30
+    until: cycle >= 87600 {
+
+    parameter "Percentual de vacinados (%)"
+        var: porcentagem_de_vacinados
+        min: 0.0 max: 0.0 step: 25.0;
+
+    parameter "Eficácia da vacina (%)"
+        var: eficacia
+        min: 0 max: 0 step: 20;
+}
+
+experiment E04Vacinacao type: batch
+    repeat: 30
+    until: cycle >= 87600 {
+
+    parameter "Percentual de vacinados (%)"
+        var: porcentagem_de_vacinados
+        min: 0.0 max: 100.0 step: 25.0;
+
+    parameter "Eficácia da vacina (%)"
+        var: eficacia
+        min: 100 max: 100 step: 20;
+}
+
+experiment E05PopulacaoVetorial type: batch
+    repeat: 30
+    until: cycle >= 87600 {
+
+    parameter "Quantidade de mosquitos"
+        var: quantidade_mosquito
+        min: 50 max: 400 step: 50;
+
+    parameter "Percentual de vacinados (%)"
+        var: porcentagem_de_vacinados
+        min: 0.0 max: 0.0 step: 25.0;
+
+    parameter "Eficácia da vacina (%)"
+        var: eficacia
+        min: 0 max: 0 step: 20;
+}
+
+experiment E07Escalabilidade type: batch
+    repeat: 1
+    until: cycle >= 87600 {
+
+    parameter "Quantidade de pessoas"
+        var: quantidade_pessoas
+        min: 500 max: 10000 step: 500;
+
+    parameter "Quantidade de mosquitos"
+        var: quantidade_mosquito
+        min: 100 max: 100 step: 100;
+
+    parameter "Percentual de vacinados (%)"
+        var: porcentagem_de_vacinados
+        min: 0.0 max: 0.0 step: 25.0;
+
+    parameter "Eficácia da vacina (%)"
+        var: eficacia
+        min: 0 max: 0 step: 20;
 }

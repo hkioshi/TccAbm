@@ -13,6 +13,8 @@ import "../agents/Poca.gaml"
 
 global {
 	// Dados climáticos
+	int tempo_hora <- 5;
+	int tempo_dia <- 24*5;
 	float temperatura;
 	float chuva <- 0.0;
 	int velocidade_tempo <- 1;
@@ -28,7 +30,8 @@ global {
 {
     save [
         dia,
-
+        chuva,
+        temperatura,
         // Humanos
         length(pessoa),
         length(pessoa where (each.estado = 0)),
@@ -87,7 +90,8 @@ global {
 	init {
 		save [
 	        "dia",
-	
+        	"chuva",
+        	"temperatura",
 	        "humanos_total",
 	        "humanos_suscetiveis",
 	        "humanos_expostos",
@@ -166,7 +170,7 @@ global {
 		write "Subprefeituras: " + length(ambiente);
 	}
 
-	reflex atualizar_hora when: every(10 #cycles) {
+	reflex atualizar_hora when: every(tempo_hora #cycles) {
 		hora <- (hora + 1) mod 24;
 		ask (mosquito where (each.sexo = "Femea")) {
 			do Picar;
@@ -174,7 +178,7 @@ global {
 		
 	}
 
-	reflex evento when: every(240 * velocidade_tempo #cycles) {
+	reflex evento when: every(tempo_dia * velocidade_tempo #cycles) {
 			if (dia > 30) {
 			dia <- 1;
 			if (mes < 12) {
@@ -209,112 +213,111 @@ global {
 		// em cada mês, e não a quantidade de chuva acumulada.
 		// Os valores foram utilizados como referência para a simulação da chuva.
 		
-		float quantidade_chuva;
 		switch mes {
 			match 1 {
 				if (rnd(100.0) < 73.1) {
-					quantidade_chuva <- rnd(0.0, 30.0);
+					chuva <- rnd(0.0, 30.0);
 				} else {
-					quantidade_chuva <- 0.0;
+					chuva <- 0.0;
 				}
 
 			}
 
 			match 2 {
 				if (rnd(100.0) < 62.4) {
-					quantidade_chuva <- rnd(0.0, 30.0);
+					chuva <- rnd(0.0, 30.0);
 				} else {
-					quantidade_chuva <- 0.0;
+					chuva <- 0.0;
 				}
 
 			}
 
 			match 3 {
 				if (rnd(100.0) < 49.5) {
-					quantidade_chuva <- rnd(0.0, 30.0);
+					chuva <- rnd(0.0, 30.0);
 				} else {
-					quantidade_chuva <- 0.0;
+					chuva <- 0.0;
 				}
 
 			}
 
 			match 4 {
 				if (rnd(100.0) < 42.2) {
-					quantidade_chuva <- rnd(0.0, 30.0);
+					chuva <- rnd(0.0, 30.0);
 				} else {
-					quantidade_chuva <- 0.0;
+					chuva <- 0.0;
 				}
 
 			}
 
 			match 5 {
 				if (rnd(100.0) < 21.5) {
-					quantidade_chuva <- rnd(0.0, 30.0);
+					chuva <- rnd(0.0, 30.0);
 				} else {
-					quantidade_chuva <- 0.0;
+					chuva <- 0.0;
 				}
 
 			}
 
 			match 6 {
 				if (rnd(100.0) < 27.8) {
-					quantidade_chuva <- rnd(0.0, 30.0);
+					chuva <- rnd(0.0, 30.0);
 				} else {
-					quantidade_chuva <- 0.0;
+					chuva <- 0.0;
 				}
 
 			}
 
 			match 7 {
 				if (rnd(100.0) < 18.3) {
-					quantidade_chuva <- rnd(0.0, 30.0);
+					chuva <- rnd(0.0, 30.0);
 				} else {
-					quantidade_chuva <- 0.0;
+					chuva <- 0.0;
 				}
 
 			}
 
 			match 8 {
 				if (rnd(100.0) < 16.1) {
-					quantidade_chuva <- rnd(0.0, 30.0);
+					chuva <- rnd(0.0, 30.0);
 				} else {
-					quantidade_chuva <- 0.0;
+					chuva <- 0.0;
 				}
 
 			}
 
 			match 9 {
 				if (rnd(100.0) < 15.6) {
-					quantidade_chuva <- rnd(0.0, 30.0);
+					chuva <- rnd(0.0, 30.0);
 				} else {
-					quantidade_chuva <- 0.0;
+					chuva <- 0.0;
 				}
 
 			}
 
 			match 10 {
 				if (rnd(100.0) < 48.4) {
-					quantidade_chuva <- rnd(0.0, 30.0);
+					chuva <- rnd(0.0, 30.0);
 				} else {
-					quantidade_chuva <- 0.0;
+					chuva <- 0.0;
 				}
 
 			}
 
 			match 11 {
 				if (rnd(100.0) < 41.6) {
-					quantidade_chuva <- rnd(0.0, 30.0);
+					chuva <- rnd(0.0, 30.0);
 				} else {
-					quantidade_chuva <- 0.0;
+					chuva <- 0.0;
 				}
 
 			}
 
 			match 12 {
 				if (rnd(100.0) < 53.8) {
-					quantidade_chuva <- rnd(0.0, 30.0);
+					chuva <- rnd(0.0, 30.0);
 				} else {
-					quantidade_chuva <- 0.0;
+					chuva <- 0.0;
 				}
 
 			}
@@ -323,9 +326,9 @@ global {
 
 	
 
-		write quantidade_chuva;
+		write chuva;
 				ask imaturo {
-			do Envelhecer(quantidade_chuva);
+			do Envelhecer(chuva);
 		}
 		
 		
@@ -410,18 +413,18 @@ global {
 		
 		temperatura <- rnd(temperatura_min, temperatura_max);
 		ask poca {
-			do Envelhecer(quantidade_chuva);
+			do Envelhecer(chuva);
 		}
 		
 		dia <- dia +1;
 
-		if (quantidade_chuva > 0) {
+		if (chuva > 0) {
 			int quantidade_pocas <- 0;
-			if (quantidade_chuva <= 10) {
+			if (chuva <= 10) {
 				quantidade_pocas <- 10;
-			} else if (quantidade_chuva <= 30) {
+			} else if (chuva <= 30) {
 				quantidade_pocas <- 20;
-			} else if (quantidade_chuva <= 60) {
+			} else if (chuva <= 60) {
 				quantidade_pocas <- 30;
 			} else {
 				quantidade_pocas <- 50;
