@@ -200,10 +200,8 @@ As limitações específicas devem ser descritas conforme o escopo, a validaçã
 
 Projeto desenvolvido como parte do Trabalho de Conclusão de Curso em [nome do curso], na [nome da instituição].
 
-- **Autor:** [nome do autor]
-- **Orientador:** [nome do orientador]
-- **Ano:** [ano de conclusão]
+- **Autores:** Henrique Kioshi Yamauchi | Renato Jorge Alpalhão 
+- **Orientador:**
+- **Ano:** 2026
 
-## 14. Licença
 
-[Informar a licença adotada para o código e as condições de utilização.]
