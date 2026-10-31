@@ -1,69 +1,85 @@
 \chapter{INTRODUÇÃO}
 
-A dengue é uma arbovirose causada pelo vírus da dengue (DENV), cuja transmissão ocorre predominantemente pela picada de fêmeas infectadas de mosquitos do gênero \textit{Aedes}. No Brasil, o \textit{Aedes aegypti} constitui o principal vetor urbano. São reconhecidos quatro sorotipos virais, denominados DENV-1, DENV-2, DENV-3 e DENV-4, cuja circulação representa um desafio à vigilância e à prevenção da doença \cite{brasil, who2025}.
+A dengue é uma arbovirose causada pelo vírus dengue (DENV), cuja transmissão ocorre predominantemente pela picada de fêmeas infectadas de mosquitos do gênero \textit{Aedes}. No Brasil, o \textit{Aedes aegypti} constitui o principal vetor urbano. São reconhecidos quatro sorotipos virais, denominados DENV-1, DENV-2, DENV-3 e DENV-4, cuja circulação representa um desafio para a vigilância e a prevenção da doença \cite{brasil_dengue, who_dengue}.
 
-A infecção pode permanecer assintomática, provocar manifestações febris ou evoluir para formas graves. A dinâmica de transmissão depende das relações entre hospedeiros humanos, mosquitos vetores e características do ambiente. O crescimento urbano, a disponibilidade de recipientes favoráveis ao desenvolvimento do mosquito, as condições climáticas e a movimentação das pessoas constituem fatores relevantes para compreender a heterogeneidade espacial e temporal da transmissão \cite{who2025}.
+A infecção pode permanecer assintomática, provocar manifestações febris ou evoluir para formas graves. A dinâmica de transmissão depende das relações entre hospedeiros humanos, mosquitos vetores e características do ambiente. Fatores como o crescimento urbano, a disponibilidade de recipientes favoráveis ao desenvolvimento do mosquito, as condições climáticas e a movimentação das pessoas contribuem para a heterogeneidade espacial e temporal da transmissão \cite{who_dengue}.
 
-Segundo a Organização Mundial da Saúde, aproximadamente metade da população mundial encontra-se em áreas com risco de dengue. Embora existam medidas preventivas e estratégias de imunização para públicos e condições específicos, a prevenção depende fortemente do controle do vetor, da redução dos criadouros, da vigilância e do acesso oportuno à assistência em saúde. A relevância do problema motiva o uso de abordagens computacionais capazes de explorar mecanismos e cenários sob hipóteses explícitas \cite{who2025}.
+Segundo a Organização Mundial da Saúde, aproximadamente metade da população mundial encontra-se em áreas com risco de dengue. Embora existam medidas preventivas e estratégias de imunização destinadas a públicos e condições específicos, a prevenção da doença depende de ações como o controle do vetor, a redução dos criadouros, a vigilância epidemiológica e o acesso oportuno à assistência em saúde \cite{who_dengue}. A complexidade dessas relações torna relevante a utilização de abordagens capazes de representar diferentes componentes do sistema e explorar seu comportamento sob condições controladas.
 
-O município de São Paulo apresenta um contexto territorial complexo para esse tipo de investigação. A concentração populacional, a diversidade de usos do solo e os deslocamentos entre diferentes regiões tornam relevante a investigação de representações espaciais da dinâmica de transmissão da dengue.
+Nesse contexto, a modelagem e a simulação computacional constituem ferramentas que permitem representar sistemas complexos por meio da definição de entidades, regras e interações. Entre as diferentes abordagens existentes, a modelagem baseada em agentes --- \textit{Agent-Based Modeling} (ABM) --- possibilita representar indivíduos ou entidades com atributos, estados e comportamentos próprios. As interações entre esses agentes e o ambiente podem produzir padrões coletivos que emergem da dinâmica do sistema \cite{macal_north_2010}.
 
-A modelagem baseada em agentes --- \textit{Agent-Based Modeling} (ABM) --- permite representar indivíduos heterogêneos com atributos, estados e comportamentos próprios. As interações entre esses agentes e o ambiente podem gerar padrões coletivos que não são especificados diretamente como saídas agregadas. Plataformas como o GAMA oferecem recursos voltados à implementação de modelos espacialmente explícitos e à execução de experimentos computacionais \cite{macal2010, taillandier2019}.
+A aplicação de modelos baseados em agentes à transmissão da dengue permite representar, de forma computacional, componentes como a população humana, os mosquitos vetores e as condições ambientais. Além disso, a incorporação de informações espaciais possibilita considerar a distribuição territorial dos agentes e as características geográficas da área estudada. Plataformas como o GAMA fornecem recursos para o desenvolvimento de modelos espacialmente explícitos e para a realização de experimentos computacionais \cite{taillandier_etal_2019}.
 
-No contexto da dengue, estudos anteriores demonstram a aplicação da modelagem baseada em agentes para representar as interações entre humanos, mosquitos e ambiente. Garcias (2024), por exemplo, desenvolveu um modelo na plataforma GAMA para Portugal continental, enquanto Oliveira et al. (2025) apresentaram uma simulação multiagentes aplicada ao município de Alto Santo, no Ceará. Esses trabalhos demonstram possibilidades para a utilização dessa abordagem, mas diferenças relacionadas à área geográfica, às espécies vetoriais, aos parâmetros e às características da população exigem que cada aplicação seja definida de acordo com seu contexto.
+O município de São Paulo apresenta um contexto territorial relevante para esse tipo de investigação devido à sua dimensão, concentração populacional e diversidade espacial. A representação computacional de um território dessa natureza exige a definição de limites geográficos, a preparação de dados espaciais e a adoção de simplificações compatíveis com os objetivos do modelo.
 
-Diante desse cenário, este trabalho propõe o desenvolvimento e a análise de um simulador espacial e estocástico baseado em agentes para representar a dinâmica de transmissão da dengue no município de São Paulo. O modelo é desenvolvido na plataforma GAMA, utilizando a linguagem GAML, e busca representar as interações entre agentes humanos, mosquitos \textit{Aedes aegypti} e componentes ambientais.
+Dessa forma, este trabalho propõe o desenvolvimento de um simulador computacional espacial e estocástico baseado em agentes para representar aspectos da dinâmica de transmissão da dengue no município de São Paulo. O simulador é desenvolvido utilizando a plataforma GAMA e a linguagem GAML, incorporando agentes humanos, mosquitos e componentes ambientais, além de dados geográficos e climáticos utilizados na representação do ambiente da simulação.
 
 \section{Problema de pesquisa}
 
-A construção de um simulador computacional não se limita à implementação de regras capazes de gerar gráficos ou séries temporais. Para que seus resultados possam ser adequadamente interpretados, é necessário que exista correspondência entre o modelo conceitual, as regras implementadas e os procedimentos utilizados para executar os experimentos.
+A construção de um simulador baseado em agentes para representar a transmissão da dengue envolve desafios relacionados tanto à representação do fenômeno quanto à implementação computacional do modelo. Para que uma simulação possa ser analisada de forma adequada, é necessário definir claramente as entidades representadas, seus estados, comportamentos e interações, bem como estabelecer a escala temporal, a representação espacial e os mecanismos responsáveis pelos eventos aleatórios.
 
-Em modelos baseados em agentes, aspectos como a definição dos estados dos agentes, as regras de interação, a representação espacial, a escala temporal e os processos estocásticos podem influenciar o comportamento da simulação. Dessa forma, a execução do programa e a plausibilidade visual de suas saídas não são suficientes, isoladamente, para demonstrar a consistência do modelo ou a reprodutibilidade dos resultados.
+A simples execução de um programa ou a geração de gráficos e séries temporais não é suficiente para demonstrar que o comportamento do simulador está de acordo com sua especificação. Inconsistências nas transições de estados, na definição de parâmetros, na escala temporal ou nos mecanismos de aleatoriedade podem afetar a interpretação dos resultados. Por esse motivo, a documentação do modelo, a verificação de suas regras e a realização de experimentos controlados constituem etapas importantes no desenvolvimento de uma simulação computacional.
 
-No contexto da representação da transmissão da dengue no município de São Paulo, surge, portanto, o desafio de desenvolver um simulador que permita representar as interações entre humanos, mosquitos e ambiente, ao mesmo tempo em que suas regras e condições de execução possam ser explicitadas e avaliadas.
+No caso da dengue, a representação da interação entre humanos, mosquitos e ambiente exige a definição de regras capazes de abstrair aspectos epidemiológicos e ambientais sem que o modelo deixe de ser computacionalmente viável. Além disso, a utilização de dados geográficos e climáticos introduz desafios relacionados à preparação das entradas, à representação espacial e à integração dessas informações ao comportamento dos agentes.
 
-Diante disso, estabelece-se a seguinte pergunta de pesquisa: \textit{como desenvolver e avaliar um simulador espacial e estocástico baseado em agentes, utilizando a plataforma GAMA, capaz de representar as interações entre humanos, mosquitos \textit{Aedes aegypti} e ambiente na dinâmica de transmissão da dengue no município de São Paulo, considerando a consistência das regras implementadas e a reprodutibilidade dos experimentos?}
+Diante desse contexto, este trabalho busca responder à seguinte questão de pesquisa:
+
+\begin{quote}
+Como desenvolver e avaliar um simulador espacial e estocástico baseado em agentes, utilizando a plataforma GAMA, capaz de representar as interações entre humanos, mosquitos \textit{Aedes aegypti} e componentes ambientais na dinâmica de transmissão da dengue no município de São Paulo?
+\end{quote}
+
+A investigação dessa questão envolve a definição do modelo computacional, sua implementação, a documentação das regras adotadas e a análise dos resultados produzidos pelas execuções do simulador.
 
 \section{Justificativa}
 
-A utilização da dengue como domínio de aplicação oferece um contexto relevante para a investigação de técnicas de modelagem computacional. A dinâmica da doença envolve agentes heterogêneos, interações locais, eventos estocásticos e fatores ambientais, características que podem ser representadas por meio da modelagem baseada em agentes.
+A relevância deste trabalho está associada à aplicação de técnicas de modelagem e simulação computacional a um problema que envolve múltiplas entidades, interações locais, eventos estocásticos e fatores ambientais. A dengue constitui, nesse sentido, um domínio adequado para a investigação de abordagens baseadas em agentes, pois sua dinâmica envolve relações entre hospedeiros humanos, vetores e ambiente.
 
-Do ponto de vista da Ciência da Computação, o desenvolvimento do simulador envolve desafios relacionados à especificação de entidades e comportamentos, à implementação de regras de interação, à representação de informações espaciais e à execução de experimentos computacionais. Além disso, a documentação das decisões adotadas e a avaliação do comportamento da implementação são importantes para que o modelo possa ser compreendido, reproduzido e aperfeiçoado.
+Do ponto de vista da Ciência da Computação, o desenvolvimento do simulador envolve desafios relacionados à especificação de regras, organização dos componentes do software, representação de estados, execução de eventos probabilísticos e processamento de informações espaciais. O trabalho também aborda aspectos relacionados à documentação e à verificação de modelos computacionais, buscando estabelecer uma relação clara entre a representação conceitual do sistema e sua implementação.
 
-A escolha da plataforma GAMA se justifica por suas capacidades de representar agentes espacialmente explícitos, incorporar dados territoriais e organizar experimentos computacionais. Entretanto, a utilização de uma plataforma especializada não garante, por si só, a adequação das regras implementadas ou a consistência dos resultados, tornando necessária a análise do modelo e de seus procedimentos de execução \cite{taillandier2019}.
+A utilização da plataforma GAMA se justifica por seus recursos voltados à modelagem baseada em agentes, à representação espacial e à realização de experimentos. Entretanto, a utilização de uma plataforma especializada não garante, por si só, a adequação do modelo. As regras implementadas, os parâmetros utilizados e as simplificações adotadas devem ser explicitados para que o funcionamento do simulador possa ser compreendido e avaliado \cite{taillandier_etal_2019}.
 
-Assim, a contribuição deste trabalho consiste no desenvolvimento e na documentação de um simulador baseado em agentes aplicado ao município de São Paulo, bem como na análise de aspectos relacionados à consistência de sua implementação e à reprodução dos experimentos. O trabalho não pretende estabelecer um sistema de previsão epidemiológica validado, mas contribuir para a construção e a avaliação de uma ferramenta computacional destinada à representação da dinâmica de transmissão da dengue.
+A pesquisa também apresenta relevância acadêmica ao documentar o processo de construção de um modelo computacional aplicado à transmissão da dengue no município de São Paulo. A explicitação das entidades, dos estados, das interações, das fontes de dados e das hipóteses de representação contribui para a rastreabilidade do modelo e para a compreensão de suas possibilidades e limitações.
 
+Assim, a contribuição pretendida não está relacionada à utilização da simulação como um mecanismo de previsão epidemiológica definitiva, mas ao desenvolvimento e à análise de um modelo computacional capaz de representar, sob hipóteses explícitas, aspectos da dinâmica de transmissão da dengue. Os resultados produzidos pelo simulador devem ser interpretados de acordo com o escopo, os dados e as simplificações adotadas no estudo.
 
+\section{Objetivos}
 
-\section{Objetivo geral}
+\subsection{Objetivo geral}
 
-Desenvolver e avaliar um simulador computacional espacial e estocástico baseado em agentes, utilizando a plataforma GAMA e dados de Sistemas de Informação Geográfica (SIG), para representar a dinâmica de transmissão da dengue no município de São Paulo por meio das interações entre agentes humanos, mosquitos \textit{Aedes aegypti} e componentes ambientais.
+Desenvolver, documentar e avaliar um simulador computacional espacial, estocástico e baseado em agentes, utilizando a plataforma GAMA e dados de Sistemas de Informação Geográfica (SIG), para representar aspectos da dinâmica de transmissão da dengue no município de São Paulo por meio das interações entre agentes humanos, mosquitos \textit{Aedes aegypti} e componentes ambientais.
 
-\section{Objetivos específicos}
+\subsection{Objetivos específicos}
 
 \begin{enumerate}
-    \item Investigar os fundamentos da transmissão da dengue e da modelagem baseada em agentes, identificando elementos relevantes para a especificação do simulador;
+    \item Investigar os fundamentos da transmissão da dengue, da modelagem e simulação computacional e da modelagem baseada em agentes necessários à especificação do simulador;
     
-    \item Especificar os agentes, atributos, estados, comportamentos e interações que compõem o modelo;
+    \item Identificar e analisar trabalhos relacionados à utilização de modelos computacionais e simulações baseadas em agentes aplicadas à transmissão da dengue;
     
-    \item Desenvolver a representação espacial e temporal do ambiente de simulação, utilizando dados geográficos compatíveis com o recorte territorial adotado;
+    \item Especificar as entidades, os atributos, os estados epidemiológicos, os comportamentos e as interações que compõem o modelo;
     
-    \item Implementar as regras relacionadas às interações entre humanos, mosquitos e componentes ambientais na plataforma GAMA;
+    \item Desenvolver o simulador utilizando a plataforma GAMA e a linguagem GAML, incorporando componentes humanos, vetoriais, ambientais e espaciais;
     
-    \item Documentar as hipóteses, os parâmetros e os procedimentos adotados na construção e execução do modelo;
+    \item Integrar dados geográficos e climáticos à representação do ambiente da simulação;
     
-    \item Realizar experimentos computacionais para analisar o comportamento do simulador e a influência de parâmetros e processos estocásticos nos resultados;
+    \item Documentar as hipóteses, os parâmetros e as simplificações adotadas na construção do modelo;
     
-    \item Identificar limitações da implementação e propor possibilidades de aperfeiçoamento do modelo.
+    \item Verificar o funcionamento das principais regras, estados, parâmetros e saídas produzidas pelo simulador;
+    
+    \item Realizar experimentos computacionais para analisar o comportamento do modelo sob diferentes configurações e condições de execução;
+    
+    \item Analisar os indicadores produzidos pelas simulações, considerando a variabilidade associada aos componentes estocásticos e as limitações do modelo.
 \end{enumerate}
 
 \section{Delimitação do estudo}
 
-O recorte territorial deste estudo corresponde ao município de São Paulo, Estado de São Paulo, Brasil. A representação computacional do território é definida a partir das bases geográficas e dos dados efetivamente utilizados no desenvolvimento do simulador. Dessa forma, a utilização de regiões agregadas ou de geometrias administrativas não implica, por si só, a reprodução completa da distribuição populacional, da mobilidade ou do risco epidemiológico em todos os locais do município.
+O presente estudo tem como recorte territorial o município de São Paulo, Estado de São Paulo, Brasil. A representação computacional do território é realizada a partir das bases geográficas e dos dados efetivamente utilizados no desenvolvimento do simulador. Essa representação não tem como objetivo reproduzir integralmente todas as características demográficas, territoriais e epidemiológicas do município.
 
-O modelo concentra-se na representação das interações relacionadas à transmissão da dengue entre humanos, mosquitos \textit{Aedes aegypti} e componentes ambientais, de acordo com as regras e hipóteses estabelecidas para o simulador.
+O domínio do modelo está delimitado à representação de aspectos da transmissão da dengue envolvendo agentes humanos, mosquitos \textit{Aedes aegypti} e componentes ambientais. Os estados epidemiológicos, as regras de transmissão e os processos relacionados ao ciclo vetorial são definidos de acordo com as hipóteses e simplificações adotadas para a construção do simulador.
 
-Este trabalho não tem como objetivo representar simultaneamente os quatro sorotipos do vírus da dengue, reproduzir integralmente os mecanismos imunológicos da doença ou produzir previsões epidemiológicas para o município. Da mesma forma, os resultados obtidos pela simulação não devem ser interpretados automaticamente como equivalentes aos registros oficiais de casos sem procedimentos específicos de calibração e validação.
+O trabalho não tem como objetivo representar simultaneamente todos os aspectos biológicos e epidemiológicos da dengue. Dessa forma, não se pretende reproduzir integralmente a dinâmica dos quatro sorotipos virais, todas as características imunológicas da doença ou a distribuição real do risco epidemiológico em toda a população do município.
 
-A avaliação do simulador concentra-se nos aspectos definidos no escopo da pesquisa e nas condições experimentais estabelecidas. Dessa forma, eventuais limitações relacionadas aos dados utilizados, à escala de representação e às simplificações adotadas serão consideradas na interpretação dos resultados.
+Da mesma forma, o simulador não é apresentado como um sistema de previsão epidemiológica validado para estimar casos futuros da doença. A interpretação dos resultados está limitada às regras implementadas, aos parâmetros utilizados, aos dados incorporados e aos cenários analisados durante os experimentos.
+
+A avaliação do modelo concentra-se na análise de sua representação computacional e de seu comportamento nas condições experimentais definidas no estudo. Eventuais comparações com dados epidemiológicos observados dependem da compatibilidade entre escalas temporais e espaciais, indicadores disponíveis e demais condições necessárias para uma análise adequada.
+
+Essas delimitações são necessárias para estabelecer o alcance do trabalho e orientar a interpretação dos resultados. As simplificações adotadas são apresentadas ao longo da descrição do modelo, permitindo distinguir os fenômenos representados daqueles que permanecem fora do escopo da simulação.

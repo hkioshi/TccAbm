@@ -5,18 +5,115 @@
 \contentsline {chapter}{Sum\'ario}{8}{section*.8}%
 \setlength {\cftchapterindent }{\cftlastnumwidth } \setlength {\cftchapternumwidth }{2em}
 \setlength {\cftchapterindent }{0em} \setlength {\cftchapternumwidth }{\cftlastnumwidth }
-\contentsline {chapter}{\chapternumberline {1}\MakeTextUppercase []{INTRODUÇÃO}}{9}{chapter.1}%
-\contentsline {section}{\numberline {1.1}Problema de pesquisa}{10}{section.1.1}%
-\contentsline {section}{\numberline {1.2}Justificativa}{10}{section.1.2}%
-\contentsline {section}{\numberline {1.3}Objetivo geral}{11}{section.1.3}%
-\contentsline {section}{\numberline {1.4}Objetivos específicos}{11}{section.1.4}%
-\contentsline {section}{\numberline {1.5}Delimitação do estudo}{11}{section.1.5}%
+\contentsline {chapter}{\chapternumberline {1}\MakeTextUppercase []{INTRODUÇÃO}}{11}{chapter.1}%
+\contentsline {section}{\numberline {1.1}Problema de pesquisa}{12}{section.1.1}%
+\contentsline {section}{\numberline {1.2}Justificativa}{12}{section.1.2}%
+\contentsline {section}{\numberline {1.3}Objetivos}{13}{section.1.3}%
+\contentsline {subsection}{\numberline {1.3.1}Objetivo geral}{13}{subsection.1.3.1}%
+\contentsline {subsection}{\numberline {1.3.2}Objetivos específicos}{13}{subsection.1.3.2}%
+\contentsline {section}{\numberline {1.4}Delimitação do estudo}{14}{section.1.4}%
+\setlength {\cftchapterindent }{0em} \setlength {\cftchapternumwidth }{\cftlastnumwidth }
+\contentsline {chapter}{\chapternumberline {2}\MakeTextUppercase []{FUNDAMENTAÇÃO TEÓRICA E TRABALHOS RELACIONADOS}}{15}{chapter.2}%
+\contentsline {section}{\numberline {2.1}Fundamentos epidemiológicos da dengue}{15}{section.2.1}%
+\contentsline {subsection}{\numberline {2.1.1}Doença, agente etiológico e sorotipos}{15}{subsection.2.1.1}%
+\contentsline {subsection}{\numberline {2.1.2}Vetor e ciclo de desenvolvimento}{15}{subsection.2.1.2}%
+\contentsline {subsection}{\numberline {2.1.3}Transmissão humano--vetor}{16}{subsection.2.1.3}%
+\contentsline {subsection}{\numberline {2.1.4}Fatores ambientais e medidas de controle}{16}{subsection.2.1.4}%
+\contentsline {section}{\numberline {2.2}Modelagem e simulação computacional}{16}{section.2.2}%
+\contentsline {subsection}{\numberline {2.2.1}Abordagens de simulação}{17}{subsection.2.2.1}%
+\contentsline {subsection}{\numberline {2.2.2}Modelos explicativos e preditivos}{17}{subsection.2.2.2}%
+\contentsline {section}{\numberline {2.3}Modelagem e simulação baseada em agentes}{17}{section.2.3}%
+\contentsline {subsection}{\numberline {2.3.1}Entidades, atributos e comportamentos}{17}{subsection.2.3.1}%
+\contentsline {subsection}{\numberline {2.3.2}Interações e vizinhanças}{18}{subsection.2.3.2}%
+\contentsline {section}{\numberline {2.4}Modelos epidemiológicos e máquinas de estados}{18}{section.2.4}%
+\contentsline {subsection}{\numberline {2.4.1}Representação SEIR e SEI}{18}{subsection.2.4.1}%
+\contentsline {subsection}{\numberline {2.4.2}Máquinas de estados}{19}{subsection.2.4.2}%
+\contentsline {section}{\numberline {2.5}Representação espacial e Sistemas de Informação Geográfica}{19}{section.2.5}%
+\contentsline {subsection}{\numberline {2.5.1}Mobilidade e comportamento espacial}{19}{subsection.2.5.1}%
+\contentsline {subsection}{\numberline {2.5.2}Integração entre SIG e ABM}{20}{subsection.2.5.2}%
+\contentsline {section}{\numberline {2.6}Estocasticidade e experimentação computacional}{20}{section.2.6}%
+\contentsline {subsection}{\numberline {2.6.1}Sementes e reprodutibilidade}{20}{subsection.2.6.1}%
+\contentsline {subsection}{\numberline {2.6.2}Replicações e análise de variabilidade}{20}{subsection.2.6.2}%
+\contentsline {subsection}{\numberline {2.6.3}Sensibilidade e incerteza}{21}{subsection.2.6.3}%
+\contentsline {section}{\numberline {2.7}Plataforma GAMA e linguagem GAML}{21}{section.2.7}%
+\contentsline {subsection}{\numberline {2.7.1}Operações espaciais}{21}{subsection.2.7.1}%
+\contentsline {section}{\numberline {2.8}Documentação, verificação e validação}{22}{section.2.8}%
+\contentsline {subsection}{\numberline {2.8.1}Verificação}{22}{subsection.2.8.1}%
+\contentsline {subsection}{\numberline {2.8.2}Validação}{22}{subsection.2.8.2}%
+\contentsline {subsection}{\numberline {2.8.3}Rastreabilidade e reprodutibilidade}{22}{subsection.2.8.3}%
+\contentsline {section}{\numberline {2.9}Trabalhos relacionados}{23}{section.2.9}%
+\contentsline {subsection}{\numberline {2.9.1}Garcias (2024)}{23}{subsection.2.9.1}%
+\contentsline {subsection}{\numberline {2.9.2}Oliveira et al. (2025)}{23}{subsection.2.9.2}%
+\contentsline {subsection}{\numberline {2.9.3}Estudos espaciais aplicados a outras doenças}{23}{subsection.2.9.3}%
+\contentsline {subsection}{\numberline {2.9.4}Gamal et al. (2025)}{24}{subsection.2.9.4}%
+\contentsline {subsection}{\numberline {2.9.5}Síntese dos trabalhos relacionados}{24}{subsection.2.9.5}%
+\setlength {\cftchapterindent }{0em} \setlength {\cftchapternumwidth }{\cftlastnumwidth }
+\contentsline {chapter}{\chapternumberline {3}\MakeTextUppercase []{METODOLOGIA}}{25}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Caracterização da pesquisa}{25}{section.3.1}%
+\contentsline {section}{\numberline {3.2}Etapas da pesquisa}{25}{section.3.2}%
+\contentsline {section}{\numberline {3.3}Área de estudo e dados utilizados}{26}{section.3.3}%
+\contentsline {subsection}{\numberline {3.3.1}Dados geográficos}{26}{subsection.3.3.1}%
+\contentsline {subsection}{\numberline {3.3.2}Dados climáticos}{26}{subsection.3.3.2}%
+\contentsline {section}{\numberline {3.4}Procedimento de modelagem}{27}{section.3.4}%
+\contentsline {section}{\numberline {3.5}Procedimentos de implementação}{27}{section.3.5}%
+\contentsline {section}{\numberline {3.6}Procedimentos de verificação}{28}{section.3.6}%
+\contentsline {subsection}{\numberline {3.6.1}Verificação dos estados e transições}{28}{subsection.3.6.1}%
+\contentsline {subsection}{\numberline {3.6.2}Verificação das condições iniciais e dos parâmetros}{28}{subsection.3.6.2}%
+\contentsline {subsection}{\numberline {3.6.3}Verificação temporal}{28}{subsection.3.6.3}%
+\contentsline {subsection}{\numberline {3.6.4}Verificação das saídas}{28}{subsection.3.6.4}%
+\contentsline {section}{\numberline {3.7}Protocolo experimental}{29}{section.3.7}%
+\contentsline {subsection}{\numberline {3.7.1}Cenário de referência}{29}{subsection.3.7.1}%
+\contentsline {subsection}{\numberline {3.7.2}Sementes e replicações}{29}{subsection.3.7.2}%
+\contentsline {subsection}{\numberline {3.7.3}Comparação entre cenários}{29}{subsection.3.7.3}%
+\contentsline {section}{\numberline {3.8}Indicadores e análise dos resultados}{30}{section.3.8}%
+\contentsline {section}{\numberline {3.9}Limitações metodológicas}{30}{section.3.9}%
+\setlength {\cftchapterindent }{0em} \setlength {\cftchapternumwidth }{\cftlastnumwidth }
+\contentsline {chapter}{\chapternumberline {4}\MakeTextUppercase []{MODELAGEM COMPUTACIONAL DO SIMULADOR}}{32}{chapter.4}%
+\contentsline {section}{\numberline {4.1}Propósito e escopo do modelo}{32}{section.4.1}%
+\contentsline {section}{\numberline {4.2}Representação espacial}{32}{section.4.2}%
+\contentsline {section}{\numberline {4.3}Entidades do modelo}{33}{section.4.3}%
+\contentsline {subsection}{\numberline {4.3.1}Pessoas}{33}{subsection.4.3.1}%
+\contentsline {subsection}{\numberline {4.3.2}Mosquitos}{33}{subsection.4.3.2}%
+\contentsline {subsection}{\numberline {4.3.3}Criadouros e componentes ambientais}{33}{subsection.4.3.3}%
+\contentsline {subsection}{\numberline {4.3.4}Formas imaturas}{34}{subsection.4.3.4}%
+\contentsline {section}{\numberline {4.4}Estados epidemiológicos}{34}{section.4.4}%
+\contentsline {subsection}{\numberline {4.4.1}Estados da população humana}{34}{subsection.4.4.1}%
+\contentsline {subsection}{\numberline {4.4.2}Estados da população vetorial}{34}{subsection.4.4.2}%
+\contentsline {section}{\numberline {4.5}Interações e transmissão}{35}{section.4.5}%
+\contentsline {section}{\numberline {4.6}Mobilidade e comportamento espacial}{35}{section.4.6}%
+\contentsline {section}{\numberline {4.7}Ambiente, clima e ciclo vetorial}{35}{section.4.7}%
+\contentsline {section}{\numberline {4.8}Tempo e estocasticidade}{36}{section.4.8}%
+\contentsline {section}{\numberline {4.9}Inicialização e parâmetros}{36}{section.4.9}%
+\contentsline {section}{\numberline {4.10}Entradas e saídas}{36}{section.4.10}%
+\contentsline {section}{\numberline {4.11}Hipóteses e simplificações}{37}{section.4.11}%
+\setlength {\cftchapterindent }{0em} \setlength {\cftchapternumwidth }{\cftlastnumwidth }
+\contentsline {chapter}{\chapternumberline {5}\MakeTextUppercase []{ARQUITETURA E IMPLEMENTAÇÃO}}{38}{chapter.5}%
+\contentsline {section}{\numberline {5.1}Arquitetura geral}{38}{section.5.1}%
+\contentsline {section}{\numberline {5.2}Estrutura dos agentes}{39}{section.5.2}%
+\contentsline {subsection}{\numberline {5.2.1}Agentes humanos}{39}{subsection.5.2.1}%
+\contentsline {subsection}{\numberline {5.2.2}Agentes vetoriais}{39}{subsection.5.2.2}%
+\contentsline {subsection}{\numberline {5.2.3}Componentes ambientais e formas imaturas}{39}{subsection.5.2.3}%
+\contentsline {section}{\numberline {5.3}Inicialização do ambiente e das populações}{40}{section.5.3}%
+\contentsline {section}{\numberline {5.4}Implementação da dinâmica epidemiológica}{40}{section.5.4}%
+\contentsline {section}{\numberline {5.5}Implementação da dinâmica vetorial}{40}{section.5.5}%
+\contentsline {section}{\numberline {5.6}Controle temporal e climático}{41}{section.5.6}%
+\contentsline {section}{\numberline {5.7}Interface e configuração dos parâmetros}{41}{section.5.7}%
+\contentsline {section}{\numberline {5.8}Registro e exportação dos resultados}{42}{section.5.8}%
+\contentsline {section}{\numberline {5.9}Rastreabilidade entre modelo e implementação}{42}{section.5.9}%
+\setlength {\cftchapterindent }{0em} \setlength {\cftchapternumwidth }{\cftlastnumwidth }
+\contentsline {chapter}{\chapternumberline {6}\MakeTextUppercase []{RESULTADOS E AVALIAÇÃO}}{43}{chapter.6}%
+\contentsline {section}{\numberline {6.1}Resultados da verificação}{43}{section.6.1}%
+\contentsline {section}{\numberline {6.2}Resultados do cenário de referência}{44}{section.6.2}%
+\contentsline {section}{\numberline {6.3}Comparação entre cenários}{44}{section.6.3}%
+\contentsline {section}{\numberline {6.4}Variabilidade entre replicações}{45}{section.6.4}%
+\contentsline {section}{\numberline {6.5}Avaliação computacional}{45}{section.6.5}%
+\contentsline {section}{\numberline {6.6}Discussão das limitações}{46}{section.6.6}%
 \vspace {\cftbeforechapterskip }
 \setlength {\cftchapterindent }{\cftlastnumwidth } \setlength {\cftchapternumwidth }{2em}
-\contentsline {chapter}{\MakeTextUppercase []{Refer\^encias}}{13}{section*.11}%
+\contentsline {chapter}{\MakeTextUppercase []{Refer\^encias}}{47}{section*.11}%
 \cftinsert {AAA}
 \renewcommand *{\cftappendixname }{ANEXO \space }
 \setlength {\cftchapterindent }{0em} \setlength {\cftchapternumwidth }{\cftlastnumwidth }
 \setlength {\cftchapterindent }{\cftlastnumwidth } \setlength {\cftchapternumwidth }{2em}
 \cftinsert {A}
-\contentsline {appendix}{\chapternumberline {A}\MakeTextUppercase []{Repositório do Projeto no GitHub}}{14}{appendix.anexochapback.1}%
+\contentsline {appendix}{\chapternumberline {A}\MakeTextUppercase []{Repositório do Projeto no GitHub}}{48}{appendix.anexochapback.1}%

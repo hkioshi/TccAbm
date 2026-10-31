@@ -1,0 +1,178 @@
+\chapter{METODOLOGIA}
+
+Este capítulo apresenta os procedimentos metodológicos adotados para o desenvolvimento e a análise do simulador computacional. São descritos a caracterização da pesquisa, as etapas realizadas, a área de estudo e os dados utilizados, os procedimentos de modelagem e implementação, as estratégias de verificação e o planejamento dos experimentos.
+
+A metodologia busca estabelecer uma separação entre o modelo conceitual, sua implementação computacional e os resultados obtidos durante as execuções. Essa distinção é importante para evitar que a existência de uma funcionalidade no código ou a produção de uma saída pelo simulador seja interpretada, isoladamente, como evidência de validação epidemiológica.
+
+\section{Caracterização da pesquisa}
+
+O presente trabalho caracteriza-se como uma pesquisa aplicada, de natureza computacional e caráter exploratório. O estudo envolve o desenvolvimento de um simulador espacial e estocástico baseado em agentes para representar aspectos da dinâmica de transmissão da dengue no município de São Paulo.
+
+A pesquisa utiliza técnicas de modelagem e simulação computacional para representar entidades, estados, interações e processos temporais relacionados ao sistema estudado. A modelagem baseada em agentes foi adotada por permitir a representação de entidades heterogêneas e suas interações com outras entidades e com o ambiente.
+
+O trabalho também possui caráter exploratório, uma vez que busca investigar o comportamento do modelo sob condições controladas e analisar as possibilidades e limitações decorrentes das hipóteses, dos dados e das regras adotadas.
+
+A avaliação do simulador é tratada em diferentes níveis. Inicialmente, busca-se verificar a consistência entre as regras especificadas e a implementação computacional. Posteriormente, são realizados experimentos para analisar o comportamento produzido pelo modelo. A eventual comparação entre resultados simulados e dados epidemiológicos observados constitui uma etapa distinta e depende da compatibilidade entre indicadores, escalas espaciais e temporais e demais condições necessárias para essa análise.
+
+\section{Etapas da pesquisa}
+
+O desenvolvimento da pesquisa foi organizado em etapas relacionadas entre si, conforme apresentado a seguir:
+
+\begin{enumerate}
+    \item realização da revisão bibliográfica sobre dengue, modelagem e simulação computacional, modelagem baseada em agentes e representação espacial;
+    
+    \item definição do problema de pesquisa, dos objetivos e do escopo do estudo;
+    
+    \item obtenção e preparação dos dados geográficos e climáticos utilizados pelo simulador;
+    
+    \item especificação conceitual das entidades, estados, interações e processos que compõem o modelo;
+    
+    \item desenvolvimento e organização da implementação utilizando a plataforma GAMA e a linguagem GAML;
+    
+    \item definição de procedimentos de verificação para analisar regras, estados, parâmetros e saídas do simulador;
+    
+    \item planejamento e realização dos experimentos computacionais;
+    
+    \item coleta e análise dos indicadores produzidos pelas simulações;
+    
+    \item identificação das limitações do modelo e dos procedimentos adotados.
+\end{enumerate}
+
+As etapas não devem ser compreendidas como um processo estritamente linear. A construção de modelos computacionais pode exigir revisões nas regras, nos parâmetros e na implementação à medida que novas verificações são realizadas.
+
+\section{Área de estudo e dados utilizados}
+
+A área de estudo corresponde ao município de São Paulo, localizado no Estado de São Paulo, Brasil. A escolha do município está relacionada à dimensão territorial e populacional da cidade e à possibilidade de utilizar informações espaciais na representação do ambiente da simulação.
+
+A representação computacional do território não busca reproduzir integralmente todas as características geográficas, demográficas e epidemiológicas do município. O espaço utilizado pelo simulador é definido a partir das bases geográficas selecionadas e das simplificações necessárias para atender aos objetivos do estudo.
+
+\subsection{Dados geográficos}
+
+Os dados geográficos são utilizados para representar o espaço da simulação e orientar a distribuição ou localização dos componentes do modelo. A preparação desses dados inclui a verificação das geometrias utilizadas e de sua compatibilidade com a área de estudo.
+
+A utilização de uma base geográfica em uma simulação não implica, por si só, uma representação detalhada de todos os elementos presentes no território. A resolução espacial adotada depende das informações disponíveis e das decisões de modelagem.
+
+Os procedimentos de preparação dos dados devem preservar a identificação da fonte utilizada e das transformações realizadas antes de sua incorporação ao simulador. Essas informações são necessárias para garantir a rastreabilidade entre os dados de entrada e a representação espacial adotada.
+
+\subsection{Dados climáticos}
+
+Os dados climáticos são utilizados como entradas para representar condições ambientais que podem influenciar processos relacionados ao vetor e ao ambiente da simulação.
+
+Antes de sua utilização, os dados devem ser organizados em formato compatível com o processamento realizado pelo modelo. Esse procedimento pode incluir a seleção das variáveis de interesse, a padronização das datas e a verificação da consistência dos valores utilizados.
+
+A utilização de dados climáticos históricos não significa que todas as relações entre clima e dinâmica epidemiológica sejam reproduzidas automaticamente. Os efeitos dessas variáveis dependem das regras implementadas e dos parâmetros definidos no modelo.
+
+\section{Procedimento de modelagem}
+
+O procedimento de modelagem consiste na definição da representação conceitual do sistema antes de sua descrição detalhada em código. Essa etapa estabelece quais entidades serão consideradas, quais atributos e estados podem possuir e quais regras representam suas interações.
+
+A especificação do modelo é orientada pelos conceitos discutidos na fundamentação teórica e pelas informações disponíveis para o estudo. As entidades representam componentes considerados relevantes para o objetivo da simulação, enquanto os comportamentos representam abstrações dos processos que se pretende investigar.
+
+A documentação do modelo utiliza os princípios do protocolo ODD como referência para a organização das informações. Dessa forma, são considerados aspectos como o propósito do modelo, as entidades, as escalas temporais e espaciais, os processos, as condições de inicialização, as entradas e os submodelos \cite{grimm_etal_2020}.
+
+A modelagem também envolve a definição explícita das hipóteses e simplificações adotadas. Processos que não são representados diretamente ou que são descritos de forma agregada devem ser identificados para que os resultados sejam interpretados de acordo com o escopo do modelo.
+
+A descrição detalhada das entidades, dos estados, das interações e das regras conceituais é apresentada no Capítulo 4.
+
+\section{Procedimentos de implementação}
+
+A implementação do simulador é realizada utilizando a plataforma GAMA e a linguagem GAML. O desenvolvimento é organizado em componentes destinados à representação dos agentes e dos processos globais da simulação.
+
+Os procedimentos de implementação incluem a organização dos arquivos do projeto, a definição das espécies de agentes, a inicialização do ambiente e das populações e a implementação das regras responsáveis pela evolução da simulação.
+
+Também são implementados mecanismos para o processamento das entradas geográficas e climáticas, o controle da escala temporal, a configuração de parâmetros e o registro das informações produzidas durante as execuções.
+
+A implementação deve manter correspondência com a especificação conceitual do modelo. Quando uma decisão técnica exigir uma adaptação da representação inicialmente definida, essa alteração deve ser documentada para preservar a rastreabilidade entre o modelo e o código.
+
+A arquitetura do projeto e os procedimentos técnicos utilizados na implementação são apresentados detalhadamente no Capítulo 5.
+
+\section{Procedimentos de verificação}
+
+A verificação tem como objetivo analisar se a implementação apresenta comportamento consistente com as regras e condições definidas para o modelo. Esse procedimento não corresponde, isoladamente, à validação epidemiológica dos resultados.
+
+Os procedimentos de verificação são organizados em diferentes aspectos do simulador, incluindo os estados dos agentes, as transições epidemiológicas, as condições de inicialização, o controle temporal, os parâmetros e os indicadores produzidos.
+
+\subsection{Verificação dos estados e transições}
+
+As transições entre estados devem ser analisadas de acordo com a especificação do modelo. Para isso, devem ser verificadas as condições necessárias para cada transição e a impossibilidade de ocorrência de estados incompatíveis com as regras definidas.
+
+No caso dos indicadores epidemiológicos, também devem ser observadas relações de consistência entre as contagens registradas. Quando os estados forem mutuamente exclusivos e representarem a totalidade de uma população, as somas dos indicadores devem corresponder à quantidade de agentes considerada.
+
+\subsection{Verificação das condições iniciais e dos parâmetros}
+
+As condições de inicialização devem ser verificadas para garantir que as populações e os componentes do ambiente sejam criados de acordo com as configurações definidas.
+
+Os parâmetros utilizados durante a execução também devem ser analisados quanto à sua interpretação e aos limites estabelecidos. Alterações em um parâmetro devem produzir efeitos compatíveis com a regra à qual ele está associado, respeitadas as características estocásticas do modelo.
+
+\subsection{Verificação temporal}
+
+A escala temporal utilizada pela simulação deve apresentar correspondência clara entre os ciclos computacionais e os períodos representados no modelo.
+
+A verificação temporal inclui a análise da frequência de atualização dos processos, da leitura dos dados ambientais e do intervalo utilizado para o registro das saídas. Essa etapa busca evitar interpretações incorretas decorrentes de diferenças entre o tempo computacional e o período representado.
+
+\subsection{Verificação das saídas}
+
+Os indicadores produzidos pelo simulador devem ser analisados quanto à consistência de seus valores e à interpretação das informações registradas.
+
+Entre as verificações previstas estão:
+
+\begin{itemize}
+    \item ausência de contagens negativas;
+    \item consistência entre o total de agentes e os indicadores de estado;
+    \item identificação da escala temporal associada aos registros;
+    \item correspondência entre os parâmetros utilizados e os resultados registrados;
+    \item análise da possibilidade de reprodução das execuções sob condições equivalentes.
+\end{itemize}
+
+Os resultados dos procedimentos de verificação são apresentados posteriormente no capítulo de resultados e avaliação.
+
+\section{Protocolo experimental}
+
+Os experimentos computacionais são utilizados para analisar o comportamento do modelo sob condições previamente definidas. Para garantir a interpretação dos resultados, cada experimento deve registrar as configurações utilizadas, os parâmetros alterados e as condições de execução.
+
+O protocolo experimental considera a definição de um cenário de referência e, quando aplicável, a comparação com outros cenários obtidos pela alteração controlada de parâmetros ou condições do modelo.
+
+\subsection{Cenário de referência}
+
+O cenário de referência corresponde à configuração utilizada como base para a análise do comportamento do simulador. Seus parâmetros e condições iniciais devem ser documentados para permitir a interpretação e a reprodução das execuções.
+
+O cenário de referência não deve ser interpretado automaticamente como uma reprodução exata da situação epidemiológica observada no município. Seu propósito é fornecer uma configuração definida para a realização dos experimentos.
+
+\subsection{Sementes e replicações}
+
+Como o simulador possui componentes estocásticos, diferentes execuções podem produzir resultados distintos mesmo quando utilizam os mesmos parâmetros.
+
+Para analisar essa variabilidade, os experimentos devem considerar múltiplas replicações. O controle das sementes pseudoaleatórias permite identificar as condições utilizadas em cada execução e contribui para a reprodutibilidade dos resultados.
+
+A utilização de uma mesma semente, juntamente com parâmetros e condições equivalentes, deve ser utilizada como procedimento de verificação da reprodutibilidade, quando tecnicamente aplicável.
+
+\subsection{Comparação entre cenários}
+
+A comparação entre cenários deve ser realizada mediante alterações explícitas nas configurações do experimento. Os parâmetros modificados e os indicadores utilizados na comparação devem ser registrados para evitar que diferenças nos resultados sejam atribuídas a fatores não documentados.
+
+A escolha dos cenários deve estar relacionada aos objetivos da pesquisa e às hipóteses que se pretende investigar. Caso sejam realizadas análises de sensibilidade, os parâmetros selecionados e os intervalos avaliados devem ser apresentados de forma explícita.
+
+\section{Indicadores e análise dos resultados}
+
+A análise dos resultados é realizada a partir dos indicadores produzidos durante as execuções do simulador. Os dados registrados devem permitir a identificação das condições da simulação e do comportamento das populações ao longo do tempo.
+
+Entre os indicadores de interesse podem estar as quantidades de agentes em diferentes estados epidemiológicos, informações relacionadas às populações vetoriais e variáveis ambientais utilizadas durante a execução.
+
+Os indicadores são analisados de acordo com os objetivos de cada experimento. Para modelos estocásticos, a interpretação não deve se limitar a uma única execução. Sempre que forem realizadas múltiplas replicações, a análise deve considerar a variabilidade observada entre os resultados.
+
+A apresentação dos resultados pode utilizar tabelas, gráficos e medidas descritivas adequadas aos indicadores disponíveis. A análise deve distinguir resultados efetivamente obtidos durante as execuções de comportamentos esperados ou apenas previstos pela especificação do modelo.
+
+As contagens produzidas pelo simulador também não devem ser consideradas automaticamente equivalentes a indicadores epidemiológicos oficiais. Uma comparação com dados observados exige a análise da definição de cada indicador, da cobertura espacial e da compatibilidade temporal entre as fontes.
+
+\section{Limitações metodológicas}
+
+A metodologia adotada apresenta limitações decorrentes das simplificações necessárias para a construção do modelo, da disponibilidade dos dados e das condições de experimentação.
+
+A utilização de uma população sintética, a agregação espacial, a representação simplificada de processos biológicos e epidemiológicos e a definição de parâmetros constituem exemplos de decisões que podem influenciar o comportamento da simulação.
+
+Além disso, a qualidade das conclusões obtidas depende das verificações e dos experimentos efetivamente realizados. A análise da estrutura do código ou a inspeção de resultados isolados não substitui a execução de testes sistemáticos.
+
+O modelo também não deve ser interpretado como um sistema de previsão epidemiológica validado sem procedimentos específicos de calibração e comparação com dados observados. Os resultados devem ser analisados dentro dos limites definidos pelo propósito da pesquisa e pelas hipóteses adotadas.
+
+A explicitação dessas limitações busca evitar extrapolações que ultrapassem o escopo do estudo e fornecer uma base para futuras melhorias na representação do modelo, nos dados utilizados e nos procedimentos de avaliação.
+

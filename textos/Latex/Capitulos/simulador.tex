@@ -1,0 +1,156 @@
+\chapter{MODELAGEM COMPUTACIONAL DO SIMULADOR}
+
+Este capítulo apresenta a modelagem computacional adotada para representar aspectos da dinâmica de transmissão da dengue no município de São Paulo. A descrição concentra-se no modelo conceitual, apresentando o propósito da simulação, a representação espacial, as entidades consideradas, os estados epidemiológicos e as principais interações entre humanos, mosquitos e componentes ambientais.
+
+A modelagem busca estabelecer uma representação simplificada do sistema estudado. Dessa forma, nem todos os processos biológicos, epidemiológicos e territoriais são reproduzidos individualmente. As regras apresentadas representam abstrações definidas de acordo com os objetivos do estudo e com as possibilidades de implementação do simulador.
+
+A implementação técnica dessas regras, a organização dos arquivos do projeto e os mecanismos específicos utilizados na plataforma GAMA são apresentados no capítulo seguinte.
+
+\section{Propósito e escopo do modelo}
+
+O modelo tem como propósito representar, por meio de uma simulação espacial e estocástica baseada em agentes, aspectos das interações entre a população humana, os mosquitos vetores e o ambiente relacionados à transmissão da dengue.
+
+A utilização de agentes permite representar entidades individuais ou componentes do ambiente com atributos e comportamentos próprios. As interações entre essas entidades ocorrem ao longo do tempo e podem produzir alterações nos estados epidemiológicos das populações representadas.
+
+O modelo não tem como objetivo reproduzir integralmente a dinâmica epidemiológica da dengue no município de São Paulo, nem atuar como um sistema de previsão de casos. Os resultados devem ser interpretados como produtos das regras, parâmetros, condições iniciais e simplificações estabelecidas na simulação.
+
+O recorte territorial corresponde ao município de São Paulo. Entretanto, a utilização de uma representação espacial do município não implica a reprodução individual de todos os seus habitantes, imóveis, vias, criadouros ou demais elementos urbanos.
+
+\section{Representação espacial}
+
+O espaço constitui um componente operacional da simulação, pois influencia a localização dos agentes e suas possibilidades de interação. A representação territorial é construída a partir das bases geográficas selecionadas para o projeto.
+
+A utilização de dados geográficos permite delimitar o ambiente e associar informações espaciais aos componentes da simulação. Entretanto, a resolução espacial adotada representa uma simplificação do território real e deve ser interpretada de acordo com os dados efetivamente incorporados ao modelo.
+
+A distribuição dos agentes no ambiente busca estabelecer uma relação entre a população representada e o espaço da simulação. Dependendo das regras adotadas, essa distribuição pode considerar regiões agregadas ou outras unidades espaciais presentes nas bases utilizadas.
+
+A representação espacial também estabelece o contexto para a mobilidade e para as interações de proximidade. Assim, a localização de um agente pode influenciar quais outras entidades podem ser consideradas em determinado evento da simulação.
+
+\section{Entidades do modelo}
+
+O modelo é composto por entidades que representam componentes considerados relevantes para a dinâmica estudada. Entre elas estão agentes humanos, mosquitos vetores e componentes relacionados ao ambiente e à reprodução vetorial.
+
+A separação entre essas entidades permite atribuir características e comportamentos específicos a cada componente do sistema.
+
+\subsection{Pessoas}
+
+Os agentes humanos representam uma população sintética utilizada na simulação. Cada pessoa pode possuir atributos relacionados à sua localização, condição epidemiológica e demais características necessárias às regras do modelo.
+
+A população sintética não corresponde a uma reprodução individual da população real do município. Seu objetivo é fornecer entidades capazes de participar das interações representadas pela simulação.
+
+Os agentes humanos podem alterar sua localização conforme as regras de mobilidade e participar de eventos de transmissão quando as condições definidas pelo modelo são atendidas.
+
+\subsection{Mosquitos}
+
+Os mosquitos representam os vetores envolvidos na transmissão da dengue. Os agentes podem possuir atributos relacionados à sua localização, condição epidemiológica e estágio de desenvolvimento, de acordo com o nível de detalhamento adotado pelo modelo.
+
+Os mosquitos adultos participam diretamente das interações de transmissão representadas na simulação. Os processos relacionados à reprodução e ao desenvolvimento vetorial são tratados por regras específicas associadas aos componentes ambientais e às formas imaturas.
+
+\subsection{Criadouros e componentes ambientais}
+
+Os componentes ambientais representam condições relacionadas à disponibilidade de locais adequados ao desenvolvimento do vetor. Criadouros ou estruturas equivalentes podem armazenar informações utilizadas pelas regras de reprodução e desenvolvimento dos mosquitos.
+
+A representação desses componentes não busca reproduzir individualmente todos os recipientes existentes no município. Eles constituem abstrações utilizadas para representar condições ambientais relevantes para a dinâmica vetorial.
+
+\subsection{Formas imaturas}
+
+A representação das formas imaturas permite incorporar etapas do ciclo de desenvolvimento do mosquito antes da fase adulta. Dependendo das regras adotadas, ovos e outros estágios podem possuir comportamentos ou tempos de desenvolvimento associados às condições ambientais.
+
+A utilização desses componentes permite estabelecer uma relação entre a dinâmica dos criadouros, as condições climáticas e a população de mosquitos adultos. O grau de detalhamento dessas relações depende das abstrações definidas para o simulador.
+
+\section{Estados epidemiológicos}
+
+A representação epidemiológica utiliza estados para descrever a condição dos agentes ao longo da simulação. A definição explícita desses estados permite organizar as regras de transmissão e estabelecer condições para as transições.
+
+\subsection{Estados da população humana}
+
+A população humana é representada conceitualmente por uma estrutura baseada no modelo SEIR, composta pelos estados suscetível, exposto, infectado e recuperado.
+
+O estado suscetível representa indivíduos que ainda podem adquirir a infecção. Após um evento de transmissão, o agente pode passar ao estado exposto, representando o período entre a infecção e a condição infectante.
+
+Após o período definido pelas regras do modelo, o agente pode alcançar o estado infectado e participar dos eventos de transmissão representados pela simulação. Posteriormente, o indivíduo pode alcançar o estado recuperado.
+
+As transições entre esses estados dependem das condições, probabilidades e intervalos temporais definidos pelo modelo.
+
+\subsection{Estados da população vetorial}
+
+A condição epidemiológica dos mosquitos é representada conceitualmente por uma estrutura SEI, composta pelos estados suscetível, exposto e infectado.
+
+Um mosquito suscetível pode adquirir a infecção ao interagir com um humano infectante. Após o período definido para a evolução da infecção, o mosquito pode passar a uma condição infectante e participar da transmissão para agentes humanos suscetíveis.
+
+A representação por estados permite diferenciar o momento da aquisição da infecção do momento em que o vetor passa a participar da transmissão.
+
+\section{Interações e transmissão}
+
+A transmissão da dengue é representada por interações entre agentes humanos e mosquitos. O modelo não considera a transmissão direta entre pessoas como mecanismo de propagação.
+
+Os eventos de transmissão dependem da ocorrência de interações compatíveis com as regras espaciais e epidemiológicas da simulação. Quando um mosquito e um agente humano se encontram em condições epidemiológicas adequadas, pode ocorrer uma tentativa de transmissão.
+
+A ocorrência efetiva do evento pode depender de um componente probabilístico. Dessa forma, a existência de uma oportunidade de contato não implica necessariamente que a transmissão ocorrerá.
+
+A probabilidade utilizada em cada processo constitui um parâmetro do modelo e deve ser interpretada de acordo com a escala temporal e com as condições em que é aplicada.
+
+A representação da transmissão busca reproduzir a estrutura geral da interação humano--vetor. Entretanto, não representa todos os mecanismos biológicos envolvidos em uma picada ou em uma infecção.
+
+\section{Mobilidade e comportamento espacial}
+
+A mobilidade humana é utilizada para modificar a localização dos agentes e, consequentemente, suas possibilidades de interação com outras entidades.
+
+As regras de deslocamento representam uma simplificação da mobilidade real. A definição de horários, destinos, velocidades e trajetórias deve ser interpretada como uma hipótese de modelagem, especialmente quando não são utilizados dados individuais de deslocamento.
+
+A mobilidade pode alterar a distribuição espacial da população ao longo do tempo e modificar as oportunidades de contato entre humanos e mosquitos.
+
+Os mosquitos também podem possuir regras de deslocamento próprias, compatíveis com a escala espacial adotada. Essas regras contribuem para a dinâmica local da população vetorial e para a distribuição das oportunidades de transmissão.
+
+\section{Ambiente, clima e ciclo vetorial}
+
+As condições ambientais constituem um componente da dinâmica do modelo, especialmente nos processos relacionados à disponibilidade de criadouros e ao desenvolvimento dos mosquitos.
+
+Dados climáticos podem ser utilizados para representar variáveis como temperatura e precipitação. Essas informações são incorporadas às regras ambientais de acordo com os procedimentos definidos pelo modelo.
+
+A chuva pode influenciar a disponibilidade ou as condições dos criadouros, enquanto a temperatura pode estar associada a processos relacionados ao desenvolvimento dos mosquitos. A existência dessas relações na simulação não significa que o modelo reproduza integralmente todas as relações observadas entre clima, vetor e transmissão da dengue.
+
+O ciclo vetorial é representado por processos relacionados à reprodução, ao desenvolvimento das formas imaturas e à formação da população adulta. Os tempos e probabilidades utilizados nesses processos constituem parâmetros ou regras de modelagem e devem ser documentados juntamente com suas fontes ou hipóteses.
+
+\section{Tempo e estocasticidade}
+
+A simulação utiliza uma escala temporal composta por ciclos computacionais. A relação entre os ciclos e os períodos representados deve ser explicitada para permitir a interpretação dos eventos e dos indicadores produzidos.
+
+Diferentes processos podem possuir frequências distintas de atualização. Eventos relacionados à mobilidade, à evolução dos estados epidemiológicos, ao ambiente e à coleta dos resultados podem ocorrer em intervalos específicos definidos pelas regras do simulador.
+
+O modelo também possui componentes estocásticos. Eventos como transmissão, movimentação, desenvolvimento ou outras alterações de estado podem utilizar mecanismos de geração pseudoaleatória.
+
+Como consequência, execuções realizadas com os mesmos parâmetros podem produzir resultados diferentes. O controle das sementes e a realização de múltiplas replicações constituem, portanto, procedimentos importantes para a análise do comportamento do modelo.
+
+\section{Inicialização e parâmetros}
+
+A inicialização estabelece as condições existentes no início de uma execução. Esse processo inclui a criação das populações de agentes e a definição dos valores iniciais das variáveis necessárias à simulação.
+
+As condições iniciais influenciam o comportamento posterior do modelo. Por esse motivo, a quantidade de agentes, a distribuição dos estados epidemiológicos e a configuração do ambiente devem ser registradas como parte da descrição de cada cenário experimental.
+
+Os parâmetros permitem alterar aspectos específicos da simulação sem modificar diretamente sua estrutura conceitual. Entre os parâmetros podem estar probabilidades associadas à transmissão, condições relacionadas ao ambiente, configurações temporais e características das populações.
+
+A escolha dos valores dos parâmetros pode ter origem em referências científicas, dados disponíveis ou hipóteses de modelagem. Essas diferentes origens devem ser distinguidas para evitar que uma hipótese operacional seja interpretada como uma estimativa observacional.
+
+\section{Entradas e saídas}
+
+As entradas do simulador correspondem às informações e configurações utilizadas durante a inicialização e a execução. Entre elas podem estar os dados geográficos, os dados climáticos, as condições iniciais e os parâmetros definidos para cada experimento.
+
+As saídas correspondem aos indicadores registrados durante ou após a execução. Esses indicadores podem incluir informações sobre as populações humanas e vetoriais, seus estados epidemiológicos e variáveis ambientais utilizadas pelo modelo.
+
+O registro das saídas permite acompanhar o comportamento temporal da simulação e fornecer dados para os procedimentos de verificação e análise experimental.
+
+Entretanto, a produção de um indicador pelo simulador não significa automaticamente que ele seja equivalente a uma medida epidemiológica observada. A comparação com dados externos exige compatibilidade entre as definições, escalas e períodos considerados.
+
+\section{Hipóteses e simplificações}
+
+A construção do modelo exige a adoção de simplificações. A representação de uma cidade, de sua população e da dinâmica da dengue envolve processos que não podem ser reproduzidos integralmente em uma única simulação.
+
+Entre as principais limitações do escopo do modelo estão a utilização de uma população sintética, a simplificação da mobilidade, a representação parcial das características ambientais e a abstração de processos biológicos e epidemiológicos.
+
+O modelo também não busca representar simultaneamente todos os sorotipos da dengue, a totalidade das respostas imunológicas ou todos os fatores que influenciam a ocorrência da doença.
+
+As regras ambientais e epidemiológicas devem ser interpretadas como hipóteses de representação. Seus resultados dependem da combinação entre a estrutura do modelo, os parâmetros utilizados, as condições iniciais e os componentes estocásticos.
+
+A explicitação dessas simplificações é necessária para estabelecer os limites de interpretação dos resultados e para identificar possibilidades de aperfeiçoamento em trabalhos futuros.
+

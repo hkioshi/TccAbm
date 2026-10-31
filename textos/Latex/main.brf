@@ -1,7 +1,14 @@
-\backcite {brasil, who2025}{{9}{1}{chapter.1}}
-\backcite {brasil, who2025}{{9}{1}{chapter.1}}
-\backcite {who2025}{{9}{1}{chapter.1}}
-\backcite {who2025}{{9}{1}{chapter.1}}
-\backcite {macal2010, taillandier2019}{{9}{1}{chapter.1}}
-\backcite {macal2010, taillandier2019}{{9}{1}{chapter.1}}
-\backcite {taillandier2019}{{10}{1.2}{section.1.2}}
+\backcite {brasil_dengue, who_dengue}{{11}{1}{chapter.1}}
+\backcite {brasil_dengue, who_dengue}{{11}{1}{chapter.1}}
+\backcite {who_dengue}{{11}{1}{chapter.1}}
+\backcite {who_dengue}{{11}{1}{chapter.1}}
+\backcite {macal_north_2010}{{11}{1}{chapter.1}}
+\backcite {taillandier_etal_2019}{{11}{1}{chapter.1}}
+\backcite {taillandier_etal_2019}{{13}{1.2}{section.1.2}}
+\backcite {who_dengue}{{15}{2.1.1}{subsection.2.1.1}}
+\backcite {macal_north_2010}{{17}{2.2.1}{subsection.2.2.1}}
+\backcite {macal_north_2010}{{17}{2.3}{section.2.3}}
+\backcite {sobol_2001}{{21}{2.6.3}{subsection.2.6.3}}
+\backcite {taillandier_etal_2019}{{21}{2.7}{section.2.7}}
+\backcite {grimm_etal_2020}{{22}{2.8}{section.2.8}}
+\backcite {grimm_etal_2020}{{27}{3.4}{section.3.4}}

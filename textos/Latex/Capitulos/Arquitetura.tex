@@ -1,0 +1,136 @@
+\chapter{ARQUITETURA E IMPLEMENTAÇÃO}
+
+Este capítulo apresenta a arquitetura e a implementação do simulador desenvolvido na plataforma GAMA utilizando a linguagem GAML. Enquanto o capítulo anterior descreveu conceitualmente os componentes do modelo, esta seção apresenta como essas entidades, regras e processos foram organizados na estrutura computacional do projeto.
+
+A implementação é dividida em módulos destinados à organização dos agentes e dos processos globais da simulação. Essa separação busca facilitar a identificação das responsabilidades de cada componente e estabelecer uma relação entre o modelo conceitual e sua implementação.
+
+\section{Arquitetura geral}
+
+O projeto é organizado em arquivos GAML com responsabilidades distintas. O arquivo \texttt{Main.gaml} atua como ponto de entrada do experimento gráfico e reúne elementos relacionados à execução e à visualização da simulação.
+
+Os demais componentes são responsáveis pela definição das entidades e dos processos que compõem o modelo. Entre os arquivos identificados estão os módulos destinados aos agentes humanos, aos mosquitos, ao ambiente, aos criadouros e às formas imaturas, além de um componente global responsável por processos compartilhados.
+
+A organização geral do projeto pode ser representada da seguinte forma:
+
+\begin{itemize}
+    \item \texttt{Main.gaml}: ponto de entrada e configuração do experimento;
+    \item \texttt{globals.gaml}: variáveis globais, inicialização, controle temporal e processos compartilhados;
+    \item \texttt{Pessoa.gaml}: definição dos agentes humanos e seus comportamentos;
+    \item \texttt{Mosquito.gaml}: definição dos agentes vetoriais e suas regras;
+    \item \texttt{Ambiente.gaml}: representação dos componentes territoriais;
+    \item \texttt{Poca.gaml}: regras relacionadas aos criadouros;
+    \item \texttt{Imaturo.gaml}: representação das formas anteriores à fase adulta do mosquito.
+\end{itemize}
+
+A divisão em módulos permite separar responsabilidades e reduzir a concentração de regras em um único arquivo. Entretanto, os componentes da simulação permanecem interdependentes, pois processos epidemiológicos, ambientais e espaciais compartilham informações globais e interagem durante a execução.
+
+\section{Estrutura dos agentes}
+
+Os agentes representam os principais componentes individuais da simulação. Cada espécie possui atributos e comportamentos próprios, definidos de acordo com sua função no modelo.
+
+A implementação utiliza espécies GAML para representar agentes humanos, mosquitos e outros componentes necessários à dinâmica da simulação. Essa estrutura permite que diferentes entidades possuam regras específicas e interajam dentro do mesmo ambiente espacial.
+
+\subsection{Agentes humanos}
+
+Os agentes humanos são definidos no módulo destinado à espécie \texttt{Pessoa}. Esse componente reúne os atributos e comportamentos relacionados à população humana, incluindo sua condição epidemiológica e suas regras de movimentação.
+
+A condição epidemiológica é utilizada pelas regras que representam a evolução da infecção e as interações com os mosquitos. A separação desses atributos permite que cada agente mantenha seu próprio estado durante a execução.
+
+O módulo também concentra comportamentos relacionados à mobilidade. Dessa forma, alterações na posição dos agentes são tratadas como parte do comportamento individual da população humana.
+
+\subsection{Agentes vetoriais}
+
+Os mosquitos são definidos em um módulo específico, separado da representação da população humana. Essa organização permite atribuir regras próprias aos vetores, incluindo deslocamento, eventos de alimentação, transmissão e processos relacionados à mortalidade.
+
+A condição epidemiológica dos mosquitos é utilizada para determinar sua participação nos eventos de transmissão. Os estados vetoriais devem ser mantidos de forma consistente durante a execução, pois as contagens produzidas pelo simulador dependem da classificação correta de cada agente.
+
+\subsection{Componentes ambientais e formas imaturas}
+
+O ambiente é representado por componentes específicos destinados à utilização das informações territoriais. Os criadouros são tratados em um módulo separado, no qual são concentradas regras relacionadas às condições ambientais.
+
+A representação das formas imaturas é organizada em um componente próprio, permitindo distinguir os processos anteriores à formação dos mosquitos adultos da dinâmica dos agentes vetoriais adultos.
+
+Essa divisão busca manter separadas as responsabilidades relacionadas ao território, aos criadouros e às diferentes etapas do ciclo vetorial.
+
+\section{Inicialização do ambiente e das populações}
+
+A inicialização estabelece as condições necessárias para o início de uma execução. Esse processo inclui o carregamento das informações espaciais, a criação dos componentes ambientais e a formação das populações utilizadas pelo simulador.
+
+O ambiente geográfico é definido a partir de uma base espacial utilizada pelo projeto. As geometrias carregadas fornecem referências para a delimitação do espaço e para a associação entre os agentes e a representação territorial.
+
+Após a configuração do ambiente, são criados os agentes humanos e vetoriais de acordo com as condições iniciais definidas pelo modelo. A quantidade de agentes utilizada representa uma população sintética e não corresponde diretamente à população total do município de São Paulo.
+
+A distribuição inicial dos agentes constitui uma condição importante para os experimentos, pois influencia as interações que podem ocorrer posteriormente. Por esse motivo, os parâmetros e condições utilizados na inicialização devem ser registrados juntamente com as configurações das simulações.
+
+\section{Implementação da dinâmica epidemiológica}
+
+A dinâmica epidemiológica é implementada por meio de atributos de estado e regras responsáveis pelas transições dos agentes humanos e vetoriais.
+
+Nos agentes humanos, a condição epidemiológica é utilizada para representar as diferentes etapas consideradas pelo modelo. As regras verificam as condições necessárias para que ocorram alterações de estado durante a execução.
+
+Nos mosquitos, a condição epidemiológica também influencia sua participação nos eventos de transmissão. A implementação deve distinguir a aquisição da infecção da condição em que o agente pode participar efetivamente da propagação representada pelo modelo.
+
+Os eventos de transmissão são tratados como interações entre agentes humanos e vetoriais. A ocorrência de uma interação não implica necessariamente uma transmissão, pois as regras podem utilizar condições adicionais e componentes probabilísticos.
+
+A implementação dessas regras deve manter correspondência com a especificação conceitual apresentada no capítulo anterior. Por esse motivo, as transições entre estados e suas condições constituem pontos importantes dos procedimentos de verificação.
+
+\section{Implementação da dinâmica vetorial}
+
+A dinâmica vetorial envolve os comportamentos dos mosquitos adultos e os processos relacionados às formas imaturas e aos criadouros.
+
+Os mosquitos adultos possuem regras relacionadas ao deslocamento, à alimentação e à interação com a população humana. Essas regras determinam parte das oportunidades de transmissão representadas durante a simulação.
+
+Os processos anteriores à vida adulta são organizados separadamente. A utilização de componentes destinados às formas imaturas permite representar etapas do ciclo vetorial sem concentrar todos os processos em uma única espécie de agente.
+
+Os criadouros constituem a ligação entre determinados processos ambientais e a dinâmica da população vetorial. Suas condições podem ser modificadas de acordo com as regras ambientais utilizadas pelo modelo.
+
+A implementação representa uma abstração do ciclo biológico real. Dessa forma, os comportamentos programados devem ser interpretados de acordo com as regras e parâmetros efetivamente definidos no simulador, sem assumir que todos os processos biológicos são representados individualmente.
+
+\section{Controle temporal e climático}
+
+O simulador utiliza um mecanismo global para controlar a evolução do tempo e organizar a execução dos diferentes processos.
+
+A escala temporal da simulação é composta por ciclos computacionais. Diferentes comportamentos podem ser executados em frequências distintas, conforme as condições definidas nas regras do modelo.
+
+O controle temporal é utilizado para coordenar processos como movimentação, evolução dos estados, atualização das condições ambientais e registro das informações produzidas.
+
+Os dados climáticos são incorporados como entradas utilizadas pelas regras ambientais. As informações disponíveis podem ser processadas de acordo com o período representado e aplicadas aos componentes do modelo que dependem das condições de temperatura ou precipitação.
+
+A utilização de dados climáticos no simulador não significa que cada variável ambiental seja aplicada diretamente a todos os agentes. Os efeitos dependem das regras implementadas e dos componentes aos quais essas informações são associadas.
+
+A correspondência entre os ciclos computacionais e o tempo representado deve ser mantida de forma consistente, especialmente porque os resultados e os indicadores precisam ser interpretados de acordo com sua escala temporal.
+
+\section{Interface e configuração dos parâmetros}
+
+A plataforma GAMA permite disponibilizar parâmetros para a configuração das execuções. Esses parâmetros possibilitam alterar determinadas condições do modelo sem modificar diretamente os arquivos-fonte.
+
+A interface do experimento é utilizada para configurar valores relacionados às condições da simulação e acompanhar indicadores durante sua execução.
+
+A separação entre parâmetros configuráveis e regras implementadas contribui para a realização de experimentos controlados. Entretanto, para que um parâmetro seja efetivamente utilizado em um experimento, é necessário verificar sua ligação com os processos correspondentes da simulação.
+
+Os valores utilizados em cada execução devem ser registrados como parte da configuração experimental. Esse registro é importante para permitir a reprodução e a comparação entre diferentes cenários.
+
+\section{Registro e exportação dos resultados}
+
+Durante a execução, o simulador registra indicadores relacionados ao comportamento das populações e às condições da simulação.
+
+Os dados produzidos podem incluir informações sobre os estados epidemiológicos das populações humanas e vetoriais, além de outros indicadores definidos pelas regras do modelo.
+
+O projeto possui mecanismos para a persistência das informações produzidas em arquivos de saída. A utilização de arquivos estruturados permite que os resultados sejam posteriormente analisados por outras ferramentas.
+
+Para que os resultados sejam rastreáveis, é necessário associar os dados exportados às condições de cada execução. Informações como configuração utilizada, identificação da repetição, semente e versão do código contribuem para a interpretação e reprodução dos experimentos.
+
+A existência de uma rotina de exportação não garante, isoladamente, a consistência dos indicadores registrados. As relações entre os totais das populações e as contagens por estado devem ser verificadas antes que as saídas sejam utilizadas para conclusões sobre o comportamento epidemiológico do modelo.
+
+\section{Rastreabilidade entre modelo e implementação}
+
+A rastreabilidade estabelece uma relação entre os elementos definidos no modelo conceitual e os componentes utilizados em sua implementação.
+
+No simulador, essa relação pode ser organizada a partir das entidades, regras e processos apresentados anteriormente. Os agentes humanos correspondem aos componentes responsáveis pela representação da população sintética, enquanto os agentes vetoriais implementam os processos relacionados aos mosquitos.
+
+Os componentes ambientais e territoriais correspondem às estruturas utilizadas para representar o espaço e as condições associadas aos criadouros. Os processos globais, por sua vez, concentram elementos compartilhados, como inicialização, controle temporal e registro de informações.
+
+A rastreabilidade também permite identificar situações em que uma regra conceitual precisa ser confirmada por meio da análise ou da execução do código. Essa distinção é importante para evitar que um comportamento planejado seja apresentado como uma funcionalidade comprovadamente executada.
+
+A documentação das relações entre o modelo conceitual e seus componentes computacionais facilita futuras alterações e contribui para os procedimentos de verificação.
+
