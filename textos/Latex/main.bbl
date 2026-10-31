@@ -1,0 +1,18 @@
+\providecommand{\abntreprintinfo}[1]{%
+ \citeonline{#1}}
+\setlength{\labelsep}{0pt}\begin{thebibliography}{}
+\providecommand{\abntrefinfo}[3]{}
+\providecommand{\abntbstabout}[1]{}
+\abntbstabout{v-1.9.7 }
+
+\bibitem[Macal e North 2010]{macal2010}
+\abntrefinfo{Macal e North}{MACAL; NORTH}{2010}
+{MACAL, C.~M.; NORTH, M.~J. Tutorial on agent-based modelling and simulation.
+\emph{Journal of Simulation}, v.~4, p. 151--162, 2010.}
+
+\bibitem[Taillandier et al. 2019]{taillandier2019}
+\abntrefinfo{Taillandier et al.}{TAILLANDIER et al.}{2019}
+{TAILLANDIER, P. et al. Construção, composição e experimentação de modelos espaciais complexos com a plataforma gama.
+\emph{GeoInformatica}, v.~23, n.~2, p. 299--322, 2019.}
+
+\end{thebibliography}

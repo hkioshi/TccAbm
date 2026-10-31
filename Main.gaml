@@ -5,6 +5,7 @@ import "agents/Pessoa.gaml"
 import "agents/Ambiente.gaml"
 import "agents/Poca.gaml"
 import "globals/globals.gaml"
+import "globals/variaveis.gaml"
 experiment MeuExperimento type: gui {
 	parameter "Velocidade do tempo"
 	    var: velocidade_tempo

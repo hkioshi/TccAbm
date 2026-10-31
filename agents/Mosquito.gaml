@@ -31,7 +31,7 @@ species mosquito skills: [moving] {
 	float prob_migracao <- 0.0015;
 	float prob_picada <- 0.25;
 	float prob_mutacao <- 0.0;
-	float prob_transmissao <- 27.50;
+	float prob_transmissao <- 60.00;
 
 	// =========================
 	// Epidemiologia
@@ -75,9 +75,7 @@ species mosquito skills: [moving] {
 	action Picar {
 
 	// 1. Tentativa de picada e transmissão.
-		if (rnd(0.0, 1.0) >= prob_picada) {
-			return;
-		}
+	
 
 		list<pessoa> pessoas <- pessoa where (each distance_to self <= 1800);
 		if (!empty(pessoas)) {
@@ -85,10 +83,10 @@ species mosquito skills: [moving] {
 
 			if (alvo.estado = 0 and estado = 2) {
 				ask alvo {
-				    float prob_efetiva <- prob_transmissao;
+				    float prob_efetiva <- 100.00;
 				
 				    if (vacinado) {
-				        prob_efetiva <- prob_transmissao * (1 - eficacia / 100.0);
+				        prob_efetiva <-  (1 - eficacia / 100.0);
 				    }
 				
 				    if (rnd(1, 100) <= prob_efetiva) {

@@ -1,0 +1,287 @@
+% ------------------------------------------------------------------------
+% Senac Tex: Modelo de Trabalho Academico para o Centro Universitario Senac
+% ------------------------------------------------------------------------
+
+% ========================================================================
+% CONFIGURAÇÃO DO DOCUMENTO
+% ========================================================================
+
+\documentclass[
+    12pt,
+    openright,
+    oneside,
+    a4paper,
+    english,
+    brazil
+]{abntex2}
+
+% ---
+% Pacotes básicos
+% ---
+\usepackage{lmodern}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lastpage}
+\usepackage{indentfirst}
+\usepackage{color}
+\usepackage{graphicx}
+\usepackage{microtype}
+\usepackage{listings}
+\usepackage{indentfirst}
+\usepackage[top=3cm, bottom=2cm, left=3cm, right=2cm]{geometry}
+\usepackage{float}
+\usepackage{caption}
+
+% ---
+% Pacotes de citações
+% ---
+\usepackage[brazilian,hyperpageref]{backref}
+\usepackage[alf]{abntex2cite}
+
+% Configurações do backref
+\renewcommand{\backrefpagesname}{Citado na(s) página(s):\~}
+\renewcommand{\backref}{}
+\renewcommand*{\backrefalt}[4]{
+    \ifcase #1
+        Nenhuma citação no texto.
+    \or
+        Citado na página #2.
+    \else
+        Citado #1 vezes nas páginas #2.
+    \fi
+}
+
+% ========================================================================
+% DADOS PARA CAPA E FOLHA DE ROSTO
+% ========================================================================
+
+\titulo{Modelagem Baseada em Agentes (ABM) para Simular a Disseminação da Dengue}
+\autor{Henrique Kioshi Yamauchi \\\ Renato Jorge Alpalhão}
+\local{São Paulo - Brasil}
+\data{2025}
+\orientador{Prof. Afonso Cesar Lelis Brandão}
+\instituicao{
+    Centro Universitário Senac - Santo Amaro
+    \par
+    Bacharelado em Ciência da Computação
+}
+\tipotrabalho{Trabalho de Conclusão de Curso}
+\preambulo{
+Monografia apresentada na disciplina Trabalho de Conclusão de Curso, como parte dos requisitos para obtenção do título de Bacharel em Ciência da Computação.
+}
+
+% ========================================================================
+% CONFIGURAÇÕES DO PDF
+% ========================================================================
+
+\definecolor{blue}{RGB}{41,5,195}
+
+\makeatletter
+\hypersetup{
+    pdftitle={\@title},
+    pdfauthor={\@author},
+    pdfsubject={\imprimirpreambulo},
+    pdfcreator={LaTeX with abnTeX2},
+    pdfkeywords={dengue}{modelagem baseada em agentes}{GAMA}{epidemiologia}{modelagem espacial},
+    colorlinks=true,
+    linkcolor=blue,
+    citecolor=blue,
+    urlcolor=blue,
+    bookmarksdepth=4
+}
+\makeatother
+
+\setlength{\parindent}{1.25cm}
+\setlength{\parskip}{0.2cm}
+\SingleSpacing
+
+\makeindex
+
+% ========================================================================
+% INÍCIO DO DOCUMENTO
+% ========================================================================
+
+\begin{document}
+
+\frenchspacing
+
+% ========================================================================
+% CAPA
+% ========================================================================
+
+\imprimircapa
+
+% ========================================================================
+% FOLHA DE ROSTO
+% ========================================================================
+
+\imprimirfolhaderosto\*
+\cleardoublepage
+
+% ========================================================================
+% RESUMO (EM BRANCO PARA PREENCHIMENTO POSTERIOR)
+% ========================================================================
+\begin{resumo}
+
+\vspace{8cm}
+
+\begin{center}
+\textbf{RESUMO}\\[0.5cm]
+\textit{O presente Trabalho de Conclusão de Curso apresenta o desenvolvimento e validação de um modelo híbrido baseado em Modelagem Baseada em Agentes (ABM) para análise da disseminação da dengue em ambiente urbano. O modelo integra dados climáticos reais, informações espaciais e técnicas de aprendizado de máquina, permitindo simular interações entre humanos, vetores e ambiente. Os resultados demonstram alta coerência com séries reais observadas, indicando o potencial da abordagem para apoio ao monitoramento epidemiológico.}
+\end{center}
+
+\vspace{6cm}
+
+\textbf{Palavras-chave:} Dengue, ABM, Mesa, Epidemiologia Computacional, Modelagem Espacial.
+
+\end{resumo}
+\cleardoublepage
+
+% ========================================================================
+% ABSTRACT (EM BRANCO PARA PREENCHIMENTO POSTERIOR)
+% ========================================================================
+\begin{resumo}[Abstract]
+    \begin{otherlanguage*}{english}
+
+\vspace{8cm}
+
+\begin{center}
+\textbf{ABSTRACT}\\[0.5cm]
+\textit{This thesis presents the development and validation of a hybrid Agent-Based Modeling (ABM) approach to simulate the spread of dengue fever in an urban environment. The model integrates real climate data, spatial information, and machine learning techniques to represent interactions between humans, vectors, and the environment. Results show high consistency with real observed epidemiological data, demonstrating the potential of the approach for public health monitoring and decision support.
+}
+\end{center}
+
+\vspace{6cm}
+
+\textbf{Keywords:} Dengue, ABM, Mesa, Computational Epidemiology, Spatial Modeling.
+
+    \end{otherlanguage*}
+\end{resumo}
+\cleardoublepage
+
+
+% ========================================================================
+% FICHA CATALOGRÁFICA (EM BRANCO — BIBLIOTECA INSERE)
+% ========================================================================
+\begin{fichacatalografica}
+    \vspace*{\fill}
+    \noindent
+    \fbox{
+        \begin{minipage}[c][8cm][t]{12cm}
+            \textbf{FICHA CATALOGRÁFICA}\\[0.5cm]
+            (Inserida posteriormente pela biblioteca do Senac)
+        \end{minipage}
+    }
+    \vspace*{\fill}
+\end{fichacatalografica}
+\cleardoublepage
+
+% ========================================================================
+% FOLHA DE APROVAÇÃO (EM BRANCO)
+% ========================================================================
+\begin{folhadeaprovacao}
+
+\begin{center}
+    {\ABNTEXchapterfont\Large\textbf{\imprimirtitulo}}
+\end{center}
+
+\vspace{0.5cm}
+
+Trabalho de Conclusão de Curso aprovado em \textbf{\_\_\_ de \_\_\_\_ de \_\_\_\_}.
+
+\vspace{1.5cm}
+
+\begin{center}
+Banca Examinadora:
+\end{center}
+
+\vspace{1cm}
+
+\assinatura{\textbf{Prof. Afonso Cesar Lelis
+Brandão} \\ Orientador \\ Centro Universitário Senac}
+\assinatura{\textbf{Prof(a). \_\_\_\_\_\_\_\_\_\_\_\_} \\ Membro da Banca \\ Centro Universitário Senac}
+\assinatura{\textbf{Prof(a). \_\_\_\_\_\_\_\_\_\_\_\_} \\ Membro da Banca \\ Centro Universitário Senac}
+
+\vfill
+
+\begin{center}
+ São Paulo, 2026.
+\end{center}
+
+\end{folhadeaprovacao}
+\cleardoublepage
+
+% ========================================================================
+% LISTA DE ILUSTRAÇÕES
+% ========================================================================
+\pdfbookmark[0]{\listfigurename}{lof}
+\listoffigures*
+\cleardoublepage
+
+% ========================================================================
+% LISTA DE ABREVIATURAS E SIGLAS
+% ========================================================================
+
+\begin{siglas}
+    \item[ABM] Agent-Based Modeling (Modelagem Baseada em Agentes)
+    \item[GIS] Geographic Information System (Sistema de Informação Geográfica)
+    \item[GAML] GAMA Modeling Language
+    \item[SEIR] Suscetível, Exposto, Infectado e Recuperado
+    \item[SEI] Suscetível, Exposto e Infectado
+    \item[DENV] Vírus da Dengue
+    \item[INMET] Instituto Nacional de Meteorologia
+    \item[IBGE] Instituto Brasileiro de Geografia e Estatística
+    \item[CSV] Comma-Separated Values
+    \item[QGIS] Quantum Geographic Information System
+    \item[OMS] Organização Mundial da Saúde
+    \item[TCC] Trabalho de Conclusão de Curso
+\end{siglas}
+\cleardoublepage
+
+% ========================================================================
+% SUMÁRIO
+% ========================================================================
+
+\pdfbookmark[0]{\contentsname}{toc}
+\tableofcontents\*
+\cleardoublepage
+
+% ========================================================================
+% PARTE TEXTUAL
+% ========================================================================
+
+\textual
+
+\input{Capitulos/Introducao.tex}
+
+% Inserir os capítulos do trabalho nesta seção.
+
+% ========================================================================
+% PARTE PÓS-TEXTUAL
+% ========================================================================
+
+\postextual
+
+% ========================================================================
+% REFERÊNCIAS
+% ========================================================================
+
+\bibliography{bibliografia.bib}
+
+% ========================================================================
+% ANEXOS
+% ========================================================================
+
+\begin{anexosenv}
+
+\chapter{Repositório do Projeto no GitHub}
+
+O código-fonte desenvolvido para este Trabalho de Conclusão de Curso está disponível no seguinte repositório:
+
+\begin{itemize}
+    \item \url{https://github.com/Renatojcalpalhao/DengueSimu_Mesa}
+\end{itemize}
+
+\end{anexosenv}
+
+\end{document}

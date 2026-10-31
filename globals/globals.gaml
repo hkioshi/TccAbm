@@ -10,6 +10,11 @@ import "../agents/Mosquito.gaml"
 import "../agents/Pessoa.gaml"
 import "../agents/Ambiente.gaml"
 import "../agents/Poca.gaml"
+import "variaveis.gaml"
+
+
+
+
 
 global {
 	// Dados climáticos
