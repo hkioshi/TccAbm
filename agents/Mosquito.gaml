@@ -21,16 +21,14 @@ species mosquito skills: [moving] {
 	// Localização
 	// =========================
 	point poca_natal;
-	float distancia_maxima <- 1690.0;
-	float alcance <- 1800.0;
+	float alcance <- 350.0;
 
 	// =========================
 	// Probabilidades
 	// =========================
-	float prob_morte <- 0.15;
-	float prob_migracao <- 0.0015;
+	float prob_morte <- 0.2;
+	float prob_migracao <- 0.51;
 	float prob_picada <- 0.25;
-	float prob_mutacao <- 0.0;
 	float prob_transmissao <- 60.00;
 
 	// =========================
@@ -82,24 +80,22 @@ species mosquito skills: [moving] {
 			pessoa alvo <- one_of(pessoas);
 
 			if (alvo.estado = 0 and estado = 2) {
-				ask alvo {
-				    float prob_efetiva <- 100.00;
-				
-				    if (vacinado) {
-				        prob_efetiva <-  (1 - eficacia / 100.0);
-				    }
-				
-				    if (rnd(1, 100) <= prob_efetiva) {
-				        do MudarEstado;
-				    }
-				}
-
-			} else if ((alvo.estado = 1 or alvo.estado = 2) and estado = 0) {
-				if (rnd(1.0, 100.0) < prob_transmissao) {
-					do MudarEstado;
-					dias_de_incubacao <- rnd(3, 10);
-				}
-
+			    ask alvo {
+			        float prob_efetiva <- prob_transmissao;
+			
+			        if (vacinado) {
+			            prob_efetiva <- prob_transmissao * (1 - eficacia / 100.0);
+			        }
+			
+			        if (rnd(1.0, 100.0) <= prob_efetiva) {
+			            do MudarEstado;
+			        }
+			    }
+			} else if (alvo.estado = 2 and estado = 0) {
+			    if (rnd(1.0, 100.0) <= prob_transmissao) {
+			        do MudarEstado;
+			        dias_de_incubacao <- rnd(3, 10);
+			    }
 			}
 			list<poca> pocas <- poca where (each distance_to self <= 50000);
 			// 2. Reprodução
@@ -134,7 +130,7 @@ species mosquito skills: [moving] {
 	}
 
 	reflex andar {
-		if (location distance_to poca_natal > distancia_maxima) {
+		if (location distance_to poca_natal > alcance) {
 			do goto target: poca_natal speed: velocidade;
 		} else {
 			do wander speed: velocidade;

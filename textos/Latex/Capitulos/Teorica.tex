@@ -1,234 +1,141 @@
 \chapter{FUNDAMENTAÇÃO TEÓRICA E TRABALHOS RELACIONADOS}
+\label{cap:fundamentacao}
 
-Este capítulo apresenta os fundamentos teóricos necessários à compreensão do problema abordado e ao desenvolvimento de um simulador espacial baseado em agentes para representar aspectos da transmissão da dengue. Inicialmente, são discutidos os principais conceitos epidemiológicos relacionados à doença e ao seu vetor. Em seguida, são apresentados conceitos de modelagem e simulação computacional, com ênfase na modelagem baseada em agentes e nos modelos epidemiológicos representados por estados.
+Este capítulo reúne os conceitos necessários para especificar o simulador: a epidemiologia da dengue, a modelagem baseada em agentes e os modelos de estados, a representação espacial, a estocasticidade, a plataforma GAMA e as práticas de documentação, verificação e validação. Ao final, compara estudos relacionados e situa a contribuição deste trabalho.
 
-Também são abordados a representação espacial por meio de Sistemas de Informação Geográfica (SIG), os conceitos de estocasticidade e experimentação computacional e os recursos da plataforma GAMA e da linguagem GAML. Por fim, são discutidos aspectos relacionados à documentação, verificação e validação de modelos, além de trabalhos anteriores relacionados à aplicação de simulações baseadas em agentes em problemas epidemiológicos.
+\section{Dengue, vetor e transmissão}
 
-\section{Fundamentos epidemiológicos da dengue}
+A dengue é causada pelo vírus da dengue, que possui quatro sorotipos (DENV-1 a DENV-4), e é transmitida principalmente por mosquitos do gênero \textit{Aedes}. A infecção pode ser assintomática ou variar em gravidade, e a circulação de vários sorotipos afeta a resposta imunológica e o risco de formas graves \cite{who_dengue}. Um modelo que trate a doença como uma única dinâmica genérica é uma simplificação aceitável, desde que seja declarada.
 
-A dengue é uma arbovirose causada pelo vírus da dengue e transmitida principalmente por mosquitos do gênero \textit{Aedes}. A compreensão dos mecanismos básicos de transmissão é necessária para definir quais entidades, estados e interações devem ser considerados em uma representação computacional do fenômeno.
+No contexto urbano brasileiro, o \textit{Aedes aegypti} é o principal vetor. Somente as fêmeas adultas transmitem o vírus, mas o ciclo de vida inclui os estágios de ovo, larva e pupa, cujo desenvolvimento depende da temperatura e da disponibilidade de água em criadouros. A precipitação e a temperatura influenciam, assim, a população de mosquitos adultos.
 
-\subsection{Doença, agente etiológico e sorotipos}
+A transmissão ocorre em dois sentidos. Um mosquito suscetível adquire o vírus ao picar uma pessoa infectada e só se torna capaz de transmiti-lo após o período de incubação extrínseca. Do mesmo modo, uma pessoa suscetível adquire a infecção pela picada de um mosquito infectado. Como infecção e infectividade não coincidem, os modelos usam um estado intermediário (exposto) para separar os agentes recém-infectados dos que já transmitem. Em modelos espaciais, a ocorrência da transmissão depende ainda do contato entre hospedeiro e vetor, que é determinado pela localização e pela mobilidade dos agentes.
 
-O vírus da dengue apresenta quatro sorotipos, denominados DENV-1, DENV-2, DENV-3 e DENV-4. A infecção pode ser assintomática ou apresentar manifestações clínicas de diferentes níveis de gravidade. A circulação de diferentes sorotipos constitui um aspecto relevante da dinâmica epidemiológica da doença, especialmente devido às relações entre infecções anteriores, resposta imunológica e risco de formas graves \cite{who_dengue}.
-
-Do ponto de vista da modelagem computacional, a existência de múltiplos sorotipos demonstra que a representação da recuperação de um indivíduo pode envolver simplificações. Um modelo que represente apenas uma dinâmica epidemiológica genérica pode ser adequado ao seu propósito, desde que suas hipóteses sejam explicitadas e suas limitações sejam consideradas na interpretação dos resultados.
-
-\subsection{Vetor e ciclo de desenvolvimento}
-
-No contexto urbano brasileiro, o \textit{Aedes aegypti} possui papel central na transmissão da dengue. As fêmeas adultas participam diretamente da transmissão do vírus, enquanto o desenvolvimento do mosquito envolve estágios anteriores, como ovo, larva e pupa.
-
-O ciclo de desenvolvimento do vetor é influenciado por condições ambientais, incluindo temperatura e disponibilidade de água. Dessa forma, a representação computacional do mosquito pode envolver tanto sua dinâmica epidemiológica quanto processos relacionados ao seu desenvolvimento e à disponibilidade de criadouros.
-
-Entretanto, o nível de detalhamento adotado em um modelo deve ser compatível com seus objetivos, com os dados disponíveis e com o custo computacional da simulação. Nem todos os processos biológicos precisam ser representados individualmente para que o modelo possa investigar uma questão específica. A escolha das abstrações deve, portanto, ser explicitada durante a especificação do modelo.
-
-\subsection{Transmissão humano--vetor}
-
-A transmissão da dengue envolve interações entre humanos e mosquitos vetores. Um mosquito suscetível pode adquirir o vírus ao realizar alimentação sanguínea em um indivíduo infectante. Após um período de incubação extrínseca, o mosquito pode tornar-se capaz de transmitir o vírus. De maneira semelhante, um indivíduo suscetível pode adquirir a infecção após a picada de um mosquito infectante.
-
-Esses processos evidenciam a necessidade de distinguir conceitos como infecção, período de incubação e infectividade. Um indivíduo ou vetor recém-infectado não necessariamente se torna imediatamente capaz de transmitir o vírus. Em modelos computacionais, essa característica pode ser representada por estados intermediários, permitindo distinguir agentes expostos daqueles que já se encontram em condição infectante.
-
-A ocorrência da transmissão também depende das oportunidades de contato entre hospedeiros e vetores. Em modelos espacialmente explícitos, a localização, a mobilidade e as regras de proximidade podem influenciar a probabilidade de interação entre os agentes.
-
-\subsection{Fatores ambientais e medidas de controle}
-
-A dinâmica da dengue é influenciada por fatores biológicos, ambientais e sociais. Temperatura e precipitação podem afetar diferentes etapas do ciclo do vetor, enquanto a disponibilidade de criadouros e a distribuição espacial da população podem modificar as oportunidades de contato entre humanos e mosquitos.
-
-Além disso, medidas de prevenção e controle podem atuar sobre diferentes componentes do sistema. A redução de criadouros, as intervenções destinadas ao controle vetorial e outras estratégias de prevenção não possuem necessariamente o mesmo mecanismo de ação. Dessa forma, quando representadas em um modelo computacional, essas medidas devem ser associadas a regras compatíveis com o efeito que se pretende investigar.
+Medidas de controle, como a redução de criadouros e as intervenções sobre o vetor ou sobre a população humana (por exemplo, a vacinação), atuam em componentes diferentes do sistema. Quando representadas em um modelo, cada medida deve ser ligada à regra que corresponde ao seu mecanismo de ação.
 
 \section{Modelagem e simulação computacional}
 
-A modelagem computacional consiste na construção de uma representação simplificada de um sistema com o objetivo de investigar determinados aspectos de seu funcionamento. A simulação corresponde à execução das regras definidas para o modelo ao longo do tempo, permitindo observar o comportamento produzido pelas relações entre seus componentes.
+Um modelo é uma representação simplificada de um sistema, construída para investigar certos aspectos do seu funcionamento. A simulação executa as regras do modelo ao longo do tempo. É útil distinguir o fenômeno real, o modelo conceitual, a implementação e os resultados da simulação, pois divergências entre o esperado e o observado podem vir de qualquer uma dessas camadas.
 
-É importante distinguir o fenômeno real, o modelo conceitual, a implementação computacional e os resultados produzidos pela simulação. Diferenças entre os resultados esperados e os resultados observados podem estar relacionadas às hipóteses adotadas, aos dados utilizados, às regras implementadas ou aos procedimentos experimentais empregados.
+A Tabela~\ref{tab:abordagens} compara as três abordagens mais comuns. Elas não são excludentes: um modelo baseado em agentes pode adotar estados de modelos compartimentais e produzir indicadores agregados.
 
-\subsection{Abordagens de simulação}
+\begin{table}[htb]
+    \centering
+    \caption{Abordagens de simulação de sistemas dinâmicos}
+    \label{tab:abordagens}
+    \begin{tabular}{p{3.6cm} p{4.6cm} p{5.6cm}}
+        \hline
+        \textbf{Abordagem} & \textbf{Unidade de representação} & \textbf{Característica principal} \\
+        \hline
+        Dinâmica de sistemas & Variáveis agregadas (estoques e fluxos) & Relações entre quantidades agregadas ao longo do tempo \\
+        Eventos discretos & Eventos que alteram o estado do sistema & Mudanças de estado desencadeadas por eventos \\
+        Baseada em agentes & Entidades individuais e ambiente & Heterogeneidade e interações locais, com padrões coletivos emergentes \\
+        \hline
+    \end{tabular}
+    \fonte{Elaborado pelo autor, a partir de \citeonline{macal_north_2010}.}
+\end{table}
 
-Diferentes abordagens podem ser utilizadas para representar sistemas dinâmicos. A dinâmica de sistemas enfatiza relações agregadas entre variáveis, estoques e fluxos. A simulação a eventos discretos representa alterações de estado desencadeadas por eventos. Já a modelagem baseada em agentes representa entidades individuais e suas interações com outras entidades e com o ambiente \cite{macal_north_2010}.
+A finalidade do modelo determina suas abstrações, seus dados e os critérios de avaliação. Modelos explicativos investigam mecanismos capazes de produzir certos comportamentos; modelos preditivos estimam o comportamento futuro ou desconhecido de um sistema. Reproduzir um padrão observado não prova capacidade preditiva, e um modelo explicativo não precisa fazer previsões para cumprir seu objetivo.
 
-\{aq deveria ter uma tabela\}
+\section{Modelagem baseada em agentes e modelos de estados}
 
-As abordagens não são necessariamente excludentes. Um modelo baseado em agentes pode utilizar estados epidemiológicos semelhantes aos empregados em modelos compartimentais e produzir indicadores agregados para análise.
+Na modelagem baseada em agentes (ABM), o sistema é representado por entidades com atributos, variáveis de estado e comportamentos próprios, que interagem entre si e com o ambiente. O comportamento agregado emerge dessas interações individuais, sem ser definido por uma regra global \cite{macal_north_2010}. A abordagem é adequada a sistemas com entidades heterogêneas e interações dependentes do contexto local, como a dengue, em que pessoas e mosquitos têm posições e estados distintos. A emergência de um padrão, porém, não comprova que o modelo reproduz o sistema real.
 
-\subsection{Modelos explicativos e preditivos}
+Em modelos espaciais, a interação costuma depender de regras de vizinhança ou proximidade. Buscar vizinhos exaustivamente em grandes populações exige muitas comparações, de modo que a estratégia de busca afeta o custo computacional.
 
-A finalidade de um modelo influencia as abstrações utilizadas, os dados necessários e os critérios adotados para avaliar seus resultados. Modelos explicativos buscam investigar mecanismos e relações capazes de produzir determinados comportamentos, enquanto modelos preditivos têm como objetivo estimar o comportamento futuro ou desconhecido de um sistema sob determinadas condições.
-
-A reprodução de um padrão observado por uma simulação não demonstra, isoladamente, que o modelo possui capacidade preditiva. Da mesma forma, um modelo utilizado para investigar relações entre mecanismos não precisa necessariamente fornecer previsões epidemiológicas para cumprir seu objetivo.
-
-Essa distinção é relevante para a interpretação dos resultados de modelos epidemiológicos. A adequação de um simulador depende de seu propósito, das hipóteses utilizadas, da qualidade dos dados disponíveis e dos procedimentos empregados para sua avaliação.
-
-\section{Modelagem e simulação baseada em agentes}
-
-A modelagem baseada em agentes, ou \textit{Agent-Based Modeling} (ABM), representa sistemas por meio de entidades capazes de possuir atributos, estados e comportamentos próprios. Os agentes interagem entre si e com o ambiente, e essas interações podem produzir padrões coletivos que emergem da dinâmica do sistema \cite{macal_north_2010}.
-
-Essa abordagem é especialmente adequada para sistemas que apresentam heterogeneidade entre entidades e relações dependentes do contexto local. Na representação da dengue, por exemplo, agentes humanos e mosquitos podem possuir localizações e estados epidemiológicos distintos, enquanto o ambiente pode influenciar suas oportunidades de interação.
-
-\subsection{Entidades, atributos e comportamentos}
-
-Um agente pode ser caracterizado por atributos que descrevem suas propriedades e por variáveis de estado que podem ser modificadas durante a execução da simulação. Seus comportamentos correspondem às regras que determinam como o agente interage com outros agentes e com o ambiente.
-
-A definição dessas entidades e regras constitui uma das principais etapas da modelagem baseada em agentes. O comportamento agregado da simulação resulta das interações estabelecidas no nível individual, podendo produzir padrões temporais ou espaciais que não são definidos diretamente como uma única regra global.
-
-Entretanto, a emergência de um padrão na simulação não representa, por si só, uma comprovação de que o modelo reproduz corretamente o sistema real. A interpretação desses padrões depende das hipóteses adotadas e dos procedimentos utilizados para verificar e avaliar o modelo.
-
-\subsection{Interações e vizinhanças}
-
-Em modelos espaciais, as interações entre agentes podem depender de regras de vizinhança ou proximidade. A definição dessas regras determina quais entidades podem interagir em determinado momento e pode influenciar tanto o comportamento do modelo quanto seu custo computacional.
-
-Uma busca exaustiva entre populações de agentes pode exigir um grande número de comparações. Por esse motivo, a representação espacial e as estratégias utilizadas para identificar agentes próximos constituem aspectos relevantes no desenvolvimento de simulações com grande quantidade de entidades.
-
-\section{Modelos epidemiológicos e máquinas de estados}
-
-Modelos epidemiológicos compartimentais representam indivíduos ou populações por meio de estados relacionados à evolução de uma doença. Entre os modelos mais conhecidos encontram-se o SIR, composto pelos estados suscetível, infectado e recuperado, e o SEIR, que acrescenta um estado de exposição ou incubação entre a suscetibilidade e a condição infectante.
-
-Em uma modelagem baseada em agentes, esses estados podem ser representados individualmente. Dessa forma, cada agente possui uma condição epidemiológica própria e realiza transições conforme regras, eventos, temporizadores ou probabilidades definidos pelo modelo.
-
-\subsection{Representação SEIR e SEI}
-
-Para a população humana, uma estrutura SEIR pode representar os estados:
+Os modelos epidemiológicos compartimentais descrevem a evolução da doença por estados. O SIR usa os estados suscetível, infectado e recuperado; o SEIR acrescenta o estado exposto (período entre a infecção e a capacidade de transmitir). Em um ABM, cada agente carrega seu próprio estado e muda de estado por regras, temporizadores ou probabilidades. Para este trabalho, adota-se a estrutura SEIR para humanos e SEI para mosquitos (Figura~\ref{fig:seir}):
 
 \begin{itemize}
-    \item \textbf{Suscetível (S):} indivíduo que pode adquirir a infecção;
-    \item \textbf{Exposto (E):} indivíduo infectado que ainda não se encontra em condição infectante;
-    \item \textbf{Infectante (I):} indivíduo capaz de participar da transmissão;
-    \item \textbf{Recuperado (R):} indivíduo que concluiu o processo epidemiológico representado pelo modelo.
+    \item \textbf{Suscetível (S):} pode adquirir a infecção;
+    \item \textbf{Exposto (E):} infectado, ainda sem capacidade de transmitir;
+    \item \textbf{Infectado (I):} capaz de participar da transmissão;
+    \item \textbf{Recuperado (R):} concluiu o processo representado pelo modelo (apenas humanos).
 \end{itemize}
 
-Para os mosquitos, uma estrutura SEI pode representar os estados suscetível, exposto e infectante. A utilização desses estados permite distinguir a aquisição da infecção do momento em que o vetor passa a participar efetivamente da transmissão.
+\begin{figure}[htb]
+    \centering
+    \caption{Estados epidemiológicos de humanos (SEIR) e mosquitos (SEI)}
+    \label{fig:seir}
+    \begin{tikzpicture}[node distance=1.6cm, every node/.style={draw, rounded corners, minimum width=1.1cm, minimum height=0.8cm}, >=stealth]
+        \node (hs) {S};
+        \node[right=of hs] (he) {E};
+        \node[right=of he] (hi) {I};
+        \node[right=of hi] (hr) {R};
+        \draw[->] (hs) -- (he);
+        \draw[->] (he) -- (hi);
+        \draw[->] (hi) -- (hr);
+        \node[draw=none, left=0.3cm of hs, minimum width=0pt] {Humanos};
+        \node[below=1.6cm of hs] (ms) {S};
+        \node[right=of ms] (me) {E};
+        \node[right=of me] (mi) {I};
+        \draw[->] (ms) -- (me);
+        \draw[->] (me) -- (mi);
+        \node[draw=none, left=0.3cm of ms, minimum width=0pt] {Mosquitos};
+        \draw[->, dashed] (mi.north) to[bend right=25] node[draw=none, midway, above, font=\scriptsize, minimum height=0pt] {picada} (he.south);
+        \draw[->, dashed] (hi.south) to[bend left=25] node[draw=none, midway, below, font=\scriptsize, minimum height=0pt] {picada} (me.north);
+    \end{tikzpicture}
+    \fonte{Elaborado pelo autor.}
+\end{figure}
 
-\subsection{Máquinas de estados}
+A implementação de um modelo epidemiológico equivale a uma máquina de estados: é preciso definir os estados válidos, as transições possíveis e as condições de cada transição. Essa especificação facilita a verificação, pois permite comparar o comportamento esperado com o implementado. Atributos como a vacinação podem ser mantidos separados dos estados epidemiológicos, o que explicita como eles influenciam a infecção.
 
-A representação computacional de um modelo epidemiológico pode ser compreendida como uma máquina de estados. Nesse caso, é necessário definir quais estados são válidos, quais transições podem ocorrer e quais condições determinam a passagem de um estado para outro.
+\section{Representação espacial e mobilidade}
 
-A especificação dessas transições contribui para a clareza do modelo e para sua posterior verificação. Uma representação conceitual bem definida permite comparar o comportamento esperado com as regras efetivamente implementadas no software.
+Os Sistemas de Informação Geográfica (SIG) organizam dados associados a localizações, em formato vetorial (pontos, linhas e polígonos) ou matricial (superfícies e variáveis distribuídas). Em uma simulação, as geometrias podem delimitar o ambiente, orientar a distribuição dos agentes, restringir deslocamentos e apoiar cálculos de distância e proximidade, além de visualizar o território. Taillandier e Drogoul \cite{taillandier_drogoul_2010} descrevem três usos: ler arquivos espaciais para inicializar ou delimitar o ambiente, usar geometrias como elementos que condicionam operações do modelo e representar objetos geográficos como agentes. Para integrar dados e modelo, é preciso compatibilizar sistemas de coordenadas, unidades, qualidade das geometrias e nível de agregação.
 
-Além disso, atributos como vacinação ou outras condições individuais podem ser representados separadamente dos estados epidemiológicos. Essa separação permite definir de maneira explícita como tais características influenciam os eventos de infecção ou outros processos representados pela simulação.
+A mobilidade influencia as oportunidades de interação. Escolher um destino e definir a trajetória até ele são problemas distintos. Dados agregados, como os de deslocamento entre regiões, não fornecem as trajetórias individuais, de modo que a mobilidade em um ABM é sempre uma hipótese de modelagem que depende dos objetivos e dos dados disponíveis.
 
-\section{Representação espacial e Sistemas de Informação Geográfica}
+\section{Estocasticidade e experimentação}
 
-Os Sistemas de Informação Geográfica permitem organizar e analisar dados associados a localizações no território. Dados vetoriais podem representar pontos, linhas e polígonos, enquanto dados matriciais podem representar superfícies ou variáveis distribuídas espacialmente.
+Modelos estocásticos incluem processos aleatórios, como a ocorrência de transmissões, o movimento dos agentes e o ciclo de vida dos vetores. Por isso, execuções com os mesmos parâmetros podem produzir resultados diferentes, e a análise precisa considerar essa variabilidade.
 
-Em uma simulação espacial, os dados geográficos podem desempenhar funções que ultrapassam a visualização do território. As geometrias podem delimitar o ambiente, orientar a distribuição dos agentes, restringir deslocamentos e apoiar cálculos de distância e proximidade.
+A semente do gerador pseudoaleatório controla a sequência de valores sorteados. Com a mesma semente, configuração, condições iniciais e versão da implementação, é possível, em geral, reproduzir uma execução. Uma única execução pode não representar a variabilidade do modelo; por isso, usam-se múltiplas replicações e medidas descritivas, como média e dispersão. O número de replicações depende dos objetivos e do custo computacional, e diferenças entre cenários só são relevantes se forem maiores que a variabilidade entre replicações.
 
-A integração entre dados geográficos e modelos computacionais exige atenção à compatibilidade entre sistemas de referência de coordenadas, unidades de distância, qualidade das geometrias e níveis de agregação espacial utilizados.
-
-\subsection{Mobilidade e comportamento espacial}
-
-A mobilidade constitui um dos elementos que podem influenciar as oportunidades de interação entre agentes. A escolha de um destino e a definição da trajetória até esse destino representam problemas distintos e podem ser modeladas de diferentes maneiras.
-
-Quando uma simulação utiliza dados agregados, é necessário explicitar quais simplificações são adotadas para representar o movimento individual. Dados sobre deslocamentos entre regiões, por exemplo, não fornecem automaticamente as trajetórias realizadas por cada agente.
-
-Dessa forma, a mobilidade em modelos baseados em agentes deve ser compreendida como uma representação definida a partir dos objetivos do estudo, dos dados disponíveis e das hipóteses adotadas.
-
-\subsection{Integração entre SIG e ABM}
-
-A integração entre Sistemas de Informação Geográfica e modelagem baseada em agentes permite incorporar informações territoriais diretamente ao funcionamento da simulação. Taillandier e Drogoul (2010) discutem diferentes formas de utilização de dados geográficos, incluindo a leitura de arquivos espaciais, o uso das geometrias como elementos que condicionam operações do modelo e a representação de objetos geográficos como agentes.
-
-Na leitura de arquivos espaciais, as geometrias e seus atributos podem ser utilizadas para inicializar ou delimitar o ambiente. Em outras situações, elementos territoriais podem participar diretamente das regras de interação e comportamento. A escolha entre essas possibilidades depende da forma como o espaço é incorporado ao modelo.
-
-Essa integração é particularmente relevante para estudos epidemiológicos que consideram heterogeneidade territorial, distribuição espacial de populações e relações entre localização e interação.
-
-\section{Estocasticidade e experimentação computacional}
-
-Modelos estocásticos incorporam componentes aleatórios em determinados processos. Em uma simulação epidemiológica, a aleatoriedade pode estar presente, por exemplo, na ocorrência de eventos de transmissão, na movimentação dos agentes ou em processos relacionados ao ciclo de vida dos vetores.
-
-A presença de estocasticidade implica que execuções realizadas com os mesmos parâmetros podem produzir resultados diferentes. Por esse motivo, a análise de modelos estocásticos requer procedimentos que considerem a variabilidade entre execuções.
-
-\subsection{Sementes e reprodutibilidade}
-
-Os mecanismos de geração pseudoaleatória utilizam sementes para controlar a sequência de valores produzidos durante uma execução. A utilização de uma mesma configuração e de uma mesma semente permite, em determinadas condições, reproduzir uma sequência de eventos aleatórios.
-
-O controle das sementes contribui para a reprodutibilidade dos experimentos e para a comparação entre diferentes configurações. Entretanto, a reprodução de uma execução também depende da preservação das condições de inicialização, dos parâmetros utilizados e da versão da implementação.
-
-\subsection{Replicações e análise de variabilidade}
-
-Uma única execução de um modelo estocástico pode não representar adequadamente a variabilidade associada aos processos aleatórios. A realização de múltiplas replicações permite observar diferenças entre execuções e calcular medidas descritivas, como médias e dispersões.
-
-A quantidade de replicações e os indicadores utilizados devem ser definidos de acordo com os objetivos do experimento e com o custo computacional das simulações. A comparação entre cenários também deve considerar se as diferenças observadas são consistentes diante da variabilidade entre execuções.
-
-\subsection{Sensibilidade e incerteza}
-
-A análise de sensibilidade investiga como alterações nos parâmetros de um modelo podem influenciar suas saídas. Essa análise pode ser realizada por meio de diferentes estratégias, desde a variação controlada de parâmetros até métodos globais capazes de considerar interações entre múltiplas variáveis.
-
-Os índices de Sobol constituem uma abordagem para analisar a contribuição dos parâmetros para a variância das saídas de um modelo \cite{sobol_2001}. Entretanto, sua aplicação requer um planejamento experimental compatível com o método e um número adequado de execuções.
-
-Em modelos espacialmente explícitos, a incerteza também pode apresentar distribuição heterogênea no território e variar ao longo do tempo. Gamal et al. (2025) discutem uma abordagem para analisar a propagação espaço-temporal da incerteza em modelos baseados em agentes, destacando a importância de considerar tanto a dimensão espacial quanto a evolução temporal dos resultados.
-
-Essas abordagens demonstram que a análise de um modelo estocástico não deve se limitar à observação de uma única execução. A escolha dos procedimentos de experimentação deve, contudo, ser compatível com os objetivos e com os recursos disponíveis para o estudo.
+A análise de sensibilidade investiga como mudanças nos parâmetros afetam as saídas, por variação controlada de parâmetros ou por métodos globais, como os índices de Sobol, que estimam a contribuição de cada parâmetro para a variância das saídas \cite{sobol_2001}. Em modelos espaciais, a incerteza também pode variar no território e no tempo \cite{gamal_etal_2025}.
 
 \section{Plataforma GAMA e linguagem GAML}
 
-A plataforma GAMA foi desenvolvida para a construção e execução de modelos espaciais baseados em agentes. A plataforma oferece recursos para a representação de agentes, ambientes geográficos e experimentos computacionais, sendo especialmente voltada a modelos que utilizam informações espaciais \cite{taillandier_etal_2019}.
+O GAMA é uma plataforma para construir e executar modelos espaciais baseados em agentes, com recursos para agentes, ambientes geográficos e experimentos \cite{taillandier_etal_2019}. Seus modelos são escritos em GAML, linguagem que define variáveis globais, espécies de agentes, inicialização, comportamentos e experimentos. A plataforma oferece operações espaciais, como cálculo de distâncias, identificação de vizinhos, manipulação de geometrias e definição de trajetórias.
 
-A linguagem GAML é utilizada para especificar os componentes da simulação. Entre os elementos presentes na linguagem estão estruturas destinadas à definição de variáveis globais, espécies de agentes, procedimentos de inicialização, comportamentos executados durante a simulação e experimentos.
-
-A utilização de uma plataforma especializada facilita a integração entre agentes e informações geográficas, mas não substitui a necessidade de especificar adequadamente as regras do modelo. A qualidade da representação depende das hipóteses adotadas, da implementação e dos procedimentos utilizados para verificar o funcionamento do simulador.
-
-\subsection{Operações espaciais}
-
-Modelos espaciais podem utilizar operações relacionadas ao cálculo de distâncias, à identificação de vizinhos, à manipulação de geometrias e à definição de trajetórias. Esses recursos são relevantes para simulações em que a localização dos agentes influencia suas possibilidades de interação.
-
-Entretanto, a disponibilidade de determinado recurso em uma plataforma não significa que ele seja automaticamente utilizado por todos os modelos desenvolvidos nesse ambiente. A descrição de um simulador específico deve distinguir os recursos disponíveis na plataforma das operações efetivamente incorporadas à sua implementação.
+A plataforma facilita a integração entre agentes e dados geográficos, mas não garante a qualidade do modelo. A descrição de um simulador deve indicar quais recursos da plataforma foram efetivamente usados.
 
 \section{Documentação, verificação e validação}
 
-A construção de um modelo computacional envolve não apenas sua implementação, mas também a documentação das hipóteses e regras utilizadas e a avaliação de seu comportamento.
+O protocolo ODD (\textit{Overview, Design concepts and Details}) padroniza a documentação de ABMs, organizando propósito, entidades, escalas, processos, inicialização, entradas e submodelos \cite{grimm_etal_2020}. Documentar torna as decisões explícitas e facilita a reprodução, mas não prova que o código executa as regras especificadas.
 
-O protocolo ODD, cujo nome deriva de \textit{Overview, Design concepts and Details}, fornece uma estrutura para documentar modelos baseados em agentes. O protocolo organiza a descrição de aspectos como propósito do modelo, entidades, escalas, processos, condições de inicialização, entradas e submodelos \cite{grimm_etal_2020}.
+Três conceitos devem ser distinguidos:
 
-A utilização de uma estrutura de documentação contribui para tornar explícitas as decisões de modelagem e facilitar a compreensão e a reprodução do trabalho. Entretanto, a documentação, por si só, não comprova que a implementação executa corretamente as regras especificadas.
+\begin{itemize}
+    \item \textbf{Verificação:} analisa se a implementação corresponde à especificação, por meio de testes de transições, inicialização, regras de interação e indicadores. É necessária porque uma simulação pode parecer plausível mesmo com regras implementadas de modo diferente do especificado.
+    \item \textbf{Validação:} avalia se o modelo é adequado ao seu propósito e representa aspectos relevantes do sistema real, o que pode incluir comparação com dados observados. Um código correto pode ainda usar hipóteses insuficientes, e a semelhança visual com uma série observada não comprova os mecanismos internos.
+    \item \textbf{Calibração:} ajusta parâmetros com base em dados observados.
+\end{itemize}
 
-\subsection{Verificação}
-
-A verificação está relacionada à análise da correspondência entre a implementação e as regras ou especificações definidas para o modelo. Esse processo pode envolver testes de transições de estado, condições de inicialização, regras de interação e indicadores produzidos durante a execução.
-
-A verificação é importante porque uma simulação pode produzir resultados aparentemente plausíveis mesmo quando determinadas regras são implementadas de forma diferente da especificação conceitual.
-
-\subsection{Validação}
-
-A validação está relacionada à adequação do modelo ao propósito para o qual foi desenvolvido e à sua capacidade de representar aspectos relevantes do sistema estudado. Dependendo dos objetivos da pesquisa, esse processo pode envolver a comparação entre resultados simulados e dados observados.
-
-A validação deve ser distinguida da verificação. Um software pode executar corretamente as regras especificadas e, ainda assim, utilizar hipóteses insuficientes para representar adequadamente o fenômeno real. Da mesma forma, uma aproximação visual entre uma saída simulada e uma série observada não comprova isoladamente a correção dos mecanismos internos do modelo.
-
-A calibração também representa um procedimento distinto, relacionado ao ajuste de parâmetros com base em informações observadas.
-
-\subsection{Rastreabilidade e reprodutibilidade}
-
-A rastreabilidade busca estabelecer relações claras entre os elementos conceituais do modelo e sua implementação. Essa relação permite identificar como entidades, estados e regras especificadas são transformados em componentes computacionais.
-
-A reprodutibilidade, por sua vez, depende da documentação das condições de execução, dos parâmetros, das sementes utilizadas, das versões do software e dos procedimentos experimentais. Esses aspectos são particularmente relevantes em modelos estocásticos, nos quais alterações nas condições de execução podem produzir resultados diferentes.
+Dois requisitos sustentam essas atividades. A rastreabilidade liga os elementos conceituais (entidades, estados, regras) aos componentes do código. A reprodutibilidade exige registrar parâmetros, sementes, versões de software e procedimentos experimentais, o que é essencial em modelos estocásticos.
 
 \section{Trabalhos relacionados}
 
-A análise de trabalhos relacionados permite identificar diferentes estratégias utilizadas na aplicação de modelos baseados em agentes a problemas epidemiológicos e espaciais. Os estudos discutidos nesta seção são utilizados como referências para compreender decisões de modelagem, representação espacial e experimentação, sem que seus parâmetros ou resultados sejam automaticamente transferidos para o presente estudo.
+Os estudos a seguir servem de referência para decisões de modelagem, representação espacial e experimentação. Como cada um tem área, hipóteses e dados próprios, seus parâmetros e resultados não se transferem automaticamente a este trabalho. A Tabela~\ref{tab:relacionados} resume as contribuições.
 
-\subsection{Garcias (2024)}
+\begin{table}[htb]
+    \centering
+    \caption{Comparação dos trabalhos relacionados}
+    \label{tab:relacionados}
+    \begin{tabular}{p{3.0cm} p{2.7cm} p{2.8cm} p{5.1cm}}
+        \hline
+        \textbf{Estudo} & \textbf{Doença e área} & \textbf{Plataforma} & \textbf{Contribuição para este trabalho} \\
+        \hline
+        \citeonline{garcias_2024} & Dengue, Portugal Continental & GAMA & Documentação do modelo; relação entre espaço, regras e experimentação \\
+        \citeonline{oliveira_etal_2025} & Dengue, Alto Santo (CE) & GAMA & Organização de entidades (humanos, mosquitos, ovos, criadouros), parâmetros e cenários \\
+        \citeonline{gharakhanlou_2019, gharakhanlou_2020} & Malária & Não aplicável & Integração entre entidades, espaço, ambiente e intervenções \\
+        \citeonline{gamal_etal_2025} & Não específica de doença & Não aplicável & Análise espaço-temporal da incerteza em ABM \\
+        \hline
+    \end{tabular}
+    \fonte{Elaborado pelo autor.}
+\end{table}
 
-Garcias (2024) apresenta um modelo baseado em agentes para representar a transmissão da dengue no contexto de Portugal Continental, utilizando a plataforma GAMA. O estudo considera agentes humanos, mosquitos e componentes territoriais, além de discutir parâmetros, mobilidade e condições ambientais.
+Garcias \cite{garcias_2024} modela a dengue em Portugal Continental no GAMA, com agentes humanos, mosquitos e componentes territoriais, e discute parâmetros, mobilidade e condições ambientais. Oliveira et al. \cite{oliveira_etal_2025} simulam a dengue em Alto Santo (CE), também no GAMA, com humanos, mosquitos, ovos e criadouros, informações espaciais e experimentos com diferentes parâmetros. Em ambos os casos, as diferenças de espécie vetorial, área de estudo e condições epidemiológicas impedem reutilizar os parâmetros em São Paulo.
 
-Sua principal contribuição para este trabalho está na organização da documentação do modelo e na relação entre representação geográfica, regras de comportamento e experimentação. Entretanto, as diferenças entre a espécie vetorial, a área de estudo e as condições epidemiológicas impedem a transferência automática de parâmetros e resultados.
+Os modelos de malária de Gharakhanlou et al. \cite{gharakhanlou_2019, gharakhanlou_2020} trazem aspectos metodológicos sobre representação espacial, mas suas regras epidemiológicas não se aplicam à dengue. Gamal et al. \cite{gamal_etal_2025} propõem uma forma de analisar a propagação espaço-temporal da incerteza em ABMs, mostrando que a variabilidade dos resultados difere entre unidades espaciais e ao longo do tempo. É uma referência conceitual para avaliação, e não um conjunto de regras para a dengue.
 
-\subsection{Oliveira et al. (2025)}
-
-Oliveira et al. (2025) apresentam uma simulação multiagentes aplicada à transmissão da dengue no município de Alto Santo, no Ceará, também utilizando a plataforma GAMA. O estudo representa humanos, mosquitos, ovos e criadouros, além de utilizar informações espaciais e realizar experimentos com diferentes configurações de parâmetros.
-
-O trabalho fornece uma referência relevante para a organização de entidades, parâmetros e cenários experimentais. Entretanto, sua área de estudo, suas hipóteses e suas configurações não correspondem diretamente ao contexto do município de São Paulo.
-
-\subsection{Estudos espaciais aplicados a outras doenças}
-
-Gharakhanlou, Mesgari e Hooshangi (2019) e Gharakhanlou, Hooshangi e Helbich (2020) apresentam modelos espaciais baseados em agentes aplicados à transmissão da malária. Embora o sistema epidemiológico seja diferente, esses trabalhos contribuem para a compreensão da integração entre entidades, espaço, fatores ambientais e intervenções.
-
-A principal contribuição desses estudos para o presente trabalho está nos aspectos metodológicos relacionados à representação espacial. As regras epidemiológicas e os parâmetros específicos da malária, entretanto, não podem ser transferidos diretamente para a representação da dengue.
-
-\subsection{Gamal et al. (2025)}
-
-Gamal et al. (2025) apresentam uma abordagem para analisar a propagação espaço-temporal da incerteza em modelos baseados em agentes. O estudo destaca que a variabilidade dos resultados pode apresentar diferenças entre unidades espaciais e ao longo do tempo.
-
-A contribuição do trabalho para esta pesquisa está na discussão sobre a análise de incerteza e heterogeneidade espacial. A abordagem apresentada não constitui um conjunto de regras epidemiológicas para a dengue, mas fornece referências conceituais para a avaliação de modelos espaciais e estocásticos.
-
-\subsection{Síntese dos trabalhos relacionados}
-
-Os trabalhos analisados demonstram diferentes possibilidades de aplicação da modelagem baseada em agentes em contextos epidemiológicos e espaciais. Os estudos relacionados contribuem para a compreensão da documentação de modelos, da representação de entidades, da integração de dados geográficos e da realização de experimentos.
-
-Entretanto, cada modelo está associado a uma combinação específica de objetivos, hipóteses, dados, área de estudo e procedimentos de avaliação. Dessa forma, os resultados e parâmetros apresentados em estudos anteriores não substituem a necessidade de especificação e avaliação próprias do simulador desenvolvido neste trabalho.
+Em conjunto, os trabalhos mostram como documentar modelos, representar entidades, integrar dados geográficos e conduzir experimentos. Os estudos de dengue descritos aqui, porém, tratam de outros territórios. Este trabalho aplica a abordagem ao município de São Paulo e acrescenta a verificação sistemática do simulador e a análise da variabilidade estocástica, com a especificação e a avaliação próprias descritas nos capítulos seguintes.

@@ -17,8 +17,14 @@ Warning--I didn't find a database entry for "brasil_dengue"
 Warning--I didn't find a database entry for "who_dengue"
 Warning--I didn't find a database entry for "macal_north_2010"
 Warning--I didn't find a database entry for "taillandier_etal_2019"
+Warning--I didn't find a database entry for "taillandier_drogoul_2010"
 Warning--I didn't find a database entry for "sobol_2001"
+Warning--I didn't find a database entry for "gamal_etal_2025"
 Warning--I didn't find a database entry for "grimm_etal_2020"
+Warning--I didn't find a database entry for "garcias_2024"
+Warning--I didn't find a database entry for "oliveira_etal_2025"
+Warning--I didn't find a database entry for "gharakhanlou_2019"
+Warning--I didn't find a database entry for "gharakhanlou_2020"
 Reallocated singl_function (elt_size=4) to 100 items from 50.
 Reallocated glb_str_ptr (elt_size=4) to 20 items from 10.
 Reallocated global_strs (elt_size=200001) to 20 items from 10.
@@ -30,7 +36,7 @@ Reallocated glb_str_end (elt_size=4) to 20 items from 10.
 +---------------------------------------------------------+
 You've used 1 entry,
             6714 wiz_defined-function locations,
-            1203 strings with 9413 characters,
+            1209 strings with 9516 characters,
 and the built_in function-call counts, 891 in all, are:
 = -- 192
 > -- 0
@@ -69,4 +75,4 @@ warning$ -- 0
 while$ -- 2
 width$ -- 0
 write$ -- 8
-(There were 6 warnings)
+(There were 12 warnings)

@@ -1,14 +1,24 @@
-\backcite {brasil_dengue, who_dengue}{{11}{1}{chapter.1}}
-\backcite {brasil_dengue, who_dengue}{{11}{1}{chapter.1}}
-\backcite {who_dengue}{{11}{1}{chapter.1}}
-\backcite {who_dengue}{{11}{1}{chapter.1}}
-\backcite {macal_north_2010}{{11}{1}{chapter.1}}
-\backcite {taillandier_etal_2019}{{11}{1}{chapter.1}}
-\backcite {taillandier_etal_2019}{{13}{1.2}{section.1.2}}
-\backcite {who_dengue}{{15}{2.1.1}{subsection.2.1.1}}
-\backcite {macal_north_2010}{{17}{2.2.1}{subsection.2.2.1}}
-\backcite {macal_north_2010}{{17}{2.3}{section.2.3}}
-\backcite {sobol_2001}{{21}{2.6.3}{subsection.2.6.3}}
-\backcite {taillandier_etal_2019}{{21}{2.7}{section.2.7}}
-\backcite {grimm_etal_2020}{{22}{2.8}{section.2.8}}
-\backcite {grimm_etal_2020}{{27}{3.4}{section.3.4}}
+\backcite {brasil_dengue, who_dengue}{{10}{1.1}{section.1.1}}
+\backcite {brasil_dengue, who_dengue}{{10}{1.1}{section.1.1}}
+\backcite {who_dengue}{{10}{1.1}{section.1.1}}
+\backcite {who_dengue}{{10}{1.1}{section.1.1}}
+\backcite {macal_north_2010}{{10}{1.1}{section.1.1}}
+\backcite {taillandier_etal_2019}{{10}{1.1}{section.1.1}}
+\backcite {who_dengue}{{13}{2.1}{section.2.1}}
+\backcite {macal_north_2010}{{14}{1}{table.caption.9}}
+\backcite {macal_north_2010}{{14}{2.3}{section.2.3}}
+\backcite {taillandier_drogoul_2010}{{15}{2.4}{section.2.4}}
+\backcite {sobol_2001}{{16}{2.5}{section.2.5}}
+\backcite {gamal_etal_2025}{{16}{2.5}{section.2.5}}
+\backcite {taillandier_etal_2019}{{16}{2.6}{section.2.6}}
+\backcite {grimm_etal_2020}{{16}{2.7}{section.2.7}}
+\backcite {garcias_2024}{{17}{2}{table.caption.11}}
+\backcite {oliveira_etal_2025}{{17}{2}{table.caption.11}}
+\backcite {gharakhanlou_2019, gharakhanlou_2020}{{17}{2}{table.caption.11}}
+\backcite {gharakhanlou_2019, gharakhanlou_2020}{{17}{2}{table.caption.11}}
+\backcite {gamal_etal_2025}{{17}{2}{table.caption.11}}
+\backcite {garcias_2024}{{17}{2.8}{table.caption.11}}
+\backcite {oliveira_etal_2025}{{17}{2.8}{table.caption.11}}
+\backcite {gharakhanlou_2019, gharakhanlou_2020}{{17}{2.8}{table.caption.11}}
+\backcite {gharakhanlou_2019, gharakhanlou_2020}{{17}{2.8}{table.caption.11}}
+\backcite {gamal_etal_2025}{{17}{2.8}{table.caption.11}}

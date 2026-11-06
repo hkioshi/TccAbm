@@ -8,6 +8,7 @@ model Poca
 
 import "Imaturo.gaml"
 import "../globals/globals.gaml"
+import "../globals/variaveis.gaml"
 
 species poca {
 

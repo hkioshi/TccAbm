@@ -22,7 +22,7 @@ experiment MeuExperimento type: gui {
 	parameter "Seed"
 	    var: seed
 	    min: 1.0
-	    max: 2147483647.0
+	    max: 100000.0
 	    step: 1;
 	    
     parameter "Eficácia da vacina (%)"
@@ -78,6 +78,7 @@ experiment MeuExperimento type: gui {
 experiment E03Variabilidade type: batch
     repeat: 30
     until: cycle >= 87600 {
+	int numero_repeticao <- 0;
 
     parameter "Percentual de vacinados (%)"
         var: porcentagem_de_vacinados

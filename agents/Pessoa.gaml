@@ -13,7 +13,6 @@ species pessoa skills: [moving] {
 	// =========================
 	int idade <- rnd(10 * 365, 80 * 365);
 	int espectativaDeVida <- 77 * 365; //https://jornal.usp.br/podcast/panorama-paulista-55-expectativa-de-vida/
-	int idade_avancada <- 2;
 	float taxa_natalidade <- 0.00307; //https://prefeitura.sp.gov.br/documents/d/licenciamento/7_taxas_de__natalidade_1980_2023_pdf
 	
 	// =========================
@@ -473,7 +472,7 @@ species pessoa skills: [moving] {
 			}
 
 			match 1 {
-				cor <- rgb(230, 159, 0);     // Laranja
+				cor <- rgb(230, 159, 0);   // Laranja
 			}
 
 			match 2 {
@@ -482,7 +481,7 @@ species pessoa skills: [moving] {
 			}
 
 			match 3 {
-				cor <- rgb(0, 158, 115);   // Verde-azulado
+				cor <- rgb(0, 158, 115);  // Verde-azulado
 				
 			}
 

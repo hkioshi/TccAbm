@@ -124,13 +124,180 @@ Como consequência, execuções realizadas com os mesmos parâmetros podem produ
 
 \section{Inicialização e parâmetros}
 
-A inicialização estabelece as condições existentes no início de uma execução. Esse processo inclui a criação das populações de agentes e a definição dos valores iniciais das variáveis necessárias à simulação.
+A inicialização estabelece as condições existentes no início de uma execução. Esse processo inclui a criação das populações de agentes, a definição dos valores iniciais das variáveis necessárias à simulação e a configuração dos componentes ambientais.
 
 As condições iniciais influenciam o comportamento posterior do modelo. Por esse motivo, a quantidade de agentes, a distribuição dos estados epidemiológicos e a configuração do ambiente devem ser registradas como parte da descrição de cada cenário experimental.
 
-Os parâmetros permitem alterar aspectos específicos da simulação sem modificar diretamente sua estrutura conceitual. Entre os parâmetros podem estar probabilidades associadas à transmissão, condições relacionadas ao ambiente, configurações temporais e características das populações.
+Os parâmetros permitem alterar aspectos específicos da simulação sem modificar diretamente sua estrutura conceitual. Entre os parâmetros estão valores relacionados ao controle temporal, às condições ambientais, às características das populações e aos processos epidemiológicos. A escolha desses valores pode ter origem em dados disponíveis, referências científicas ou hipóteses de modelagem, devendo essas diferentes origens ser documentadas durante o desenvolvimento do estudo. Essa distinção evita que uma hipótese operacional seja interpretada como uma estimativa observacional.
 
-A escolha dos valores dos parâmetros pode ter origem em referências científicas, dados disponíveis ou hipóteses de modelagem. Essas diferentes origens devem ser distinguidas para evitar que uma hipótese operacional seja interpretada como uma estimativa observacional.
+\subsection{Parâmetros temporais e de configuração}
+
+A escala temporal do modelo é controlada por variáveis que relacionam os ciclos computacionais às horas e aos dias simulados. O modelo utiliza cinco ciclos para representar uma hora, resultando em 120 ciclos para representar um dia.
+
+Além do controle temporal, as variáveis globais definem valores iniciais utilizados durante a execução, incluindo a quantidade de agentes humanos e mosquitos. A Tabela~\ref{tab:parametros-tempo} apresenta os principais parâmetros temporais e de configuração.
+
+\begin{table}[htb]
+    \centering
+    \caption{Parâmetros temporais e de configuração do modelo}
+    \label{tab:parametros-tempo}
+    \begin{tabular}{l c c}
+        \hline
+        \textbf{Parâmetro} & \textbf{Valor} & \textbf{Unidade} \\
+        \hline
+        \texttt{tempo\_hora} & 5 & ciclos por hora \\
+        \texttt{tempo\_dia} & 120 & ciclos por dia \\
+        \texttt{mes} & 1 & mês inicial \\
+        \texttt{dia} & 0 & dia inicial \\
+        \texttt{hora} & 0 & hora inicial \\
+        \texttt{dia\_simulacao} & 0 & dias simulados \\
+        \texttt{quantidade\_mosquito} & 100 & indivíduos \\
+        \texttt{quantidade\_pessoas} & 1191 & indivíduos \\
+        \hline
+    \end{tabular}
+    \fonte{Elaborado pelo autor.}
+\end{table}
+
+A implementação também utiliza parâmetros globais relacionados à vacinação, permitindo configurar a porcentagem de indivíduos vacinados e a eficácia considerada em diferentes cenários experimentais.
+
+\subsection{Parâmetros ambientais e espaciais}
+
+As condições ambientais incluem variáveis relacionadas à temperatura e à chuva. Essas informações são utilizadas como entradas para os processos ambientais e para as regras associadas ao ciclo de desenvolvimento do vetor.
+
+A distribuição espacial da população sintética também considera fatores associados às regiões do município de São Paulo. Esses valores são utilizados como referência para a distribuição dos agentes humanos no ambiente representado pela simulação.
+
+\begin{table}[htb]
+    \centering
+    \caption{Fatores utilizados para a distribuição regional da população}
+    \label{tab:distribuicao-regional}
+    \begin{tabular}{l c c}
+        \hline
+        \textbf{Região} & \textbf{Valor} & \textbf{Unidade} \\
+        \hline
+        Centro & 3,70 & \% \\
+        Norte & 19,29 & \% \\
+        Leste & 34,85 & \% \\
+        Sul & 32,62 & \% \\
+        Oeste & 9,54 & \% \\
+        \hline
+    \end{tabular}
+    \fonte{Elaborado pelo autor.}
+\end{table}
+
+\subsection{Parâmetros da população humana}
+
+Os agentes da espécie \textit{pessoa} possuem atributos demográficos, epidemiológicos e relacionados ao deslocamento. A idade dos agentes é armazenada em dias e é inicialmente atribuída de forma aleatória dentro dos limites definidos pelo modelo.
+
+A Tabela~\ref{tab:parametros-demograficos} apresenta os principais parâmetros demográficos utilizados para a população humana.
+
+\begin{table}[htb]
+    \centering
+    \caption{Parâmetros demográficos da população humana}
+    \label{tab:parametros-demograficos}
+    \begin{tabular}{l c c}
+        \hline
+        \textbf{Parâmetro} & \textbf{Valor} & \textbf{Unidade} \\
+        \hline
+        Idade inicial & Aleatória entre 10 e 80 anos & dias \\
+        Expectativa de vida & 77 & anos \\
+        Taxa de natalidade & 0,00307 & valor do modelo \\
+        Taxa de mortalidade diária & 0,0019 & valor por dia \\
+        \hline
+    \end{tabular}
+    \fonte{Elaborado pelo autor.}
+\end{table}
+
+A mortalidade também é representada por parâmetros diferenciados de acordo com as faixas etárias utilizadas na população sintética.
+
+\begin{table}[htb]
+    \centering
+    \caption{Parâmetros de mortalidade por faixa etária}
+    \label{tab:mortalidade-faixa-etaria}
+    \begin{tabular}{l c c}
+        \hline
+        \textbf{Faixa etária} & \textbf{Valor} & \textbf{Unidade} \\
+        \hline
+        Menor de 1 ano & 0,106 & \% \\
+        1 a 19 anos & 0,018 & \% \\
+        20 a 39 anos & 0,033 & \% \\
+        40 a 59 anos & 0,068 & \% \\
+        60 a 79 anos & 0,271 & \% \\
+        80 anos ou mais & 1,52 & \% \\
+        \hline
+    \end{tabular}
+    \fonte{Elaborado pelo autor.}
+\end{table}
+
+\subsection{Parâmetros epidemiológicos e vacinação}
+
+Os parâmetros epidemiológicos definem intervalos temporais e valores utilizados nas regras de evolução da infecção. Os períodos de incubação e viral são definidos dentro das faixas estabelecidas pelo modelo, enquanto o período de recuperação possui um valor fixo.
+
+\begin{table}[htb]
+    \centering
+    \caption{Parâmetros epidemiológicos da população humana}
+    \label{tab:parametros-epidemiologicos}
+    \begin{tabular}{l c c c}
+        \hline
+        \textbf{Parâmetro} & \textbf{Valor} & \textbf{Unidade} & \textbf{Faixa} \\
+        \hline
+        Probabilidade de transmissão & 60,0 & valor do modelo & -- \\
+        Período de incubação & 5--7 & dias & 5--7 \\
+        Período viral & 4--5 & dias & 4--5 \\
+        Período de recuperação & 120 & dias & -- \\
+        \hline
+    \end{tabular}
+    \fonte{Elaborado pelo autor.}
+\end{table}
+
+A vacinação é representada individualmente por meio de um atributo lógico que identifica se o agente está vacinado. Os parâmetros globais relacionados à porcentagem de indivíduos vacinados e à eficácia permitem a configuração de diferentes cenários para análise.
+
+\subsection{Parâmetros de mobilidade}
+
+A mobilidade dos agentes humanos é controlada por parâmetros relacionados à velocidade de deslocamento. Esses valores são utilizados pelas regras que modificam a localização dos agentes no espaço da simulação.
+
+\begin{table}[htb]
+    \centering
+    \caption{Parâmetros de deslocamento dos agentes humanos}
+    \label{tab:parametros-deslocamento}
+    \begin{tabular}{l c}
+        \hline
+        \textbf{Parâmetro} & \textbf{Valor} \\
+        \hline
+        \texttt{velocidade} & 10,0 \\
+        \texttt{velocidade\_parado} & 10,0 \\
+        \texttt{velocidade\_andando} & 300,0 \\
+        \hline
+    \end{tabular}
+    \fonte{Elaborado pelo autor.}
+\end{table}
+
+Esses valores constituem configurações da representação da mobilidade e devem ser interpretados de acordo com a escala espacial e temporal adotada pelo simulador.
+
+\subsection{Parâmetros dos mosquitos e formas imaturas}
+
+Os parâmetros associados à população vetorial incluem características relacionadas à população adulta, à reprodução e ao desenvolvimento das formas imaturas. Esses componentes permitem representar diferentes etapas do ciclo de vida do mosquito dentro do escopo definido para o modelo.
+
+As formas imaturas são representadas pela espécie \textit{imaturo}, que utiliza três estágios de desenvolvimento: ovo, larva e pupa. Cada agente possui atributos relacionados ao estágio atual, à idade, à duração do estágio e à poça associada ao seu desenvolvimento.
+
+\begin{table}[htb]
+    \centering
+    \caption{Parâmetros dos estágios imaturos do mosquito}
+    \label{tab:parametros-imaturos}
+    \begin{tabular}{l c c}
+        \hline
+        \textbf{Parâmetro} & \textbf{Valor inicial} & \textbf{Descrição} \\
+        \hline
+        \texttt{estagio} & 0 & 0 = ovo, 1 = larva, 2 = pupa \\
+        \texttt{idade} & 0 & Idade do agente imaturo \\
+        \texttt{duracao\_estagio} & 0 & Duração do estágio atual \\
+        \texttt{poca\_natal} & -- & Referência à poça associada \\
+        \hline
+    \end{tabular}
+    \fonte{Elaborado pelo autor.}
+\end{table}
+
+Além dos atributos individuais, os componentes ambientais mantêm informações relacionadas aos agentes imaturos e à capacidade dos locais utilizados para o desenvolvimento do vetor.
+
+A organização dos parâmetros permite identificar os valores utilizados pelos diferentes componentes da simulação. Esses valores devem ser interpretados em conjunto com as regras que definem seu uso, uma vez que o efeito de um parâmetro depende da escala temporal, das condições de execução e das interações estabelecidas pelo modelo.
 
 \section{Entradas e saídas}
 
@@ -153,4 +320,3 @@ O modelo também não busca representar simultaneamente todos os sorotipos da de
 As regras ambientais e epidemiológicas devem ser interpretadas como hipóteses de representação. Seus resultados dependem da combinação entre a estrutura do modelo, os parâmetros utilizados, as condições iniciais e os componentes estocásticos.
 
 A explicitação dessas simplificações é necessária para estabelecer os limites de interpretação dos resultados e para identificar possibilidades de aperfeiçoamento em trabalhos futuros.
-
