@@ -6,16 +6,10 @@ import "agents/Ambiente.gaml"
 import "agents/Poca.gaml"
 import "globals/globals.gaml"
 import "globals/variaveis.gaml"
-experiment MeuExperimento type: gui {
-	parameter "Velocidade do tempo"
-	    var: velocidade_tempo
-	    min: 1
-	    max: 5
-	    step: 1;
-	
+experiment MeuExperimento type: gui {	
 	parameter "Percentual de vacinados (%)"
 	    var: porcentagem_de_vacinados
-	    min: 0.0
+	    min: 1.0
 	    max: 100.0
 	    step: 1.0;
 	
@@ -77,7 +71,7 @@ experiment MeuExperimento type: gui {
 
 experiment E03Variabilidade type: batch
     repeat: 30
-    until: cycle >= 87600 {
+    until: cycle >= tempo_ano {
 	int numero_repeticao <- 0;
 
     parameter "Percentual de vacinados (%)"
@@ -87,11 +81,13 @@ experiment E03Variabilidade type: batch
     parameter "Eficácia da vacina (%)"
         var: eficacia
         min: 0 max: 0 step: 20;
+        
+    
 }
 
 experiment E04Vacinacao type: batch
     repeat: 30
-    until: cycle >= 87600 {
+    until: cycle >= tempo_ano {
 
     parameter "Percentual de vacinados (%)"
         var: porcentagem_de_vacinados
@@ -104,7 +100,7 @@ experiment E04Vacinacao type: batch
 
 experiment E05PopulacaoVetorial type: batch
     repeat: 30
-    until: cycle >= 87600 {
+    until: cycle >= tempo_ano {
 
     parameter "Quantidade de mosquitos"
         var: quantidade_mosquito
@@ -121,7 +117,7 @@ experiment E05PopulacaoVetorial type: batch
 
 experiment E07Escalabilidade type: batch
     repeat: 1
-    until: cycle >= 87600 {
+    until: cycle >= tempo_ano {
 
     parameter "Quantidade de pessoas"
         var: quantidade_pessoas

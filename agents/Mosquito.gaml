@@ -13,7 +13,7 @@ species mosquito skills: [moving] {
 	// =========================
 	// Características básicas
 	// =========================
-	int idade <- rnd(1, 33);
+	int idade <- rnd(1, 5);
 	string sexo <- rnd(0, 1) = 0 ? "Macho" : "Femea";
 	float velocidade <- 100.0;
 
@@ -29,7 +29,7 @@ species mosquito skills: [moving] {
 	float prob_morte <- 0.2;
 	float prob_migracao <- 0.51;
 	float prob_picada <- 0.25;
-	float prob_transmissao <- 60.00;
+	float prob_transmissao <- 0.6;
 
 	// =========================
 	// Epidemiologia
@@ -92,12 +92,12 @@ species mosquito skills: [moving] {
 			        }
 			    }
 			} else if (alvo.estado = 2 and estado = 0) {
-			    if (rnd(1.0, 100.0) <= prob_transmissao) {
+			    if (rnd(0, 1.0) <= prob_transmissao) {
 			        do MudarEstado;
 			        dias_de_incubacao <- rnd(3, 10);
 			    }
 			}
-			list<poca> pocas <- poca where (each distance_to self <= 50000);
+			list<poca> pocas <- poca where (each distance_to self <= alcance);
 			// 2. Reprodução
 			if (!empty(pocas)) {
 				poca pocaAlvo <- one_of(pocas);
@@ -123,7 +123,7 @@ species mosquito skills: [moving] {
 
 		}
 
-		if (rnd(0.0, 1.0) < prob_morte or idade = 33) {
+		if (rnd(0.0, 1.0) < prob_morte) {
 			do die;
 		}
 

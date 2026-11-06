@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2026.10.30)  5 NOV 2026 21:25
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2026.10.30)  6 NOV 2026 18:46
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1088,11 +1088,11 @@ l.119 \imprimirfolhaderosto\*
 
 ]
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <10> on input line 175.
+(Font)              <10> on input line 173.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <7> on input line 175.
+(Font)              <7> on input line 173.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <5> on input line 175.
+(Font)              <5> on input line 173.
  [4
 
 
@@ -1303,15 +1303,15 @@ Package rerunfilecheck Info: File `main.brf' has not changed.
 (rerunfilecheck)             Checksum: C491E8315EF9FC290F82064B700C1A01;1398.
  ) 
 Here is how much of TeX's memory you used:
- 31720 strings out of 476162
- 570244 string characters out of 5794813
+ 31726 strings out of 476162
+ 570314 string characters out of 5794813
  1941975 words of memory out of 5000000
  52866 multiletter control sequences out of 15000+600000
- 639244 words of font info for 173 fonts, out of 8000000 for 9000
+ 639599 words of font info for 176 fonts, out of 8000000 for 9000
  16 hyphenation exceptions out of 8191
  99i,13n,107p,1048b,878s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/share/texmf/fonts/type1/public/lm/lmbx10.pfb></usr/share/texmf/fonts/type1/public/lm/lmbx12.pfb></usr/share/texmf/fonts/type1/public/lm/lmr10.pfb></usr/share/texmf/fonts/type1/public/lm/lmr12.pfb></usr/share/texmf/fonts/type1/public/lm/lmr9.pfb></usr/share/texmf/fonts/type1/public/lm/lmri10.pfb></usr/share/texmf/fonts/type1/public/lm/lmri12.pfb></usr/share/texmf/fonts/type1/public/lm/lmss12.pfb></usr/share/texmf/fonts/type1/public/lm/lmss17.pfb></usr/share/texmf/fonts/type1/public/lm/lmssbx10.pfb></usr/share/texmf/fonts/type1/public/lm/lmtt12.pfb>
-Output written on main.pdf (41 pages, 386612 bytes).
+Output written on main.pdf (41 pages, 389133 bytes).
 PDF statistics:
  703 PDF objects out of 1000 (max. 8388607)
  630 compressed objects within 7 object streams

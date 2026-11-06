@@ -1,2 +1,28 @@
 .~lock.*
 .vscode/
+*.csv
+
+# Arquivos auxiliares do LaTeX
+*.aux
+*.log
+*.out
+*.toc
+*.lof
+*.lot
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+*.bbl
+*.blg
+*.bcf
+*.run.xml
+*.nav
+*.snm
+*.vrb
+
+# Arquivos temporários
+*.tmp
+*.bak
+*.swp
+
+*~

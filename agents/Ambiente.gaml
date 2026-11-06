@@ -5,6 +5,7 @@
 * Tags: 
 */
 model Ambiente
+import "../globals/globals.gaml"
 
 species ambiente {
 	string nm_regiao_;

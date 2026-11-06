@@ -19,15 +19,40 @@ global {
 	// Tempo
 	int tempo_hora <- 5;
 	int tempo_dia <- tempo_hora * 24;
+	int tempo_ano <- tempo_dia * 365;
 	int mes <- 1;
 	int dia <- 0;
 	int hora <- 0;
 	int dia_simulacao <- 0;
 	int velocidade_tempo;
-	file arquivo_resultados <- file("resultados.csv");
+	// Dados geográficos
+	file subprefeituras_shapefile <- file("../Gis/subprefeitura_v2.shp");
+	geometry shape <- envelope(subprefeituras_shapefile); // Nao mexer | caso de se trocar o nome nao sei o que acontece mas faz o mapa sumir
+	// Dados epidemiológicos
+	int quantidade_pessoas <- 1191; // escala de 1:10000
+	int mortos_por_dengue <- 0;
+	int mortes_menor_1_ano <- 0; // Menores de 1 ano
+	int mortes_1_a_19_anos <- 0; // 1 a 19 anos
+	int mortes_20_a_39_anos <- 0; // 20 a 39 anos
+	int mortes_40_a_59_anos <- 0; // 40 a 59 anos
+	int mortes_60_a_79_anos <- 0; // 60 a 79 anos
+	int mortes_80_anos_ou_mais <- 0; // 80 anos ou mais
+	float porcentagem_de_vacinados;
+	int quantidade_mosquito <- 100;
+	int eficacia;
 
+	//| Região | População  | Participação |
+	//| ------ | ---------- | ------------ |
+	//| Centro | 563.877    | 5,0%         |
+	//| Norte  | 1.229.117  | 10,9%        |
+	//| Leste  | 4.011.035  | 35,6%        |
+	//| Sul    | 5.239.732  | 46,6%        |
+	//| Oeste  | 1.208.299  | 10,7%        |
+	//| Total  | 11.252.060 | 100%         |
+	//https://gestaourbana.prefeitura.sp.gov.br/wp-content/uploads/2024/05/IU_64_censo-2022-1.pdf	
 	action Relatorio {
     save [
+    	seed,
         dia_simulacao,
         chuva,
         temperatura,
@@ -54,38 +79,23 @@ global {
         mortes_60_a_79_anos,
         mortes_80_anos_ou_mais
 	    ]
-	    to: "resultados.csv"
+	    to: "resultados/resultados_" + int(seed) + ".csv"
 	    format: "csv"
 	    rewrite: false
 	    header: false;
 	}
-	// Dados geográficos
-	file subprefeituras_shapefile <- file("../Gis/subprefeitura_v2.shp");
-	geometry shape <- envelope(subprefeituras_shapefile); // Nao mexer | caso de se trocar o nome nao sei o que acontece mas faz o mapa sumir
-	// Dados epidemiológicos
-	int quantidade_mosquito <- 100;
-	int quantidade_pessoas <- 1191; // escala de 1:10000
-	int mortos_por_dengue <- 0;
-	int mortes_menor_1_ano <- 0; // Menores de 1 ano
-	int mortes_1_a_19_anos <- 0; // 1 a 19 anos
-	int mortes_20_a_39_anos <- 0; // 20 a 39 anos
-	int mortes_40_a_59_anos <- 0; // 40 a 59 anos
-	int mortes_60_a_79_anos <- 0; // 60 a 79 anos
-	int mortes_80_anos_ou_mais <- 0; // 80 anos ou mais
-	float porcentagem_de_vacinados;
-	int eficacia;
-
-	//| Região | População  | Participação |
-	//| ------ | ---------- | ------------ |
-	//| Centro | 563.877    | 5,0%         |
-	//| Norte  | 1.229.117  | 10,9%        |
-	//| Leste  | 4.011.035  | 35,6%        |
-	//| Sul    | 5.239.732  | 46,6%        |
-	//| Oeste  | 1.208.299  | 10,7%        |
-	//| Total  | 11.252.060 | 100%         |
-	//https://gestaourbana.prefeitura.sp.gov.br/wp-content/uploads/2024/05/IU_64_censo-2022-1.pdf	
+	
 	init {
+		
+		
+		seed <- float(round(seed));
+		loop while: seed = 77402 or seed <= 1 {
+    		seed <- float(round(rnd(1, 100000)));
+		}	
+		
+		
 		save [
+			"seed",
 		    "dia_simulacao",
 		    "chuva",
 		    "temperatura",
@@ -100,10 +110,13 @@ global {
 		    "mosquitos_infectados",
 		    "mortos_por_dengue"
 		]
-		to: "resultados.csv"
+		to: "resultados/resultados_" + int(seed) + ".csv"
 		format: "csv"
 		rewrite: true
 		header: true;
+		
+		
+		
 		write "Seed utilizada: " + seed;
 		create ambiente from: subprefeituras_shapefile with: [nm_regiao_::read("nm_regiao_")];
 		create mosquito number: quantidade_mosquito {
@@ -171,11 +184,9 @@ global {
 
 	}
 
-	reflex evento when: every(tempo_dia * velocidade_tempo #cycles) {
-		dia_simulacao <- dia_simulacao + 1;
+	reflex evento when: every(tempo_dia ) {
 
-		dia <- dia + 1;
-		
+
 		if (dia > 30) {
 		    dia <- 1;
 		
@@ -186,7 +197,7 @@ global {
 		    }
 		}
 
-		write dia;
+		write "hoje é dia: " + dia_simulacao + " da simulação";
 		do Relatorio;
 		ask pessoa {
 			do Envelhecer;
@@ -318,7 +329,7 @@ global {
 
 		}
 
-		write chuva;
+		write "cairam " + round(chuva * 100.0) / 100.0 + "mm de chuva hoje";
 		ask imaturo {
 			do Envelhecer(chuva);
 		}
@@ -416,6 +427,7 @@ global {
 		ask poca {
 			do Envelhecer(chuva);
 		}
+		dia_simulacao <- dia_simulacao + 1;
 
 		dia <- dia + 1;
 		if (chuva > 0) {
