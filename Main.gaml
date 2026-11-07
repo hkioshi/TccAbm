@@ -7,6 +7,13 @@ import "agents/Poca.gaml"
 import "globals/globals.gaml"
 import "globals/variaveis.gaml"
 experiment MeuExperimento type: gui {	
+    parameter "Quantidade de mosquitos"
+    var: quantidade_mosquito
+    min: 0 
+    max: 1000 
+    step: 100
+    init: 100;
+    
 	parameter "Percentual de vacinados (%)"
 	    var: porcentagem_de_vacinados
 	    min: 1.0

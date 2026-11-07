@@ -38,7 +38,7 @@ global {
 	int mortes_60_a_79_anos <- 0; // 60 a 79 anos
 	int mortes_80_anos_ou_mais <- 0; // 80 anos ou mais
 	float porcentagem_de_vacinados;
-	int quantidade_mosquito <- 100;
+	int quantidade_mosquito;
 	int eficacia;
 
 	//| Região | População  | Participação |
@@ -86,8 +86,6 @@ global {
 	}
 	
 	init {
-		
-		
 		seed <- float(round(seed));
 		loop while: seed = 77402 or seed <= 1 {
     		seed <- float(round(rnd(1, 100000)));
