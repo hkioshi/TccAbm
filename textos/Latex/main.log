@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2026.10.30)  6 NOV 2026 22:05
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2026.10.30)  6 NOV 2026 22:29
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1130,11 +1130,7 @@ LaTeX Warning: Citation `taillandier_etal_2019' on page 10 undefined on input li
 [10
 
 
-]
-
-LaTeX Warning: Reference `cap:conclusao' on page 11 undefined on input line 49.
-
-) (./Capitulos/Teorica.tex [11] [12]
+]) (./Capitulos/Teorica.tex [11] [12]
 
 LaTeX Warning: Citation `who_dengue' on page 13 undefined on input line 8.
 
@@ -1316,11 +1312,7 @@ LaTeX Warning: Reference `tab:parametros-deslocamento' on page 23 undefined on i
 
 LaTeX Warning: Reference `ap:parametros' on page 24 undefined on input line 100.
 
-[24]
-
-LaTeX Warning: Reference `cap:conclusao' on page 25 undefined on input line 142.
-
-) (./Capitulos/Resultado.tex [25]
+[24]) (./Capitulos/Resultado.tex [25]
 Underfull \hbox (badness 1237) in paragraph at lines 22--22
 []|\T1/lmr/m/n/12 (+20) Metadados por re-gis-tro
  []
@@ -1351,18 +1343,34 @@ Underfull \hbox (badness 10000) in paragraph at lines 79--79
 []|\T1/lmr/m/n/12 (+20) População hu-
  []
 
-[27]) (./main.bbl (./main.brf)
+[27]) (./Capitulos/conclusao.tex [28] [29
+
+]
+
+LaTeX Warning: Reference `ap:repositorio' on page 30 undefined on input line 38.
+
+[30]
+Underfull \hbox (badness 2334) in paragraph at lines 71--72
+[]|\T1/lmr/m/n/12 (+20) Atendido [PEN-DENTE:
+ []
+
+
+Underfull \hbox (badness 2875) in paragraph at lines 72--73
+[]|\T1/lmr/m/n/12 (+20) Parcial: há di-ver-gên-cia
+ []
+
+) (./main.bbl (./main.brf)
 \tf@brf=\write6
 \openout6 = `main.brf'.
 
- [28]
+ [31]
 bibitemlist
 
 LaTeX Warning: Empty `thebibliography' environment on input line 8.
 
-) [29
+) [32
 
-] [30
+] [33
 
 ]
 \tf@lof=\write7
@@ -1386,18 +1394,18 @@ Package rerunfilecheck Info: File `main.brf' has not changed.
 (rerunfilecheck)             Checksum: C491E8315EF9FC290F82064B700C1A01;1398.
  ) 
 Here is how much of TeX's memory you used:
- 31763 strings out of 476162
- 571317 string characters out of 5794813
+ 31791 strings out of 476162
+ 571680 string characters out of 5794813
  1942975 words of memory out of 5000000
- 52917 multiletter control sequences out of 15000+600000
- 648459 words of font info for 191 fonts, out of 8000000 for 9000
+ 52928 multiletter control sequences out of 15000+600000
+ 648685 words of font info for 193 fonts, out of 8000000 for 9000
  16 hyphenation exceptions out of 8191
  99i,13n,107p,1048b,878s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/share/texmf/fonts/type1/public/lm/lmbx10.pfb></usr/share/texmf/fonts/type1/public/lm/lmbx12.pfb></usr/share/texmf/fonts/type1/public/lm/lmbxi10.pfb></usr/share/texmf/fonts/type1/public/lm/lmr10.pfb></usr/share/texmf/fonts/type1/public/lm/lmr12.pfb></usr/share/texmf/fonts/type1/public/lm/lmr9.pfb></usr/share/texmf/fonts/type1/public/lm/lmri10.pfb></usr/share/texmf/fonts/type1/public/lm/lmri12.pfb></usr/share/texmf/fonts/type1/public/lm/lmss12.pfb></usr/share/texmf/fonts/type1/public/lm/lmss17.pfb></usr/share/texmf/fonts/type1/public/lm/lmssbx10.pfb></usr/share/texmf/fonts/type1/public/lm/lmtt10.pfb></usr/share/texmf/fonts/type1/public/lm/lmtt12.pfb>
-Output written on main.pdf (31 pages, 400870 bytes).
+Output written on main.pdf (34 pages, 411000 bytes).
 PDF statistics:
- 548 PDF objects out of 1000 (max. 8388607)
- 483 compressed objects within 5 object streams
- 108 named destinations out of 1000 (max. 500000)
- 52653 words of extra memory for PDF output out of 61914 (max. 10000000)
+ 600 PDF objects out of 1000 (max. 8388607)
+ 531 compressed objects within 6 object streams
+ 118 named destinations out of 1000 (max. 500000)
+ 52701 words of extra memory for PDF output out of 61914 (max. 10000000)
 

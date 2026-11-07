@@ -1,23 +1,23 @@
 # Fdb version 4
-["bibtex main"] 1794013557.81123 "main.aux" "main.bbl" "main" 1794013559.57754 0
+["bibtex main"] 1794014992.42934 "main.aux" "main.bbl" "main" 1794014994.41529 0
   "./bibliografia.bib" 1793385938.2888 12176 0800a4ca0dd342cbae2c31011c3cf783 ""
   "/usr/share/texlive/texmf-dist/bibtex/bib/abntex2/abntex2-options.bib" 1357081713 5396 4eb260dac60f150ae608d45252853090 ""
   "/usr/share/texlive/texmf-dist/bibtex/bst/abntex2/abntex2-alf.bst" 1543183680 60064 0819ac8568f9a482510a46e3a8a6f605 ""
-  "main.aux" 1794013559.37211 31692 410494b63bfbf4f2499bc3e6cfd20e9b "pdflatex"
+  "main.aux" 1794014994.20534 34382 d46401742276679249ec661c932fbc93 "pdflatex"
   (generated)
   "main.bbl"
   "main.blg"
   (rewritten before read)
-["makeindex main.idx"] 1793924521.37456 "main.idx" "main.ind" "main" 1794013559.57743 0
-  "main.idx" 1794013558.66111 0 d41d8cd98f00b204e9800998ecf8427e "pdflatex"
+["makeindex main.idx"] 1793924521.37456 "main.idx" "main.ind" "main" 1794014994.41518 0
+  "main.idx" 1794014993.37605 0 d41d8cd98f00b204e9800998ecf8427e "pdflatex"
   (generated)
   "main.ilg"
   "main.ind"
   (rewritten before read)
-["pdflatex"] 1794013557.84224 "/home/henrique/Gama_Workspace/TCC/textos/Latex/main.tex" "main.pdf" "main" 1794013559.5777 0
+["pdflatex"] 1794014992.46462 "/home/henrique/Gama_Workspace/TCC/textos/Latex/main.tex" "main.pdf" "main" 1794014994.41545 0
   "/etc/texmf/web2c/texmf.cnf" 1781191703.03941 475 c0e671620eb5563b2130f56340a5fde8 ""
   "/home/henrique/.texlive2023/texmf-var/web2c/pdftex/pdflatex.fmt" 1793383221 6801882 9c01443264c4b0439c58c344d6280052 ""
-  "/home/henrique/Gama_Workspace/TCC/textos/Latex/main.tex" 1794012746.19713 9794 0f9638ad50185d82ecb4894b03c70040 ""
+  "/home/henrique/Gama_Workspace/TCC/textos/Latex/main.tex" 1794014990.10716 9826 ba54aeebc0673ee9bd8cf7d871489add ""
   "/usr/share/texlive/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmr10.tfm" 1136768653 1296 45809c5a464d5f32c8f98ba97c1bb47f ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmr12.tfm" 1136768653 1288 655e228510b4c2a1abe905c368440826 ""
@@ -241,14 +241,15 @@
   "Capitulos/Metodologia.tex" 1794013555.53204 8042 784c47496c7e02a3f99d91bbee5c22eb ""
   "Capitulos/Resultado.tex" 1794012906.07511 7515 7dfc969c9890599344686d38ed13d607 ""
   "Capitulos/Teorica.tex" 1793924464.15038 15144 f20852d4527888696d1450f8dba7016a ""
+  "Capitulos/conclusao.tex" 1794014860.66274 7731 75770c9e3c89e1276da5918c48b18cd8 ""
   "Capitulos/modelo_implementacao.tex" 1794012710.2553 13627 74fdeeb33daaf88c97b9d60e61bf7826 ""
-  "main.aux" 1794013559.37211 31692 410494b63bfbf4f2499bc3e6cfd20e9b "pdflatex"
-  "main.bbl" 1794013557.83411 227 d84c02311c5966f0b465e2fbb354c9df "bibtex main"
-  "main.brf" 1794013559.38511 1398 c491e8315ef9fc290f82064b700c1a01 "pdflatex"
+  "main.aux" 1794014994.20534 34382 d46401742276679249ec661c932fbc93 "pdflatex"
+  "main.bbl" 1794014992.45708 227 d84c02311c5966f0b465e2fbb354c9df "bibtex main"
+  "main.brf" 1794014994.21803 1398 c491e8315ef9fc290f82064b700c1a01 "pdflatex"
   "main.ind" 1793924521.38957 0 d41d8cd98f00b204e9800998ecf8427e "makeindex main.idx"
-  "main.lof" 1794013559.38511 410 1150e586b1e5e04cbf7078d09424a7b2 "pdflatex"
-  "main.tex" 1794012746.19713 9794 0f9638ad50185d82ecb4894b03c70040 ""
-  "main.toc" 1794013559.38511 5305 938e5b0c295cbed6d08a5764d7a9700c "pdflatex"
+  "main.lof" 1794014994.21912 410 1150e586b1e5e04cbf7078d09424a7b2 "pdflatex"
+  "main.tex" 1794014990.10716 9826 ba54aeebc0673ee9bd8cf7d871489add ""
+  "main.toc" 1794014994.21912 5889 098f66431637e762fd512da3c706cc19 "pdflatex"
   (generated)
   "main.aux"
   "main.brf"

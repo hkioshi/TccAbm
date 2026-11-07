@@ -409,6 +409,9 @@ INPUT ./Capitulos/Resultado.tex
 INPUT ./Capitulos/Resultado.tex
 INPUT Capitulos/Resultado.tex
 INPUT /usr/share/texmf/fonts/tfm/public/lm/ec-lmbxi10.tfm
+INPUT ./Capitulos/conclusao.tex
+INPUT ./Capitulos/conclusao.tex
+INPUT Capitulos/conclusao.tex
 INPUT ./main.bbl
 INPUT ./main.bbl
 INPUT main.bbl

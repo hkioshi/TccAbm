@@ -1,0 +1,81 @@
+\chapter{DISCUSSÃO E CONCLUSÃO}
+\label{cap:conclusao}
+
+Este capítulo discute os resultados, reúne as limitações do estudo, apresenta as contribuições e os trabalhos futuros e retoma a pergunta de pesquisa. Os resultados devem ser lidos dentro do escopo da Seção~\ref{sec:escopo}.
+
+\section{Discussão dos resultados}
+
+O trabalho produziu um simulador que representa, em um ambiente espacial, a interação entre pessoas (SEIR), mosquitos (SEI), formas imaturas e criadouros, com dados geográficos e climáticos. A divisão em módulos por espécie de agente facilitou relacionar o modelo conceitual ao código (Tabela~\ref{tab:rastreabilidade}) e organizar a verificação.
+
+A verificação mostrou que as contagens da população humana são consistentes, pois a soma dos estados coincide com o total de agentes, e mostrou uma divergência na população vetorial (100 mosquitos contra 78 na soma dos estados). Esse achado ilustra por que verificar é necessário: o simulador gerava séries plausíveis mesmo com contagens inconsistentes. A ausência de metadados nos registros mostrou também que a reprodutibilidade depende de gravar, em cada saída, a configuração, a repetição e a semente. \textbf{[PENDENTE: informar a causa da divergência e se ela foi corrigida.]}
+
+Em relação aos experimentos, a discussão se organiza em quatro pontos, a serem preenchidos com os resultados:
+
+\begin{itemize}
+    \item \textbf{Cenário de referência.} \textbf{[PENDENTE: descrever a dinâmica obtida sem vacinação, como o pico de infectados, o dia do pico, a proporção final de recuperados e as mortes por dengue.]}
+    \item \textbf{Vacinação.} \textbf{[PENDENTE: descrever como a cobertura vacinal (0 a 100\%, com eficácia de 100\%) altera os indicadores e se as diferenças superam a variabilidade entre replicações.]}
+    \item \textbf{População vetorial.} \textbf{[PENDENTE: descrever o efeito da quantidade de mosquitos (50 a 400) sobre os indicadores, depois de confirmar que o parâmetro é de fato aplicado.]}
+    \item \textbf{Variabilidade.} \textbf{[PENDENTE: informar a amplitude da variação entre as 30 replicações e o que ela indica sobre a necessidade de replicar os experimentos.]}
+\end{itemize}
+
+\textbf{[PENDENTE (opcional): comentar o crescimento do tempo de execução com o tamanho da população, com base no experimento de escalabilidade.]}
+
+\section{Limitações}
+
+Esta seção reúne as limitações do estudo; elas não são repetidas nos capítulos anteriores.
+
+\textbf{Do modelo.} A população é sintética e pequena (1.191 pessoas e 100 mosquitos) em relação à do município, e a distribuição regional usa percentuais agregados. A mobilidade é uma hipótese, sem dados individuais de deslocamento. Os criadouros são abstrações, e o clima atua somente por meio das regras implementadas. A epidemiologia é genérica, sem sorotipos distintos nem resposta imunológica detalhada. Parte dos parâmetros vem de hipóteses operacionais, e não de estimativas observadas.
+
+\textbf{Da avaliação.} O modelo não foi calibrado nem comparado com dados observados de casos de dengue, de modo que os resultados não têm validade epidemiológica nem capacidade preditiva demonstrada. As contagens do simulador não equivalem a indicadores epidemiológicos oficiais. A comparação entre cenários só vale para as configurações e as replicações efetivamente executadas.
+
+\textbf{Da implementação e dos dados.} A divergência nas contagens de mosquitos e a falta de metadados nas saídas restringem o uso dos resultados anteriores à correção. Os experimentos dependem de os parâmetros configuráveis estarem de fato ligados às regras do código. \textbf{[PENDENTE: atualizar esta seção após a correção da divergência e do registro de metadados e após os experimentos.]}
+
+\section{Contribuições}
+
+O trabalho contribui com:
+
+\begin{itemize}
+    \item um simulador espacial e estocástico da transmissão da dengue em São Paulo, implementado em GAMA/GAML, com código disponível publicamente (Anexo~\ref{ap:repositorio});
+    \item a descrição estruturada do modelo, de suas entidades, estados, processos e parâmetros, com a correspondência entre modelo conceitual e código;
+    \item um protocolo de verificação e de experimentação, com replicações, controle de sementes e registro de metadados;
+    \item a identificação, pela verificação, de inconsistências nas contagens e nos registros, tratadas como resultado e não como falha a ocultar.
+\end{itemize}
+
+\section{Trabalhos futuros}
+
+\begin{itemize}
+    \item corrigir a divergência nas contagens de mosquitos e gravar, em cada saída, a configuração, a repetição, a semente e a versão do código;
+    \item calibrar e validar o modelo com dados observados de casos de dengue do município, após alinhar indicadores, escala espacial e período;
+    \item aplicar análise de sensibilidade global (como os índices de Sobol) para identificar os parâmetros mais influentes;
+    \item ampliar a população simulada para uma escala mais próxima da real, com otimização da busca de vizinhos e avaliação sistemática de desempenho;
+    \item substituir as regras de mobilidade por dados de deslocamento, como as pesquisas de origem e destino;
+    \item representar os quatro sorotipos e a imunidade, e incluir medidas de controle vetorial, como a eliminação de criadouros, além da vacinação;
+    \item refinar a resolução espacial e usar dados climáticos de mais de uma estação;
+    \item automatizar testes de verificação para que sejam repetidos a cada alteração do código.
+\end{itemize}
+
+\section{Conclusão}
+
+O trabalho buscou responder à pergunta: como desenvolver e avaliar um simulador espacial e estocástico baseado em agentes, na plataforma GAMA, que represente as interações entre humanos, mosquitos \textit{Aedes aegypti} e ambiente na transmissão da dengue no município de São Paulo? A resposta apresentada é um simulador modular, documentado e rastreável até o código, avaliado por verificação sistemática e por experimentos com replicações. A Tabela~\ref{tab:objetivos} resume o atendimento aos objetivos específicos.
+
+\begin{table}[htb]
+    \centering
+    \caption{Atendimento aos objetivos específicos}
+    \label{tab:objetivos}
+    \begin{tabular}{p{7.4cm} p{1.8cm} p{4.6cm}}
+        \hline
+        \textbf{Objetivo específico} & \textbf{Capítulo} & \textbf{Situação} \\
+        \hline
+        Revisar fundamentos e trabalhos relacionados & 2 & Atendido \\
+        Especificar o modelo conceitual & 4 & Atendido \\
+        Implementar o simulador, integrar dados e documentar hipóteses e parâmetros & 3 e 4 & Atendido [PENDENTE: completar a descrição das fontes de dados] \\
+        Verificar regras, estados, parâmetros e saídas & 5 & Parcial: há divergência nas contagens de mosquitos [PENDENTE] \\
+        Executar experimentos e analisar indicadores e variabilidade & 5 & [PENDENTE] \\
+        \hline
+    \end{tabular}
+    \fonte{Elaborado pelo autor.}
+\end{table}
+
+\textbf{[PENDENTE: após os experimentos, escrever o parágrafo final com os principais achados (referência, vacinação, população vetorial e variabilidade), sempre com a ressalva de que são resultados do modelo, e não previsões.]}
+
+Como o modelo não foi calibrado nem validado com dados observados, ele deve ser visto como uma base documentada e verificável para estudos futuros, e não como ferramenta de previsão. A documentação das hipóteses e dos parâmetros e o protocolo de verificação e experimentação permitem refinar o modelo e repetir os experimentos, com a comparação com dados reais como o passo seguinte natural.

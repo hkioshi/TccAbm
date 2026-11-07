@@ -51,12 +51,19 @@
 \contentsline {section}{\numberline {5.3}Comparação entre cenários}{27}{section.5.3}%
 \contentsline {section}{\numberline {5.4}Variabilidade entre replicações}{27}{section.5.4}%
 \contentsline {section}{\numberline {5.5}Desempenho computacional}{28}{section.5.5}%
+\setlength {\cftchapterindent }{0em} \setlength {\cftchapternumwidth }{\cftlastnumwidth }
+\contentsline {chapter}{\chapternumberline {6}\MakeTextUppercase []{DISCUSSÃO E CONCLUSÃO}}{29}{chapter.6}%
+\contentsline {section}{\numberline {6.1}Discussão dos resultados}{29}{section.6.1}%
+\contentsline {section}{\numberline {6.2}Limitações}{29}{section.6.2}%
+\contentsline {section}{\numberline {6.3}Contribuições}{30}{section.6.3}%
+\contentsline {section}{\numberline {6.4}Trabalhos futuros}{30}{section.6.4}%
+\contentsline {section}{\numberline {6.5}Conclusão}{31}{section.6.5}%
 \vspace {\cftbeforechapterskip }
 \setlength {\cftchapterindent }{\cftlastnumwidth } \setlength {\cftchapternumwidth }{2em}
-\contentsline {chapter}{\MakeTextUppercase []{Refer\^encias}}{29}{section*.22}%
+\contentsline {chapter}{\MakeTextUppercase []{Refer\^encias}}{32}{section*.23}%
 \cftinsert {AAA}
 \renewcommand *{\cftappendixname }{ANEXO \space }
 \setlength {\cftchapterindent }{0em} \setlength {\cftchapternumwidth }{\cftlastnumwidth }
 \setlength {\cftchapterindent }{\cftlastnumwidth } \setlength {\cftchapternumwidth }{2em}
 \cftinsert {A}
-\contentsline {appendix}{\chapternumberline {A}\MakeTextUppercase []{Repositório do Projeto no GitHub}}{30}{appendix.anexochapback.1}%
+\contentsline {appendix}{\chapternumberline {A}\MakeTextUppercase []{Repositório do Projeto no GitHub}}{33}{appendix.anexochapback.1}%
