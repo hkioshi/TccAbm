@@ -1,109 +1,95 @@
-\chapter{RESULTADOS E AVALIAÇÃO}
+\chapter{EXPERIMENTOS E RESULTADOS}
+\label{cap:resultados}
 
-Este capítulo apresenta os resultados obtidos durante a análise do simulador e avalia as evidências disponíveis sobre seu funcionamento. A apresentação distingue três situações: resultados efetivamente registrados, verificações realizadas sobre esses registros e procedimentos experimentais que ainda necessitam de execução ou documentação adicional.
+Este capítulo apresenta os resultados da verificação do simulador e dos experimentos computacionais, seguindo o protocolo da Seção~\ref{sec:protocolo}. Os resultados são separados em três categorias: o que foi registrado e verificado, o que foi identificado como divergência e o que ainda depende de execução controlada. Os resultados referem-se à versão do código e aos arquivos de saída analisados. \textbf{[PENDENTE: informar a versão (\textit{commit}) do repositório e a versão do GAMA usadas.]}
 
-Essa distinção é necessária porque a existência de séries exportadas pelo simulador demonstra que determinadas rotinas produziram dados, mas não comprova, isoladamente, a correção de todas as regras implementadas ou a validade epidemiológica do modelo.
+\section{Verificação}
+\label{sec:res-verificacao}
 
-As análises apresentadas neste capítulo devem ser interpretadas de acordo com a versão do código e dos arquivos de saída efetivamente utilizados. Alterações posteriores na implementação podem modificar os resultados produzidos pelo simulador.
+A verificação inicial examinou a consistência dos indicadores exportados em relação às populações declaradas. A Tabela~\ref{tab:res-verificacao} resume o resultado de cada critério do protocolo.
 
-\section{Resultados da verificação}
+\begin{table}[htb]
+    \centering
+    \caption{Resultado dos procedimentos de verificação}
+    \label{tab:res-verificacao}
+    \begin{tabular}{p{4.6cm} p{3.0cm} p{6.2cm}}
+        \hline
+        \textbf{Critério} & \textbf{Situação} & \textbf{Observação} \\
+        \hline
+        Humanos: soma de S, E, I e R igual ao total & Conferido & 1.191 agentes no total e 1.191 na soma dos estados \\
+        Mosquitos: soma de S, E e I igual ao total & \textbf{Divergência} & Total de 100; soma dos estados de 78 \\
+        Ausência de contagens negativas & [PENDENTE] & --- \\
+        Metadados por registro (experimento, repetição, semente, versão, configuração) & \textbf{Ausentes} & O arquivo de saída não identifica a execução de cada registro \\
+        Reprodução com a mesma semente & [PENDENTE] & --- \\
+        Parâmetro ligado ao processo correspondente & \textbf{A conferir} & \texttt{quantidade\_mosquito} pode não ser usado na criação da população vetorial \\
+        \hline
+    \end{tabular}
+    \fonte{Elaborado pelo autor.}
+\end{table}
 
-A verificação inicial concentrou-se na análise da consistência dos indicadores registrados pelo simulador e na relação entre os valores exportados e as populações declaradas.
+\textbf{População humana.} Os estados suscetível, exposto, infectado e recuperado somam 1.191, o total declarado, o que indica consistência aritmética.
 
-Um dos registros disponíveis apresenta uma população humana total de 1.191 agentes. Nesse mesmo registro, as quantidades de indivíduos nos estados suscetível, exposto, infectado e recuperado totalizam 1.191, indicando consistência aritmética entre esses indicadores.
+\textbf{População vetorial.} No registro analisado, o total de mosquitos é 100, mas os estados suscetível, exposto e infectado somam 78. Alguns agentes da população não estão sendo contabilizados por nenhum dos indicadores exportados. A divergência não mostra, por si só, que a dinâmica vetorial esteja errada, mas indica que as contagens dos mosquitos não podem sustentar conclusões epidemiológicas até a causa ser encontrada. \textbf{[PENDENTE: identificar a causa (por exemplo, agentes sem estado atribuído ou fora das categorias contadas), corrigir e registrar o resultado da nova verificação.]}
 
-Entretanto, foi identificada uma divergência nas contagens relacionadas à população vetorial. No registro analisado, o total de mosquitos é informado como 100, enquanto a soma dos agentes classificados nos estados suscetível, exposto e infectado resulta em 78.
+\textbf{Rastreabilidade.} Os registros do arquivo de saída não trazem a identificação do experimento, da repetição, da semente, da versão do código e da configuração. Sem esses metadados, não é possível reproduzir as séries nem associá-las a um cenário, e eles passam a ser exigidos nas próximas execuções. Esta é a principal restrição para o restante do capítulo.
 
-Essa diferença demonstra a necessidade de revisar a lógica utilizada para contabilizar os estados epidemiológicos dos mosquitos e de verificar se todos os agentes presentes na população são classificados por algum dos indicadores exportados.
+\section{Cenário de referência}
 
-A identificação dessa divergência constitui um resultado de verificação da implementação. Ela não permite concluir, por si só, que a dinâmica vetorial esteja incorreta, mas evidencia que os indicadores disponíveis não devem ser utilizados como evidência de validade epidemiológica antes da investigação da causa da diferença.
+Os registros disponíveis mostram que o simulador gera séries temporais das populações humana e vetorial e de variáveis ambientais. Em um dos segmentos do arquivo, a simulação começa com 1.191 pessoas e 100 mosquitos, e as contagens por estado variam ao longo do registro, o que mostra que a execução produz comportamento dinâmico e que a rotina de exportação funciona.
 
-Também foram identificadas limitações relacionadas à rastreabilidade das execuções. O arquivo de resultados analisado não contém, para cada registro, informações suficientes para identificar de forma inequívoca o experimento, a repetição, a semente utilizada, a versão do código e a configuração completa da execução.
+Como os dados não permitem associar cada segmento a uma configuração específica, esses resultados são exploratórios e não constituem um cenário de referência. A Tabela~\ref{tab:referencia} define a configuração a ser usada como referência nas execuções controladas.
 
-Essas informações são importantes porque diferentes configurações podem produzir séries semelhantes ou distintas, e a ausência de metadados dificulta a reprodução dos resultados.
-
-\section{Resultados do cenário de referência}
-
-Os registros disponíveis demonstram que o simulador foi capaz de produzir séries temporais contendo informações sobre as populações humanas e vetoriais, além de variáveis ambientais.
-
-Em um dos segmentos identificados no arquivo de resultados, a simulação inicia com 1.191 agentes humanos e 100 mosquitos. Ao longo dos registros, observa-se a alteração das contagens associadas aos estados epidemiológicos e à população vetorial.
-
-Essas observações demonstram que a execução produziu comportamento dinâmico e que os mecanismos de registro foram capazes de gerar séries temporais. Entretanto, os dados disponíveis não possuem informações suficientes para associar de forma inequívoca cada segmento da série a uma configuração experimental específica.
-
-Por esse motivo, os resultados existentes não são apresentados como um cenário de referência epidemiologicamente validado. Eles representam evidências exploratórias do funcionamento da rotina de execução e exportação do simulador.
-
-Para a versão final da avaliação, o cenário de referência deverá ser definido por uma configuração completamente documentada. Essa configuração deve registrar, entre outros elementos, a versão do código, a versão da plataforma, os parâmetros utilizados, as condições iniciais, a duração da simulação e os dados de entrada.
+\begin{table}[htb]
+    \centering
+    \caption{Configuração do cenário de referência}
+    \label{tab:referencia}
+    \begin{tabular}{l p{9.0cm}}
+        \hline
+        \textbf{Item} & \textbf{Valor} \\
+        \hline
+        Versão do código e do GAMA & [PENDENTE] \\
+        População inicial & 1.191 pessoas e 100 mosquitos (confirmar) \\
+        Distribuição regional & Percentuais da Tabela~\ref{tab:distribuicao-regional} \\
+        Estados iniciais (casos iniciais) & [PENDENTE] \\
+        Duração da simulação & [PENDENTE] \\
+        Dados de entrada (geográficos e climáticos) & [PENDENTE: ver Seção~\ref{sec:dados}] \\
+        Número de replicações e sementes & [PENDENTE] \\
+        \hline
+    \end{tabular}
+    \fonte{Elaborado pelo autor.}
+\end{table}
 
 \section{Comparação entre cenários}
 
-A comparação entre cenários requer que cada execução possua uma configuração identificável e que as alterações realizadas sejam explicitamente registradas.
+O código contém configurações de experimento que variam a vacinação, a população vetorial e o tamanho da população humana, mas isso não prova que esses cenários foram executados nem que as alterações foram aplicadas. Um exemplo é o parâmetro de quantidade inicial de mosquitos, que pode não ser usado pela rotina que cria a população vetorial (Tabela~\ref{tab:res-verificacao}). Por isso, os resultados disponíveis não permitem comparar cenários de forma conclusiva.
 
-O código analisado apresenta configurações destinadas à execução de diferentes experimentos, incluindo variações de parâmetros relacionados à vacinação, à população vetorial e ao tamanho da população humana. Entretanto, a existência dessas configurações no código não demonstra, isoladamente, que todos os cenários foram executados ou que as alterações previstas foram efetivamente aplicadas durante as simulações.
+Os cenários planejados estão na Tabela~\ref{tab:cenarios}. Para cada um, serão registrados os parâmetros modificados, as condições constantes, o número de replicações, as sementes e os indicadores de comparação, e a comparação considerará a variabilidade entre replicações.
 
-Além disso, a análise estática identificou situações que exigem verificação experimental. Em uma das configurações, por exemplo, a existência de um parâmetro destinado à quantidade inicial de mosquitos não garante, por si só, que esse valor seja utilizado pela rotina responsável pela criação da população vetorial.
-
-Dessa forma, os resultados atualmente disponíveis não permitem realizar uma comparação conclusiva entre os cenários planejados. A análise comparativa definitiva deve ser realizada após a execução controlada dos experimentos, com registro das configurações efetivamente utilizadas.
-
-Para cada cenário, recomenda-se apresentar:
-
-\begin{itemize}
-    \item os parâmetros modificados;
-    \item os valores utilizados;
-    \item as condições mantidas constantes;
-    \item o número de replicações;
-    \item as sementes utilizadas;
-    \item os indicadores selecionados para comparação.
-\end{itemize}
-
-A comparação deverá considerar a variabilidade entre as execuções e não apenas diferenças observadas em uma única trajetória.
+\begin{table}[htb]
+    \centering
+    \caption{Cenários experimentais planejados}
+    \label{tab:cenarios}
+    \begin{tabular}{p{3.2cm} p{4.0cm} p{3.2cm} p{3.2cm}}
+        \hline
+        \textbf{Cenário} & \textbf{Parâmetro alterado} & \textbf{Valores} & \textbf{Situação} \\
+        \hline
+        Referência & Nenhum & --- & [PENDENTE] \\
+        Vacinação & Porcentagem de vacinados e eficácia & [PENDENTE] & [PENDENTE] \\
+        População vetorial & Quantidade inicial de mosquitos & [PENDENTE] & [PENDENTE] \\
+        População humana & Quantidade de pessoas & [PENDENTE] & [PENDENTE] \\
+        \hline
+    \end{tabular}
+    \fonte{Elaborado pelo autor.}
+\end{table}
 
 \section{Variabilidade entre replicações}
 
-A presença de componentes estocásticos faz com que diferentes execuções do simulador possam produzir trajetórias distintas, mesmo quando utilizam os mesmos parâmetros.
+Como o modelo é estocástico, a variabilidade deve ser avaliada com múltiplas replicações da mesma configuração, cada uma com semente registrada, usando média, desvio-padrão e quantis dos indicadores. Os registros atuais não identificam replicações nem sementes e, por isso, não permitem estimar a variabilidade. Esta análise será feita a partir de uma campanha com configuração fixa e sementes identificadas, que também permitirá verificar se as diferenças entre cenários excedem a variabilidade aleatória. A dispersão entre replicações reflete o mecanismo estocástico do simulador e não representa a incerteza sobre os casos reais de dengue.
 
-A avaliação da variabilidade requer múltiplas replicações de uma mesma configuração experimental. Para cada conjunto de execuções, podem ser analisadas medidas como média, desvio-padrão, quantis e outras estatísticas compatíveis com os indicadores produzidos.
+\textbf{[PENDENTE: número de replicações, sementes, tabela de média e desvio-padrão e gráfico das trajetórias com a faixa de variação.]}
 
-Os registros atualmente disponíveis não possuem metadados suficientes para identificar de forma confiável todas as replicações e sementes associadas às séries analisadas. Consequentemente, não é possível utilizar essas saídas, isoladamente, para estimar de maneira conclusiva a variabilidade do modelo.
+\section{Desempenho computacional}
 
-Uma campanha experimental futura deve utilizar uma configuração fixa e executar múltiplas replicações com sementes identificadas. A análise poderá então avaliar a dispersão dos resultados e verificar se as diferenças entre cenários são maiores que a variabilidade associada aos componentes aleatórios.
+Esta avaliação é opcional. O código possui uma configuração que varia o tamanho da população, mas isso ainda não constitui avaliação de desempenho. Uma análise de escalabilidade exige medições controladas de tempo de execução e consumo de memória para diferentes quantidades de agentes, com a versão do software, a máquina e os dados de entrada registrados e com mais de uma execução por configuração.
 
-Também é necessário distinguir a variabilidade produzida pelo simulador da incerteza relacionada aos dados ou parâmetros utilizados. A dispersão entre execuções representa uma característica das condições experimentais e dos mecanismos estocásticos do modelo, não correspondendo automaticamente à incerteza sobre os casos reais de dengue.
-
-\section{Avaliação computacional}
-
-A avaliação computacional busca analisar características relacionadas ao custo de execução do simulador. Entre os indicadores de interesse podem estar o tempo necessário para concluir uma simulação, o consumo de memória e o comportamento do sistema diante do aumento da quantidade de agentes.
-
-O código analisado possui uma configuração experimental relacionada à variação do tamanho da população. Entretanto, a presença dessa configuração não constitui, por si só, uma avaliação de desempenho.
-
-Uma análise de escalabilidade requer medições realizadas sob condições controladas. Além do tamanho das populações, devem ser considerados fatores como a versão do software, a configuração da máquina utilizada, os dados de entrada e as condições de execução.
-
-Também é necessário realizar mais de uma execução para cada configuração quando houver variabilidade relevante no tempo de processamento. Uma única medição não permite caracterizar adequadamente a dispersão do desempenho.
-
-Portanto, a avaliação computacional definitiva depende da realização de medições sistemáticas. Caso esses experimentos sejam concluídos antes da versão final do trabalho, os resultados deverão ser apresentados nesta seção juntamente com as configurações utilizadas e os procedimentos de medição.
-
-\section{Discussão das limitações}
-
-Os resultados obtidos devem ser interpretados considerando as limitações identificadas durante a análise da implementação e das saídas disponíveis.
-
-A primeira limitação está relacionada à consistência dos indicadores. A divergência observada entre o total de mosquitos e a soma dos estados vetoriais demonstra que determinadas contagens precisam ser verificadas antes que os resultados sejam utilizados para análises epidemiológicas.
-
-A segunda limitação está relacionada à rastreabilidade dos experimentos. A ausência de informações como identificação da execução, semente efetiva e configuração completa impede a reprodução precisa das séries disponíveis e dificulta a comparação entre diferentes resultados.
-
-Também existem limitações decorrentes das simplificações adotadas pelo modelo. A população humana é sintética, a representação espacial possui um nível específico de agregação e diversos processos biológicos e epidemiológicos são representados de forma simplificada.
-
-Além disso, os resultados do simulador não devem ser interpretados automaticamente como previsões da ocorrência de dengue no município de São Paulo. Uma avaliação dessa natureza exigiria procedimentos adicionais de calibração e comparação com dados observados compatíveis.
-
-A análise dos registros existentes demonstra que o simulador possui mecanismos capazes de gerar séries temporais e registrar indicadores durante sua execução. Entretanto, as evidências atualmente disponíveis não são suficientes para afirmar a validação epidemiológica do modelo ou sua capacidade preditiva.
-
-As principais necessidades identificadas para o aprimoramento da avaliação são:
-
-\begin{itemize}
-    \item corrigir ou explicar as divergências entre os totais e os estados registrados;
-    \item registrar metadados completos para cada execução;
-    \item verificar o controle das sementes e a reprodutibilidade das execuções;
-    \item realizar replicações controladas para avaliar a variabilidade;
-    \item executar comparações entre cenários com parâmetros efetivamente aplicados;
-    \item realizar medições sistemáticas de desempenho, quando essa avaliação fizer parte dos objetivos;
-    \item estabelecer procedimentos específicos caso seja realizada comparação com dados epidemiológicos observados.
-\end{itemize}
-
+\textbf{[PENDENTE (opcional): tabela de tempo e memória por tamanho de população e descrição da máquina utilizada.]}

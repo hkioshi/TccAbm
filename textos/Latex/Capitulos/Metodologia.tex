@@ -35,6 +35,7 @@ O estudo seguiu seis etapas, ilustradas na Figura~\ref{fig:etapas}. As etapas n�
 \end{figure}
 
 \section{Área de estudo e dados}
+\label{sec:dados}
 
 A área de estudo é o município de São Paulo, escolhido por sua dimensão territorial e populacional e pela disponibilidade de informações espaciais. O espaço da simulação é definido pelas bases geográficas selecionadas, e sua resolução reflete os dados disponíveis e as decisões de modelagem.
 
@@ -72,6 +73,7 @@ A verificação confere se o simulador se comporta conforme sua especificação 
 \end{table}
 
 \section{Protocolo experimental}
+\label{sec:protocolo}
 
 Cada experimento registra a configuração usada, os parâmetros alterados e as condições de execução, para que os resultados possam ser interpretados e reproduzidos.
 
@@ -79,6 +81,6 @@ Cada experimento registra a configuração usada, os parâmetros alterados e as 
 
 \textbf{Sementes e replicações.} Como o simulador é estocástico, cada configuração é executada em múltiplas replicações, cada uma com uma semente registrada. O número de replicações e as sementes utilizadas são informados no Capítulo~\ref{cap:resultados}. Executar a mesma configuração com a mesma semente serve também como teste de reprodutibilidade, quando tecnicamente aplicável.
 
-\textbf{Comparação entre cenários.} Os cenários diferem do cenário de referência por alterações explícitas em parâmetros ou condições, como a cobertura vacinal, o tamanho da população vetorial e o tamanho da população humana. Para cada cenário, registram-se os parâmetros modificados, os valores usados, as condições mantidas constantes, o número de replicações, as sementes e os indicadores de comparação. Se houver análise de sensibilidade, os parâmetros e os intervalos avaliados são declarados.
+\textbf{Comparação entre cenários.} Os cenários diferem do cenário de referência por alterações explícitas em parâmetros ou condições, como a cobertura vacinal, o tamanho da população vetorial e o tamanho da população humana. Os cenários são definidos como experimentos em lote (\textit{batch}) do GAMA, que repetem cada configuração e variam os parâmetros automaticamente (Seção~\ref{sec:res-cenarios}). Para cada cenário, registram-se os parâmetros modificados, os valores usados, as condições mantidas constantes, o número de replicações, as sementes e os indicadores de comparação. Se houver análise de sensibilidade, os parâmetros e os intervalos avaliados são declarados.
 
 \textbf{Indicadores e análise.} Os indicadores são as contagens de agentes por estado epidemiológico, as variáveis da população vetorial e as variáveis ambientais registradas durante a execução. Com múltiplas replicações, a análise usa medidas descritivas (como média, desvio-padrão e quantis) e considera a variabilidade entre execuções, e não uma trajetória isolada. Os resultados são apresentados em tabelas e gráficos, diferenciando o que foi efetivamente obtido do que a especificação apenas prevê. As contagens do simulador não equivalem a indicadores epidemiológicos oficiais; compará-las com dados observados exigiria alinhar definições, cobertura espacial e período.

@@ -1,23 +1,23 @@
 # Fdb version 4
-["bibtex main"] 1794001513.12948 "main.aux" "main.bbl" "main" 1794001587.75132 0
+["bibtex main"] 1794013557.81123 "main.aux" "main.bbl" "main" 1794013559.57754 0
   "./bibliografia.bib" 1793385938.2888 12176 0800a4ca0dd342cbae2c31011c3cf783 ""
   "/usr/share/texlive/texmf-dist/bibtex/bib/abntex2/abntex2-options.bib" 1357081713 5396 4eb260dac60f150ae608d45252853090 ""
   "/usr/share/texlive/texmf-dist/bibtex/bst/abntex2/abntex2-alf.bst" 1543183680 60064 0819ac8568f9a482510a46e3a8a6f605 ""
-  "main.aux" 1794001587.56643 45997 9578bc43f812afc032218d1bb4c49ad6 "pdflatex"
+  "main.aux" 1794013559.37211 31692 410494b63bfbf4f2499bc3e6cfd20e9b "pdflatex"
   (generated)
   "main.bbl"
   "main.blg"
   (rewritten before read)
-["makeindex main.idx"] 1793924521.37456 "main.idx" "main.ind" "main" 1794001587.75106 0
-  "main.idx" 1794001586.94431 0 d41d8cd98f00b204e9800998ecf8427e "pdflatex"
+["makeindex main.idx"] 1793924521.37456 "main.idx" "main.ind" "main" 1794013559.57743 0
+  "main.idx" 1794013558.66111 0 d41d8cd98f00b204e9800998ecf8427e "pdflatex"
   (generated)
   "main.ilg"
   "main.ind"
   (rewritten before read)
-["pdflatex"] 1794001586.21674 "/home/henrique/Gama_Workspace/TCC/textos/Latex/main.tex" "main.pdf" "main" 1794001587.75175 0
+["pdflatex"] 1794013557.84224 "/home/henrique/Gama_Workspace/TCC/textos/Latex/main.tex" "main.pdf" "main" 1794013559.5777 0
   "/etc/texmf/web2c/texmf.cnf" 1781191703.03941 475 c0e671620eb5563b2130f56340a5fde8 ""
   "/home/henrique/.texlive2023/texmf-var/web2c/pdftex/pdflatex.fmt" 1793383221 6801882 9c01443264c4b0439c58c344d6280052 ""
-  "/home/henrique/Gama_Workspace/TCC/textos/Latex/main.tex" 1794001585.95497 9817 aab44a1ccb1575003a3c9e24e31a7b0a ""
+  "/home/henrique/Gama_Workspace/TCC/textos/Latex/main.tex" 1794012746.19713 9794 0f9638ad50185d82ecb4894b03c70040 ""
   "/usr/share/texlive/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmr10.tfm" 1136768653 1296 45809c5a464d5f32c8f98ba97c1bb47f ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmr12.tfm" 1136768653 1288 655e228510b4c2a1abe905c368440826 ""
@@ -183,6 +183,7 @@
   "/usr/share/texmf/fonts/enc/dvips/lm/lm-ts1.enc" 1254269338 3031 6c4d3515bf7115d8518af1c9ab97ca44 ""
   "/usr/share/texmf/fonts/tfm/public/lm/ec-lmbx10.tfm" 1254269338 12076 b54175e02101bea1addf6b2d0197ed12 ""
   "/usr/share/texmf/fonts/tfm/public/lm/ec-lmbx12.tfm" 1254269338 12088 d750ac78274fa7c9f73ba09914c04f8a ""
+  "/usr/share/texmf/fonts/tfm/public/lm/ec-lmbxi10.tfm" 1254269338 17180 a5723008921cdcb0c5f4ebe997919b73 ""
   "/usr/share/texmf/fonts/tfm/public/lm/ec-lmr10.tfm" 1254269338 12056 7e13df7fe4cbce21b072ba7c4f4deb6e ""
   "/usr/share/texmf/fonts/tfm/public/lm/ec-lmr12.tfm" 1254269338 12092 7b1546e2d096cfd5dcbd4049b0b1ec2e ""
   "/usr/share/texmf/fonts/tfm/public/lm/ec-lmr9.tfm" 1254269338 12084 b7f5e4c003de6f57f07c7e9fee73a37c ""
@@ -191,6 +192,7 @@
   "/usr/share/texmf/fonts/tfm/public/lm/ec-lmss12.tfm" 1254269338 11232 955a7245396175d9219648eadc654ac9 ""
   "/usr/share/texmf/fonts/tfm/public/lm/ec-lmss17.tfm" 1254269338 11252 57c8b53a3aeebba8c17658d4221d47ec ""
   "/usr/share/texmf/fonts/tfm/public/lm/ec-lmssbx10.tfm" 1254269338 11168 06d87f5698fd1b642d96449b7c8d90b0 ""
+  "/usr/share/texmf/fonts/tfm/public/lm/ec-lmtt10.tfm" 1254269338 1372 2ef2c2b492b3c4cd7879fe083abbb061 ""
   "/usr/share/texmf/fonts/tfm/public/lm/ec-lmtt12.tfm" 1254269338 1368 6a60e6a5e029141041d64d339b87e533 ""
   "/usr/share/texmf/fonts/tfm/public/lm/lmex10.tfm" 1148093231 992 ce925c9346c7613270a79afbee98c070 ""
   "/usr/share/texmf/fonts/tfm/public/lm/lmmi10.tfm" 1148093231 1528 6d36b2385e0ca062a654de6ac59cb34f ""
@@ -213,6 +215,7 @@
   "/usr/share/texmf/fonts/tfm/public/lm/ts1-lmr12.tfm" 1254269338 1596 1d4548788e389ded56d0b01b28377882 ""
   "/usr/share/texmf/fonts/type1/public/lm/lmbx10.pfb" 1255129361 121021 1bf809ce4a594679006bd72263eba59b ""
   "/usr/share/texmf/fonts/type1/public/lm/lmbx12.pfb" 1255129361 116908 1fca96723793882c2e0160350c192fc8 ""
+  "/usr/share/texmf/fonts/type1/public/lm/lmbxi10.pfb" 1255129361 112766 bdd4fa8b13a0d7dd137624085bd31d40 ""
   "/usr/share/texmf/fonts/type1/public/lm/lmr10.pfb" 1255129361 119235 f35b44530a1d90eb90fe15d9cba67ea0 ""
   "/usr/share/texmf/fonts/type1/public/lm/lmr12.pfb" 1255129361 113634 f99c44d58bae0863375faf0e1d74d612 ""
   "/usr/share/texmf/fonts/type1/public/lm/lmr9.pfb" 1255129361 121065 50bbfa703ce7e11638752ef5a6d120c7 ""
@@ -221,6 +224,7 @@
   "/usr/share/texmf/fonts/type1/public/lm/lmss12.pfb" 1255129361 96107 daf52840b555e3b38f9679b629b5e2df ""
   "/usr/share/texmf/fonts/type1/public/lm/lmss17.pfb" 1255129361 97155 77b0a2ea02ee9c950117adae5f41f9c9 ""
   "/usr/share/texmf/fonts/type1/public/lm/lmssbx10.pfb" 1255129361 119663 e82fa1a58f98ccd89bdbd77311ac9cf1 ""
+  "/usr/share/texmf/fonts/type1/public/lm/lmtt10.pfb" 1255129361 113227 1010e11451afc2822c95dae77c390042 ""
   "/usr/share/texmf/fonts/type1/public/lm/lmtt12.pfb" 1255129361 110323 92daea7ca7b4120bd2b54b047c93be27 ""
   "/usr/share/texmf/tex/latex/lm/lmodern.sty" 1616454256 1608 b00724785a9e9c599e5181bb8729160b ""
   "/usr/share/texmf/tex/latex/lm/omllmm.fd" 1616454256 890 57f5adccd504fb5c98bdf99ed7e7f195 ""
@@ -233,19 +237,18 @@
   "/usr/share/texmf/tex/latex/lm/ts1lmr.fd" 1616454256 1914 884882d7ebb0fd65cea93fca77ff6f5a ""
   "/usr/share/texmf/web2c/texmf.cnf" 1707919699 40399 f2c302f7d2af602abb742093540a5834 ""
   "/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map" 1793383204.49404 128028 f533b797fba58d231669ea19e894e23e ""
-  "Capitulos/Arquitetura.tex" 1793480452.63256 13088 dd14ad9772daf92173afad78c0091ad5 ""
   "Capitulos/Introducao.tex" 1793924198.33856 5925 0d26402556b3b0c546e7ac52fb5157d2 ""
-  "Capitulos/Metodologia.tex" 1793924713.48324 7816 568f94ed854a7f4555d8a4d3528deddf ""
-  "Capitulos/Resultado.tex" 1793480473.80172 11243 64ff5e2431e75b1b54da8b74a3aba1a7 ""
+  "Capitulos/Metodologia.tex" 1794013555.53204 8042 784c47496c7e02a3f99d91bbee5c22eb ""
+  "Capitulos/Resultado.tex" 1794012906.07511 7515 7dfc969c9890599344686d38ed13d607 ""
   "Capitulos/Teorica.tex" 1793924464.15038 15144 f20852d4527888696d1450f8dba7016a ""
-  "Capitulos/simulador.tex" 1793923847.88317 23316 39e2cbde2bbb3274a7e266f3a09b17ca ""
-  "main.aux" 1794001587.56643 45997 9578bc43f812afc032218d1bb4c49ad6 "pdflatex"
-  "main.bbl" 1794001513.14779 227 d84c02311c5966f0b465e2fbb354c9df "bibtex main"
-  "main.brf" 1794001587.57828 1398 c491e8315ef9fc290f82064b700c1a01 "pdflatex"
+  "Capitulos/modelo_implementacao.tex" 1794012710.2553 13627 74fdeeb33daaf88c97b9d60e61bf7826 ""
+  "main.aux" 1794013559.37211 31692 410494b63bfbf4f2499bc3e6cfd20e9b "pdflatex"
+  "main.bbl" 1794013557.83411 227 d84c02311c5966f0b465e2fbb354c9df "bibtex main"
+  "main.brf" 1794013559.38511 1398 c491e8315ef9fc290f82064b700c1a01 "pdflatex"
   "main.ind" 1793924521.38957 0 d41d8cd98f00b204e9800998ecf8427e "makeindex main.idx"
-  "main.lof" 1794001587.57873 267 f5e1e8c85e45f04d9a23e1c6c8777711 "pdflatex"
-  "main.tex" 1794001585.95497 9817 aab44a1ccb1575003a3c9e24e31a7b0a ""
-  "main.toc" 1794001587.57873 7947 7a16f04726196c27249ed57f61159de6 "pdflatex"
+  "main.lof" 1794013559.38511 410 1150e586b1e5e04cbf7078d09424a7b2 "pdflatex"
+  "main.tex" 1794012746.19713 9794 0f9638ad50185d82ecb4894b03c70040 ""
+  "main.toc" 1794013559.38511 5305 938e5b0c295cbed6d08a5764d7a9700c "pdflatex"
   (generated)
   "main.aux"
   "main.brf"

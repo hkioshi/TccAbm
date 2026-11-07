@@ -1,0 +1,142 @@
+\chapter{MODELO E IMPLEMENTAÇÃO}
+\label{cap:modelo}
+
+Este capítulo descreve o simulador em duas camadas ligadas entre si: o modelo conceitual (entidades, estados, processos e hipóteses) e sua implementação na plataforma GAMA. Cada elemento do modelo é apresentado junto do módulo GAML que o implementa. A descrição segue a lógica do protocolo ODD (Seção~\ref{sec:odd}): propósito e espaço, entidades, processos, inicialização, entradas e saídas. Os valores de todos os parâmetros estão no Apêndice~\ref{ap:parametros}.
+
+\section{Propósito e representação espacial}
+
+O modelo representa, por meio de uma simulação espacial e estocástica baseada em agentes, as interações entre a população humana, os mosquitos vetores e o ambiente na transmissão da dengue. O que ele deixa de representar está na Seção~\ref{sec:escopo}.
+
+O espaço é um componente operacional da simulação: a localização de um agente determina com quais outras entidades ele pode interagir. As bases geográficas (Seção~\ref{sec:dados}) delimitam o ambiente e associam informações espaciais aos componentes do modelo. A população sintética é distribuída entre as cinco regiões do município (Centro, Norte, Leste, Sul e Oeste) segundo os percentuais da Tabela~\ref{tab:distribuicao-regional}. A resolução espacial é uma simplificação do território real.
+
+\section{Arquitetura do projeto}
+\label{sec:arquitetura}
+
+O projeto é organizado em arquivos GAML com responsabilidades distintas (Figura~\ref{fig:arquitetura}). O \texttt{Main.gaml} é o ponto de entrada do experimento gráfico e reúne a execução e a visualização. O \texttt{globals.gaml} concentra as variáveis globais, a inicialização, o controle temporal e os processos compartilhados. Cada espécie de agente tem seu próprio módulo: \texttt{Pessoa.gaml} (humanos), \texttt{Mosquito.gaml} (vetores adultos), \texttt{Imaturo.gaml} (formas imaturas), \texttt{Poca.gaml} (criadouros) e \texttt{Ambiente.gaml} (componentes territoriais).
+
+\begin{figure}[htb]
+    \centering
+    \caption{Arquitetura do simulador: módulos GAML e relações principais}
+    \label{fig:arquitetura}
+    \begin{tikzpicture}[
+        box/.style={draw, rounded corners, align=center, minimum height=0.9cm, font=\small},
+        sp/.style={box, text width=2.2cm},
+        >=stealth, node distance=0.35cm]
+        \node[box] (main) {\texttt{Main.gaml}\\[-2pt]{\scriptsize experimento e interface}};
+        \node[box, below=0.7cm of main] (g) {\texttt{globals.gaml}\\[-2pt]{\scriptsize variáveis globais, inicialização, tempo, registro}};
+        \node[sp, below=1.1cm of g] (imaturo) {\texttt{Imaturo.gaml}};
+        \node[sp, left=of imaturo] (mosquito) {\texttt{Mosquito.gaml}};
+        \node[sp, left=of mosquito] (pessoa) {\texttt{Pessoa.gaml}};
+        \node[sp, right=of imaturo] (poca) {\texttt{Poca.gaml}};
+        \node[sp, right=of poca] (ambiente) {\texttt{Ambiente.gaml}};
+        \draw[->] (main) -- (g);
+        \foreach \n in {pessoa,mosquito,imaturo,poca,ambiente}
+            \draw[->] (g.south) -- ++(0,-0.35) -| (\n.north);
+        \draw[<->, dashed] (pessoa.south) to[bend right=40] node[below, font=\scriptsize] {transmissão} (mosquito.south);
+        \draw[->, dashed] (imaturo.south) to[bend right=40] node[below, font=\scriptsize] {adultos} (mosquito.south);
+        \draw[<->, dashed] (imaturo.south) to[bend left=40] node[below, font=\scriptsize] {criadouro} (poca.south);
+    \end{tikzpicture}
+    \fonte{Elaborado pelo autor.}
+\end{figure}
+
+A divisão evita concentrar todas as regras em um único arquivo, mas os módulos são interdependentes: os processos epidemiológicos, ambientais e espaciais compartilham informações globais durante a execução.
+
+\section{Entidades e estados epidemiológicos}
+
+A Tabela~\ref{tab:entidades} resume as entidades do modelo e o módulo que implementa cada uma.
+
+\begin{table}[htb]
+    \centering
+    \caption{Entidades do modelo e sua implementação}
+    \label{tab:entidades}
+    \begin{tabular}{p{2.6cm} p{2.9cm} p{5.0cm} p{3.0cm}}
+        \hline
+        \textbf{Entidade} & \textbf{Módulo} & \textbf{Atributos principais} & \textbf{Estados} \\
+        \hline
+        Pessoa & \texttt{Pessoa.gaml} & Localização, estado epidemiológico, idade (em dias), vacinado (lógico), velocidade & S, E, I, R \\
+        Mosquito (adulto) & \texttt{Mosquito.gaml} & Localização, estado epidemiológico & S, E, I \\
+        Imaturo & \texttt{Imaturo.gaml} & \texttt{estagio} (0 = ovo, 1 = larva, 2 = pupa), \texttt{idade}, \texttt{duracao\_estagio}, \texttt{poca\_natal} & --- \\
+        Criadouro (poça) & \texttt{Poca.gaml} & Imaturos associados e capacidade do local & --- \\
+        Ambiente & \texttt{Ambiente.gaml} & Componentes territoriais e informações espaciais & --- \\
+        \hline
+    \end{tabular}
+    \fonte{Elaborado pelo autor.}
+\end{table}
+
+\textbf{Pessoas.} Os agentes humanos formam uma população sintética, que não reproduz os habitantes reais do município. Cada pessoa mantém seu próprio estado epidemiológico, muda de localização conforme as regras de mobilidade e participa dos eventos de transmissão. A vacinação é um atributo lógico individual; a porcentagem de vacinados e a eficácia são parâmetros globais usados para configurar cenários.
+
+\textbf{Mosquitos.} Os mosquitos adultos participam diretamente da transmissão. Cada mosquito possui regras de deslocamento, alimentação, transmissão e mortalidade. A reprodução e o desenvolvimento ficam a cargo dos imaturos e dos criadouros.
+
+\textbf{Imaturos e criadouros.} Os imaturos passam pelos estágios de ovo, larva e pupa, e cada um está associado a uma poça. Os criadouros são abstrações que representam a disponibilidade de locais para o desenvolvimento do vetor, e não os recipientes reais do município. A poça mantém as informações sobre os imaturos associados e sua capacidade, e liga as condições ambientais à população vetorial.
+
+\textbf{Estados e transições.} Humanos seguem a estrutura SEIR, e mosquitos, a estrutura SEI (Figura~\ref{fig:seir}). A passagem de suscetível a exposto ocorre por transmissão, e as demais transições ocorrem após intervalos de tempo (Apêndice~\ref{ap:parametros}). Para humanos, os intervalos são o período de incubação (5 a 7 dias), o período viral (4 a 5 dias) e o período de recuperação (120 dias). A implementação mantém separados o momento de aquisição da infecção e o momento em que o agente passa a transmitir, e as contagens por estado dependem de cada agente estar sempre em exatamente um estado.
+
+\textbf{[PENDENTE: explicar o que o período de recuperação de 120 dias representa na regra (por exemplo, duração do estado recuperado) e informar os parâmetros do mosquito (período de incubação extrínseca, vida útil e velocidade).]}
+
+\section{Processos}
+
+\subsection{Transmissão}
+
+A transmissão ocorre apenas entre humanos e mosquitos; o modelo não prevê transmissão direta entre pessoas. Uma tentativa de transmissão acontece quando um mosquito e uma pessoa próximos têm estados compatíveis (mosquito infectado com pessoa suscetível, ou mosquito suscetível com pessoa infectada). A tentativa só se concretiza com certa probabilidade (Tabela~\ref{tab:parametros-epidemiologicos}), de modo que uma oportunidade de contato nem sempre gera infecção. O modelo não detalha os mecanismos biológicos da picada.
+
+\subsection{Mobilidade}
+
+As pessoas se deslocam no espaço por regras de movimentação, controladas por parâmetros de velocidade (Tabela~\ref{tab:parametros-deslocamento}) cujo significado depende das escalas espacial e temporal da simulação. Horários, destinos e trajetórias são hipóteses de modelagem, pois não há dados individuais de deslocamento. Os mosquitos também se deslocam, com regras próprias compatíveis com a escala espacial. A mobilidade altera a distribuição dos agentes e, com ela, as oportunidades de contato.
+
+\subsection{Ambiente, clima e ciclo vetorial}
+
+Temperatura e precipitação são entradas das regras ambientais. A chuva afeta a disponibilidade e as condições dos criadouros, e a temperatura afeta o desenvolvimento dos mosquitos. O ciclo vetorial compreende a reprodução, o desenvolvimento dos imaturos (ovo, larva e pupa) e a formação da população adulta. Os efeitos do clima dependem das regras às quais cada variável está ligada: nem toda variável ambiental atua diretamente sobre todos os agentes, e o modelo não reproduz todas as relações observadas entre clima, vetor e dengue.
+
+\subsection{Tempo e estocasticidade}
+
+O controle temporal é global. Cinco ciclos computacionais correspondem a uma hora simulada, e 120 ciclos, a um dia. Os processos (mobilidade, evolução dos estados, atualização ambiental e registro de saídas) podem ter frequências de atualização diferentes. Transmissão, movimentação, desenvolvimento e transições de estado usam geração pseudoaleatória, o que torna o modelo estocástico. Por isso, a análise usa sementes controladas e múltiplas replicações (Seção~\ref{sec:protocolo}).
+
+\section{Inicialização, parâmetros, entradas e saídas}
+
+\textbf{Inicialização.} A execução começa carregando as informações espaciais e criando os componentes ambientais; em seguida, são criadas as populações de pessoas e mosquitos. No cenário atual, a população tem 1.191 pessoas e 100 mosquitos, distribuídos conforme as condições iniciais definidas. Como essas condições influenciam o comportamento posterior, a quantidade de agentes, a distribuição dos estados e a configuração do ambiente fazem parte da descrição de cada cenário.
+
+\textbf{Parâmetros.} Os parâmetros alteram aspectos do modelo sem mudar sua estrutura e podem ser ajustados pela interface do GAMA, sem editar o código-fonte. Seus valores têm origens distintas (dados disponíveis, literatura científica ou hipóteses de modelagem), e essa distinção evita que uma hipótese operacional seja lida como estimativa observada. Para que um parâmetro configurável tenha efeito, ele precisa estar ligado ao processo correspondente no código, o que a verificação confere (Seção~\ref{sec:res-verificacao}).
+
+\textbf{[PENDENTE: indicar, para cada parâmetro do Apêndice~\ref{ap:parametros}, se o valor vem da literatura (com citação), de dados ou de hipótese.]}
+
+\textbf{Entradas.} São os dados geográficos, os dados climáticos, as condições iniciais e os parâmetros de cada experimento.
+
+\textbf{Saídas.} O simulador registra, durante a execução, indicadores das populações humana e vetorial (contagens por estado epidemiológico) e variáveis ambientais, e os grava em arquivos estruturados para análise posterior. Para que os dados sejam rastreáveis, cada registro precisa ser associado à configuração usada, à repetição, à semente e à versão do código. Os indicadores não equivalem a medidas epidemiológicas observadas, e sua consistência (por exemplo, a soma dos estados igual ao total de agentes) é verificada antes da análise.
+
+\section{Rastreabilidade entre modelo e código}
+
+A Tabela~\ref{tab:rastreabilidade} liga cada elemento do modelo conceitual ao componente que o implementa. Regras conceituais cuja execução ainda não foi confirmada são identificadas no Capítulo~\ref{cap:resultados}, para que um comportamento planejado não seja apresentado como comprovado.
+
+\begin{table}[htb]
+    \centering
+    \caption{Correspondência entre modelo conceitual e implementação}
+    \label{tab:rastreabilidade}
+    \begin{tabular}{p{5.6cm} p{3.2cm} p{5.0cm}}
+        \hline
+        \textbf{Elemento do modelo} & \textbf{Componente} & \textbf{Seção do modelo} \\
+        \hline
+        População sintética, SEIR, mobilidade e vacinação humanas & \texttt{Pessoa.gaml} & 4.3 e 4.4 \\
+        Mosquitos adultos: SEI, deslocamento, alimentação, transmissão e mortalidade & \texttt{Mosquito.gaml} & 4.3 e 4.4 \\
+        Ovo, larva e pupa & \texttt{Imaturo.gaml} & 4.3 e 4.4 \\
+        Criadouros e capacidade & \texttt{Poca.gaml} & 4.3 e 4.4 \\
+        Território e componentes ambientais & \texttt{Ambiente.gaml} & 4.1 e 4.4 \\
+        Inicialização, tempo, clima e registro de saídas & \texttt{globals.gaml} & 4.4 e 4.5 \\
+        Experimento, interface e parâmetros configuráveis & \texttt{Main.gaml} & 4.5 \\
+        \hline
+    \end{tabular}
+    \fonte{Elaborado pelo autor.}
+\end{table}
+
+\section{Hipóteses e simplificações}
+
+O modelo adota as seguintes simplificações, que delimitam a interpretação dos resultados:
+
+\begin{itemize}
+    \item \textbf{População sintética:} as 1.191 pessoas não correspondem aos habitantes reais, e a distribuição regional usa percentuais agregados.
+    \item \textbf{Mobilidade simplificada:} horários, destinos e trajetórias são hipóteses, sem dados individuais de deslocamento.
+    \item \textbf{Ambiente parcial:} os criadouros são abstrações, e o clima atua somente por meio das regras implementadas.
+    \item \textbf{Epidemiologia genérica:} há uma única dinâmica de dengue, sem sorotipos distintos nem resposta imunológica detalhada, e a transmissão ocorre apenas entre humanos e mosquitos.
+    \item \textbf{Parâmetros de origem mista:} alguns valores vêm da literatura e outros são hipóteses operacionais.
+\end{itemize}
+
+Os resultados dependem da combinação entre a estrutura do modelo, os parâmetros, as condições iniciais e os componentes estocásticos. As limitações do estudo como um todo são reunidas no Capítulo~\ref{cap:conclusao}.

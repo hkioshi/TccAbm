@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2026.10.30)  6 NOV 2026 18:46
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2026.10.30)  6 NOV 2026 22:05
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1132,12 +1132,6 @@ LaTeX Warning: Citation `taillandier_etal_2019' on page 10 undefined on input li
 
 ]
 
-LaTeX Warning: Reference `cap:modelo' on page 11 undefined on input line 49.
-
-
-LaTeX Warning: Reference `cap:resultados' on page 11 undefined on input line 49.
-
-
 LaTeX Warning: Reference `cap:conclusao' on page 11 undefined on input line 49.
 
 ) (./Capitulos/Teorica.tex [11] [12]
@@ -1232,54 +1226,143 @@ LaTeX Warning: Citation `gharakhanlou_2020' on page 17 undefined on input line 1
 
 LaTeX Warning: Citation `gamal_etal_2025' on page 17 undefined on input line 139.
 
-) (./Capitulos/Metodologia.tex [17]
-
-LaTeX Warning: Reference `cap:modelo' on page 18 undefined on input line 4.
-
-
-LaTeX Warning: Reference `cap:resultados' on page 18 undefined on input line 4.
-
-[18
+) (./Capitulos/Metodologia.tex [17] [18
 
 ]
-
-LaTeX Warning: Reference `sec:res-verificacao' on page 19 undefined on input line 55.
-
-
-Underfull \hbox (badness 1983) in paragraph at lines 65--65
+Underfull \hbox (badness 1983) in paragraph at lines 66--66
 []|\T1/lmr/m/n/12 (+20) Estados e tran-si-
  []
 
 
-LaTeX Warning: Reference `cap:resultados' on page 19 undefined on input line 80.
+LaTeX Warning: Reference `sec:res-cenarios' on page 19 undefined on input line 84.
 
-[19]) (./Capitulos/simulador.tex [20] [21
+[19]) (./Capitulos/modelo_implementacao.tex [20]
 
-] [22] [23] [24] [25]
-LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 147.
- (/usr/share/texmf/tex/latex/lm/t1lmtt.fd
+LaTeX Warning: Reference `sec:odd' on page 21 undefined on input line 4.
+
+
+LaTeX Warning: Reference `ap:parametros' on page 21 undefined on input line 4.
+
+
+LaTeX Warning: Reference `tab:distribuicao-regional' on page 21 undefined on input line 10.
+
+LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 15.
+(/usr/share/texmf/tex/latex/lm/t1lmtt.fd
 File: t1lmtt.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
 Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             `lmtt' (encoding: T1).
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
- [26] [27] [28]) (./Capitulos/Arquitetura.tex [29] [30
 
-] [31] [32] [33]) (./Capitulos/Resultado.tex [34] [35
+Overfull \hbox (6.38884pt too wide) in paragraph at lines 27--27
+ [][]\T1/lmtt/m/n/10.95 Imaturo.gaml 
+ []
 
-] [36] [37]) (./main.bbl (./main.brf)
+
+Overfull \hbox (12.13757pt too wide) in paragraph at lines 28--28
+ [][]\T1/lmtt/m/n/10.95 Mosquito.gaml 
+ []
+
+
+Overfull \hbox (0.6401pt too wide) in paragraph at lines 29--29
+ [][]\T1/lmtt/m/n/10.95 Pessoa.gaml 
+ []
+
+
+Overfull \hbox (11.85013pt too wide) in paragraph at lines 31--31
+ [][]\T1/lmtt/m/n/10.95 Ambiente.gaml 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 57--57
+[]|\T1/lmr/m/n/12 (+20) Mosquito
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 58--58
+[]|\T1/lmtt/m/n/12 estagio \T1/lmr/m/n/12 (+20) (0 = ovo, 1
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 58--58
+\T1/lmr/m/n/12 (+20) = larva, 2 = pupa),
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 58--58
+\T1/lmtt/m/n/12 idade\T1/lmr/m/n/12 (+20) , \T1/lmtt/m/n/12 duracao_estagio\T1/lmr/m/n/12 (+20) ,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 59--59
+[]|\T1/lmr/m/n/12 (+20) Criadouro
+ []
+
+[21
+
+]
+
+LaTeX Warning: Reference `ap:parametros' on page 22 undefined on input line 72.
+
+[22]
+
+LaTeX Warning: Reference `tab:parametros-epidemiologicos' on page 23 undefined on input line 80.
+
+
+LaTeX Warning: Reference `tab:parametros-deslocamento' on page 23 undefined on input line 84.
+
+[23]
+
+LaTeX Warning: Reference `ap:parametros' on page 24 undefined on input line 100.
+
+[24]
+
+LaTeX Warning: Reference `cap:conclusao' on page 25 undefined on input line 142.
+
+) (./Capitulos/Resultado.tex [25]
+Underfull \hbox (badness 1237) in paragraph at lines 22--22
+[]|\T1/lmr/m/n/12 (+20) Metadados por re-gis-tro
+ []
+
+
+Underfull \hbox (badness 4181) in paragraph at lines 22--22
+\T1/lmr/m/n/12 (+20) (ex-pe-ri-mento, re-pe-ti-ção,
+ []
+
+[26
+
+]
+
+LaTeX Warning: Reference `tab:distribuicao-regional' on page 27 undefined on input line 52.
+
+
+Overfull \hbox (47.78403pt too wide) in paragraph at lines 46--59
+ [][] 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 78--78
+[]|\T1/lmr/m/n/12 (+20) População ve-to-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 79--79
+[]|\T1/lmr/m/n/12 (+20) População hu-
+ []
+
+[27]) (./main.bbl (./main.brf)
 \tf@brf=\write6
 \openout6 = `main.brf'.
 
- [38]
+ [28]
 bibitemlist
 
 LaTeX Warning: Empty `thebibliography' environment on input line 8.
 
-) [39
+) [29
 
-] [40
+] [30
 
 ]
 \tf@lof=\write7
@@ -1303,18 +1386,18 @@ Package rerunfilecheck Info: File `main.brf' has not changed.
 (rerunfilecheck)             Checksum: C491E8315EF9FC290F82064B700C1A01;1398.
  ) 
 Here is how much of TeX's memory you used:
- 31726 strings out of 476162
- 570314 string characters out of 5794813
- 1941975 words of memory out of 5000000
- 52866 multiletter control sequences out of 15000+600000
- 639599 words of font info for 176 fonts, out of 8000000 for 9000
+ 31763 strings out of 476162
+ 571317 string characters out of 5794813
+ 1942975 words of memory out of 5000000
+ 52917 multiletter control sequences out of 15000+600000
+ 648459 words of font info for 191 fonts, out of 8000000 for 9000
  16 hyphenation exceptions out of 8191
  99i,13n,107p,1048b,878s stack positions out of 10000i,1000n,20000p,200000b,200000s
-</usr/share/texmf/fonts/type1/public/lm/lmbx10.pfb></usr/share/texmf/fonts/type1/public/lm/lmbx12.pfb></usr/share/texmf/fonts/type1/public/lm/lmr10.pfb></usr/share/texmf/fonts/type1/public/lm/lmr12.pfb></usr/share/texmf/fonts/type1/public/lm/lmr9.pfb></usr/share/texmf/fonts/type1/public/lm/lmri10.pfb></usr/share/texmf/fonts/type1/public/lm/lmri12.pfb></usr/share/texmf/fonts/type1/public/lm/lmss12.pfb></usr/share/texmf/fonts/type1/public/lm/lmss17.pfb></usr/share/texmf/fonts/type1/public/lm/lmssbx10.pfb></usr/share/texmf/fonts/type1/public/lm/lmtt12.pfb>
-Output written on main.pdf (41 pages, 389133 bytes).
+</usr/share/texmf/fonts/type1/public/lm/lmbx10.pfb></usr/share/texmf/fonts/type1/public/lm/lmbx12.pfb></usr/share/texmf/fonts/type1/public/lm/lmbxi10.pfb></usr/share/texmf/fonts/type1/public/lm/lmr10.pfb></usr/share/texmf/fonts/type1/public/lm/lmr12.pfb></usr/share/texmf/fonts/type1/public/lm/lmr9.pfb></usr/share/texmf/fonts/type1/public/lm/lmri10.pfb></usr/share/texmf/fonts/type1/public/lm/lmri12.pfb></usr/share/texmf/fonts/type1/public/lm/lmss12.pfb></usr/share/texmf/fonts/type1/public/lm/lmss17.pfb></usr/share/texmf/fonts/type1/public/lm/lmssbx10.pfb></usr/share/texmf/fonts/type1/public/lm/lmtt10.pfb></usr/share/texmf/fonts/type1/public/lm/lmtt12.pfb>
+Output written on main.pdf (31 pages, 400870 bytes).
 PDF statistics:
- 703 PDF objects out of 1000 (max. 8388607)
- 630 compressed objects within 7 object streams
- 145 named destinations out of 1000 (max. 500000)
- 48253 words of extra memory for PDF output out of 51595 (max. 10000000)
+ 548 PDF objects out of 1000 (max. 8388607)
+ 483 compressed objects within 5 object streams
+ 108 named destinations out of 1000 (max. 500000)
+ 52653 words of extra memory for PDF output out of 61914 (max. 10000000)
 
