@@ -87,32 +87,34 @@ A mobilidade influencia as oportunidades de interação. Escolher um destino e d
 
 \section{Estocasticidade e experimentação}
 
-Modelos estocásticos incluem processos aleatórios, como a ocorrência de transmissões, o movimento dos agentes e o ciclo de vida dos vetores. Por isso, execuções com os mesmos parâmetros podem produzir resultados diferentes, e a análise precisa considerar essa variabilidade.
+Modelos baseados em agentes podem incorporar processos estocásticos para representar a variabilidade presente nos sistemas simulados. Em modelos epidemiológicos, eventos como interações entre agentes, transmissão de doenças e processos associados ao ciclo de vida dos indivíduos podem depender de sorteios ou regras probabilísticas. Dessa forma, diferentes execuções realizadas com os mesmos parâmetros podem produzir resultados distintos \cite{Macal2010,Taillandier2019,garcias_2024}.
 
-A semente do gerador pseudoaleatório controla a sequência de valores sorteados. Com a mesma semente, configuração, condições iniciais e versão da implementação, é possível, em geral, reproduzir uma execução. Uma única execução pode não representar a variabilidade do modelo; por isso, usam-se múltiplas replicações e medidas descritivas, como média e dispersão. O número de replicações depende dos objetivos e do custo computacional, e diferenças entre cenários só são relevantes se forem maiores que a variabilidade entre replicações.
+A utilização de um gerador pseudoaleatório permite controlar parte dessa variabilidade por meio de uma semente. Quando são mantidas a mesma semente, configuração, condições iniciais e versão da implementação, uma execução pode ser reproduzida. Entretanto, a análise de uma única execução é limitada, pois seu resultado pode representar apenas uma das possíveis realizações do processo estocástico. Por esse motivo, a experimentação de modelos pode utilizar múltiplas replicações de um mesmo cenário, permitindo observar a variabilidade dos resultados e utilizar medidas descritivas, como médias e medidas de dispersão \cite{Taillandier2019,garcias_2024}.
 
-A análise de sensibilidade investiga como mudanças nos parâmetros afetam as saídas, por variação controlada de parâmetros ou por métodos globais, como os índices de Sobol, que estimam a contribuição de cada parâmetro para a variância das saídas \cite{sobol_2001}. Em modelos espaciais, a incerteza também pode variar no território e no tempo \cite{gamal_etal_2025}.
+Além da variabilidade entre execuções, a análise de um modelo envolve investigar a influência dos parâmetros sobre seus resultados. A análise de sensibilidade permite avaliar como alterações controladas nos parâmetros estão associadas a mudanças nas saídas do modelo. Entre as abordagens globais, os índices de Sobol utilizam a decomposição da variância das saídas para estimar a contribuição de parâmetros individuais e de suas interações para a variabilidade observada \cite{Sobol2001}.
 
+Assim, a experimentação deve considerar tanto a comparação entre diferentes configurações quanto a variabilidade inerente às replicações. A utilização de sementes controladas contribui para a reprodutibilidade das execuções, enquanto a realização de múltiplas replicações permite que os resultados sejam analisados considerando o comportamento estocástico do modelo.
 \section{Plataforma GAMA e linguagem GAML}
 
-O GAMA é uma plataforma para construir e executar modelos espaciais baseados em agentes, com recursos para agentes, ambientes geográficos e experimentos \cite{taillandier_etal_2019}. Seus modelos são escritos em GAML, linguagem que define variáveis globais, espécies de agentes, inicialização, comportamentos e experimentos. A plataforma oferece operações espaciais, como cálculo de distâncias, identificação de vizinhos, manipulação de geometrias e definição de trajetórias.
+O GAMA é uma plataforma para construir e executar modelos espaciais baseados em agentes, com recursos para agentes, ambientes geográficos e experimentos \cite{Taillandier2019}. Seus modelos são escritos em GAML, linguagem que define variáveis globais, espécies de agentes, inicialização, comportamentos e experimentos. A plataforma oferece operações espaciais, como cálculo de distâncias, identificação de vizinhos, manipulação de geometrias e definição de trajetórias.
 
 A plataforma facilita a integração entre agentes e dados geográficos, mas não garante a qualidade do modelo. A descrição de um simulador deve indicar quais recursos da plataforma foram efetivamente usados.
 
 \section{Documentação, verificação e validação}
 
-O protocolo ODD (\textit{Overview, Design concepts and Details}) padroniza a documentação de ABMs, organizando propósito, entidades, escalas, processos, inicialização, entradas e submodelos \cite{grimm_etal_2020}. Documentar torna as decisões explícitas e facilita a reprodução, mas não prova que o código executa as regras especificadas.
+A documentação estruturada é importante para tornar explícitas as decisões adotadas durante o desenvolvimento de um modelo baseado em agentes. O protocolo ODD (\textit{Overview, Design concepts and Details}) foi proposto como um padrão para a descrição de modelos individuais e baseados em agentes. Sua estrutura organiza a descrição do modelo em elementos relacionados ao propósito, às entidades, variáveis de estado e escalas, aos processos, aos conceitos de projeto, à inicialização, aos dados de entrada e aos submodelos \cite{Grimm2010}.
 
-Três conceitos devem ser distinguidos:
+Uma documentação detalhada facilita a compreensão e a reprodução do modelo, mas não garante, por si só, que sua implementação corresponda às regras especificadas. Nesse contexto, é importante distinguir três atividades relacionadas à avaliação do modelo:
 
 \begin{itemize}
-    \item \textbf{Verificação:} analisa se a implementação corresponde à especificação, por meio de testes de transições, inicialização, regras de interação e indicadores. É necessária porque uma simulação pode parecer plausível mesmo com regras implementadas de modo diferente do especificado.
-    \item \textbf{Validação:} avalia se o modelo é adequado ao seu propósito e representa aspectos relevantes do sistema real, o que pode incluir comparação com dados observados. Um código correto pode ainda usar hipóteses insuficientes, e a semelhança visual com uma série observada não comprova os mecanismos internos.
-    \item \textbf{Calibração:} ajusta parâmetros com base em dados observados.
+    \item \textbf{Verificação:} avalia se a implementação computacional está de acordo com a especificação do modelo. Essa atividade pode envolver a inspeção das regras implementadas, das condições de inicialização, das transições de estado e dos resultados produzidos durante a execução.
+
+    \item \textbf{Validação:} avalia se o modelo é adequado ao propósito para o qual foi desenvolvido e se suas hipóteses e resultados representam aspectos relevantes do sistema investigado. Dependendo do objetivo do estudo e da disponibilidade de dados, essa avaliação pode incluir comparações entre resultados simulados e observações do sistema real.
+
+    \item \textbf{Calibração:} consiste no ajuste de parâmetros do modelo utilizando informações ou dados disponíveis, buscando definir valores compatíveis com o sistema ou cenário analisado.
 \end{itemize}
 
-Dois requisitos sustentam essas atividades. A rastreabilidade liga os elementos conceituais (entidades, estados, regras) aos componentes do código. A reprodutibilidade exige registrar parâmetros, sementes, versões de software e procedimentos experimentais, o que é essencial em modelos estocásticos.
-
+Essas atividades são favorecidas pela rastreabilidade entre os elementos conceituais do modelo e sua implementação. A identificação das entidades, estados, regras e parâmetros no código facilita a verificação de sua correspondência com a especificação documentada. Além disso, a reprodutibilidade dos experimentos depende do registro das configurações utilizadas, incluindo parâmetros, sementes do gerador pseudoaleatório, versões do software e procedimentos de execução, especialmente em modelos que incorporam processos estocásticos \cite{Taillandier2019,garcias_2024}.
 \section{Trabalhos relacionados}
 
 Os estudos a seguir servem de referência para decisões de modelagem, representação espacial e experimentação. Como cada um tem área, hipóteses e dados próprios, seus parâmetros e resultados não se transferem automaticamente a este trabalho. A Tabela~\ref{tab:relacionados} resume as contribuições.
@@ -127,7 +129,7 @@ Os estudos a seguir servem de referência para decisões de modelagem, represent
         \hline
         \citeonline{garcias_2024} & Dengue, Portugal Continental & GAMA & Documentação do modelo; relação entre espaço, regras e experimentação \\
         \citeonline{oliveira_etal_2025} & Dengue, Alto Santo (CE) & GAMA & Organização de entidades (humanos, mosquitos, ovos, criadouros), parâmetros e cenários \\
-        \citeonline{gharakhanlou_2019, gharakhanlou_2020} & Malária & Não aplicável & Integração entre entidades, espaço, ambiente e intervenções \\
+        \citeonline{gharakhanlou_2019} & Malária & Não aplicável & Integração entre entidades, espaço, ambiente e intervenções \\
         \citeonline{gamal_etal_2025} & Não específica de doença & Não aplicável & Análise espaço-temporal da incerteza em ABM \\
         \hline
     \end{tabular}
@@ -136,6 +138,6 @@ Os estudos a seguir servem de referência para decisões de modelagem, represent
 
 Garcias \cite{garcias_2024} modela a dengue em Portugal Continental no GAMA, com agentes humanos, mosquitos e componentes territoriais, e discute parâmetros, mobilidade e condições ambientais. Oliveira et al. \cite{oliveira_etal_2025} simulam a dengue em Alto Santo (CE), também no GAMA, com humanos, mosquitos, ovos e criadouros, informações espaciais e experimentos com diferentes parâmetros. Em ambos os casos, as diferenças de espécie vetorial, área de estudo e condições epidemiológicas impedem reutilizar os parâmetros em São Paulo.
 
-Os modelos de malária de Gharakhanlou et al. \cite{gharakhanlou_2019, gharakhanlou_2020} trazem aspectos metodológicos sobre representação espacial, mas suas regras epidemiológicas não se aplicam à dengue. Gamal et al. \cite{gamal_etal_2025} propõem uma forma de analisar a propagação espaço-temporal da incerteza em ABMs, mostrando que a variabilidade dos resultados difere entre unidades espaciais e ao longo do tempo. É uma referência conceitual para avaliação, e não um conjunto de regras para a dengue.
+Os modelos de malária de Gharakhanlou et al. \cite{gharakhanlou_2019} trazem aspectos metodológicos sobre representação espacial, mas suas regras epidemiológicas não se aplicam à dengue. Gamal et al. \cite{gamal_etal_2025} propõem uma forma de analisar a propagação espaço-temporal da incerteza em ABMs, mostrando que a variabilidade dos resultados difere entre unidades espaciais e ao longo do tempo. É uma referência conceitual para avaliação, e não um conjunto de regras para a dengue.
 
 Em conjunto, os trabalhos mostram como documentar modelos, representar entidades, integrar dados geográficos e conduzir experimentos. Os estudos de dengue descritos aqui, porém, tratam de outros territórios. Este trabalho aplica a abordagem ao município de São Paulo e acrescenta a verificação sistemática do simulador e a análise da variabilidade estocástica, com a especificação e a avaliação próprias descritas nos capítulos seguintes.

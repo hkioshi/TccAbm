@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2026.10.30)  9 NOV 2026 17:48
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2026.10.30)  10 NOV 2026 15:57
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1127,67 +1127,47 @@ Underfull \hbox (badness 1163) in paragraph at lines 32--32
 LaTeX Font Info:    Trying to load font information for TS1+lmr on input line 49.
  (/usr/share/texmf/tex/latex/lm/ts1lmr.fd
 File: ts1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
-) [14{/usr/share/texmf/fonts/enc/dvips/lm/lm-ts1.enc}]
-
-LaTeX Warning: Citation `sobol_2001' on page 15 undefined on input line 94.
-
-
-LaTeX Warning: Citation `gamal_etal_2025' on page 15 undefined on input line 94.
-
-[15]
-
-LaTeX Warning: Citation `taillandier_etal_2019' on page 16 undefined on input line 98.
-
-
-LaTeX Warning: Citation `grimm_etal_2020' on page 16 undefined on input line 104.
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 126--126
+) [14{/usr/share/texmf/fonts/enc/dvips/lm/lm-ts1.enc}] [15] [16]
+Underfull \hbox (badness 10000) in paragraph at lines 128--128
 []|\T1/lmr/bx/n/12 (+20) Doença e
  []
 
 
-LaTeX Warning: Citation `garcias_2024' on page 16 undefined on input line 128.
+Underfull \hbox (badness 6658) in paragraph at lines 131--131
+[]|[][]\T1/lmr/m/n/12 (+20) Oliveira et al.[][]
+ []
 
 
-LaTeX Warning: Citation `oliveira_etal_2025' on page 16 undefined on input line 129.
-
-
-Underfull \hbox (badness 5592) in paragraph at lines 129--129
+Underfull \hbox (badness 5592) in paragraph at lines 131--131
 []|\T1/lmr/m/n/12 (+20) Dengue, Alto
  []
 
 
-Underfull \hbox (badness 2653) in paragraph at lines 129--130
+Underfull \hbox (badness 2653) in paragraph at lines 131--132
 []|\T1/lmr/m/n/12 (+20) Organização de en-ti-da-des
  []
 
 
-LaTeX Warning: Citation `gharakhanlou_2019' on page 16 undefined on input line 130.
+Underfull \hbox (badness 10000) in paragraph at lines 132--132
+[]|[][]\T1/lmr/m/n/12 (+20) Mahdizadeh
+ []
 
 
-LaTeX Warning: Citation `gharakhanlou_2020' on page 16 undefined on input line 130.
+Underfull \hbox (badness 10000) in paragraph at lines 132--132
+\T1/lmr/m/n/12 (+20) Gha-rakhan-lou,
+ []
 
 
-LaTeX Warning: Citation `gamal_etal_2025' on page 16 undefined on input line 131.
-
-[16]
-
-LaTeX Warning: Citation `garcias_2024' on page 17 undefined on input line 137.
+Underfull \hbox (badness 4739) in paragraph at lines 132--132
+\T1/lmr/m/n/12 (+20) Mes-gari e Ho-
+ []
 
 
-LaTeX Warning: Citation `oliveira_etal_2025' on page 17 undefined on input line 137.
+Underfull \hbox (badness 10000) in paragraph at lines 133--133
+[]|[][]\T1/lmr/m/n/12 (+20) Gamal et al.[][]
+ []
 
-
-LaTeX Warning: Citation `gharakhanlou_2019' on page 17 undefined on input line 139.
-
-
-LaTeX Warning: Citation `gharakhanlou_2020' on page 17 undefined on input line 139.
-
-
-LaTeX Warning: Citation `gamal_etal_2025' on page 17 undefined on input line 139.
-
-) (./Capitulos/Metodologia.tex [17] [18
+[17]) (./Capitulos/Metodologia.tex [18] [19
 
 ]
 Underfull \hbox (badness 1983) in paragraph at lines 66--66
@@ -1195,17 +1175,17 @@ Underfull \hbox (badness 1983) in paragraph at lines 66--66
  []
 
 
-LaTeX Warning: Reference `sec:res-cenarios' on page 19 undefined on input line 84.
+LaTeX Warning: Reference `sec:res-cenarios' on page 20 undefined on input line 84.
 
-[19]) (./Capitulos/modelo_implementacao.tex [20]
+[20]) (./Capitulos/modelo_implementacao.tex [21]
 
-LaTeX Warning: Reference `sec:odd' on page 21 undefined on input line 4.
-
-
-LaTeX Warning: Reference `ap:parametros' on page 21 undefined on input line 4.
+LaTeX Warning: Reference `sec:odd' on page 22 undefined on input line 4.
 
 
-LaTeX Warning: Reference `tab:distribuicao-regional' on page 21 undefined on input line 10.
+LaTeX Warning: Reference `ap:parametros' on page 22 undefined on input line 4.
+
+
+LaTeX Warning: Reference `tab:distribuicao-regional' on page 22 undefined on input line 10.
 
 LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 15.
 (/usr/share/texmf/tex/latex/lm/t1lmtt.fd
@@ -1260,24 +1240,24 @@ Underfull \hbox (badness 10000) in paragraph at lines 59--59
 []|\T1/lmr/m/n/12 (+20) Criadouro
  []
 
-[21
+[22
 
 ]
 
-LaTeX Warning: Reference `ap:parametros' on page 22 undefined on input line 72.
-
-[22]
-
-LaTeX Warning: Reference `tab:parametros-epidemiologicos' on page 23 undefined on input line 80.
-
-
-LaTeX Warning: Reference `tab:parametros-deslocamento' on page 23 undefined on input line 84.
+LaTeX Warning: Reference `ap:parametros' on page 23 undefined on input line 72.
 
 [23]
 
-LaTeX Warning: Reference `ap:parametros' on page 24 undefined on input line 100.
+LaTeX Warning: Reference `tab:parametros-epidemiologicos' on page 24 undefined on input line 80.
 
-[24]) (./Capitulos/Resultado.tex [25]
+
+LaTeX Warning: Reference `tab:parametros-deslocamento' on page 24 undefined on input line 84.
+
+[24]
+
+LaTeX Warning: Reference `ap:parametros' on page 25 undefined on input line 100.
+
+[25]) (./Capitulos/Resultado.tex [26]
 Underfull \hbox (badness 1237) in paragraph at lines 22--22
 []|\T1/lmr/m/n/12 (+20) Metadados por re-gis-tro
  []
@@ -1287,11 +1267,11 @@ Underfull \hbox (badness 4181) in paragraph at lines 22--22
 \T1/lmr/m/n/12 (+20) (ex-pe-ri-mento, re-pe-ti-ção,
  []
 
-[26
+[27
 
 ]
 
-LaTeX Warning: Reference `tab:distribuicao-regional' on page 27 undefined on input line 52.
+LaTeX Warning: Reference `tab:distribuicao-regional' on page 28 undefined on input line 52.
 
 
 Overfull \hbox (47.78403pt too wide) in paragraph at lines 46--59
@@ -1308,13 +1288,13 @@ Underfull \hbox (badness 10000) in paragraph at lines 79--79
 []|\T1/lmr/m/n/12 (+20) População hu-
  []
 
-[27]) (./Capitulos/conclusao.tex [28] [29
+[28]) (./Capitulos/conclusao.tex [29] [30
 
 ]
 
-LaTeX Warning: Reference `ap:repositorio' on page 30 undefined on input line 38.
+LaTeX Warning: Reference `ap:repositorio' on page 31 undefined on input line 38.
 
-[30]
+[31]
 Underfull \hbox (badness 2334) in paragraph at lines 71--72
 []|\T1/lmr/m/n/12 (+20) Atendido [PEN-DENTE:
  []
@@ -1328,11 +1308,11 @@ Underfull \hbox (badness 2875) in paragraph at lines 72--73
 \tf@brf=\write6
 \openout6 = `main.brf'.
 
- [31]
+ [32]
 bibitemlist
-) [32
+) [33
 
-] [33
+] [34
 
 ]
 \tf@lof=\write7
@@ -1353,21 +1333,21 @@ L3 programming layer <2020/03/25>
 LaTeX Warning: There were undefined references.
 
 Package rerunfilecheck Info: File `main.brf' has not changed.
-(rerunfilecheck)             Checksum: 56C498DC403EE3828D0039421F2E6854;1359.
+(rerunfilecheck)             Checksum: CBEB5A044DBE1916346423F9984973D7;1587.
  ) 
 Here is how much of TeX's memory you used:
  31802 strings out of 476162
- 571775 string characters out of 5794813
+ 571588 string characters out of 5794813
  1942975 words of memory out of 5000000
- 52935 multiletter control sequences out of 15000+600000
- 648685 words of font info for 193 fonts, out of 8000000 for 9000
+ 52928 multiletter control sequences out of 15000+600000
+ 648749 words of font info for 193 fonts, out of 8000000 for 9000
  16 hyphenation exceptions out of 8191
  99i,13n,107p,1048b,878s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/share/texmf/fonts/type1/public/lm/lmbx10.pfb></usr/share/texmf/fonts/type1/public/lm/lmbx12.pfb></usr/share/texmf/fonts/type1/public/lm/lmbxi10.pfb></usr/share/texmf/fonts/type1/public/lm/lmr10.pfb></usr/share/texmf/fonts/type1/public/lm/lmr12.pfb></usr/share/texmf/fonts/type1/public/lm/lmr9.pfb></usr/share/texmf/fonts/type1/public/lm/lmri10.pfb></usr/share/texmf/fonts/type1/public/lm/lmri12.pfb></usr/share/texmf/fonts/type1/public/lm/lmss12.pfb></usr/share/texmf/fonts/type1/public/lm/lmss17.pfb></usr/share/texmf/fonts/type1/public/lm/lmssbx10.pfb></usr/share/texmf/fonts/type1/public/lm/lmtt10.pfb></usr/share/texmf/fonts/type1/public/lm/lmtt12.pfb>
-Output written on main.pdf (34 pages, 413368 bytes).
+Output written on main.pdf (35 pages, 420745 bytes).
 PDF statistics:
- 637 PDF objects out of 1000 (max. 8388607)
- 566 compressed objects within 6 object streams
- 122 named destinations out of 1000 (max. 500000)
+ 709 PDF objects out of 1000 (max. 8388607)
+ 636 compressed objects within 7 object streams
+ 129 named destinations out of 1000 (max. 500000)
  52701 words of extra memory for PDF output out of 61914 (max. 10000000)
 

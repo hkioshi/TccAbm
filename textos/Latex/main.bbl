@@ -5,16 +5,50 @@
 \providecommand{\abntbstabout}[1]{}
 \abntbstabout{v-1.9.7 }
 
+\bibitem[Gamal et al. 2025]{gamal_etal_2025}
+\abntrefinfo{Gamal et al.}{GAMAL et al.}{2025}
+{GAMAL, Y. et al. An analysis of spatial and temporal uncertainty propagation in agent-based models.
+\emph{Philosophical Transactions of the Royal Society A: Mathematical, Physical and Engineering Sciences}, v.~383, n.~2293, p. 20240229, 2025.
+Dispon{\'\i}vel em: \url{https://doi.org/10.1098/rsta.2024.0229}.}
+
+\bibitem[Garcias 2024]{garcias_2024}
+\abntrefinfo{Garcias}{GARCIAS}{2024}
+{GARCIAS, D.~B.
+\emph{Modelo de Simulação da Transmissão da Dengue Baseado em Agentes}.
+Disserta\c{c}\~{a}o (Dissertação de Mestrado) --- Universidade NOVA de Lisboa, Lisboa, Portugal, set. 2024.
+Dispon{\'\i}vel em: \url{https://run.unl.pt/server/api/core/bitstreams/9433923f-a6c2-43fa-9321-f45c9be15cbf/content}.}
+
+\bibitem[Grimm et al. 2010]{Grimm2010}
+\abntrefinfo{Grimm et al.}{GRIMM et al.}{2010}
+{GRIMM, V. et al. The {ODD} protocol: A review and first update.
+\emph{Ecological Modelling}, v.~221, n.~23, p. 2760--2768, 2010.}
+
 \bibitem[Macal e North 2010]{Macal2010}
 \abntrefinfo{Macal e North}{MACAL; NORTH}{2010}
 {MACAL, C.~M.; NORTH, M.~J. Tutorial on agent-based modelling and simulation.
 \emph{Journal of Simulation}, v.~4, p. 151--162, 2010.}
+
+\bibitem[{Mahdizadeh Gharakhanlou}, Mesgari e Hooshangi 2019]{gharakhanlou_2019}
+\abntrefinfo{{Mahdizadeh Gharakhanlou}, Mesgari e Hooshangi}{{Mahdizadeh Gharakhanlou}; MESGARI; HOOSHANGI}{2019}
+{{Mahdizadeh Gharakhanlou}, N.; MESGARI, M.~S.; HOOSHANGI, N. Developing an agent-based model for simulating the dynamic spread of plasmodium vivax malaria: A case study of sarbaz, iran.
+\emph{Ecological Informatics}, v.~54, p. 101006, 2019.
+ISSN 1574-9541.
+Dispon{\'\i}vel em: \url{https://www.sciencedirect.com/science/article/pii/S1574954119303176}.}
 
 \bibitem[{Ministério da Saúde} 2025]{MinisterioSaude2025}
 \abntrefinfo{{Ministério da Saúde}}{{Ministério da Saúde}}{2025}
 {{Ministério da Saúde}. \emph{Dengue}. 2025.
 Acesso em: 26 maio 2025.
 Dispon{\'\i}vel em: \url{https://www.gov.br/saude/pt-br/assuntos/saude-de-a-a-z/d/dengue}.}
+
+\bibitem[Oliveira et al. 2025]{oliveira_etal_2025}
+\abntrefinfo{Oliveira et al.}{OLIVEIRA et al.}{2025}
+{OLIVEIRA, E. B.~d. et al. Modelo de transmissão da dengue por simulação multi-agentes. In:  \emph{Anais do LVII Simpósio Brasileiro de Pesquisa Operacional}. Gramado, RS: Galoá, 2025. Dispon{\'\i}vel em: \url{https://proceedings.science/sbpo/sbpo-2025/trabalhos/modelo-de-transmissao-da-dengue-por-simulacao-multi-agentes?lang=pt-br}.}
+
+\bibitem[Sobol' 2001]{Sobol2001}
+\abntrefinfo{Sobol'}{SOBOL'}{2001}
+{SOBOL', I.~M. Global sensitivity indices for nonlinear mathematical models and their monte carlo estimates.
+\emph{Mathematics and Computers in Simulation}, v.~55, n.~1--3, p. 271--280, 2001.}
 
 \bibitem[Taillandier et al. 2019]{Taillandier2019}
 \abntrefinfo{Taillandier et al.}{TAILLANDIER et al.}{2019}

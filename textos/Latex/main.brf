@@ -8,17 +8,21 @@
 \backcite {Macal2010}{{14}{1}{table.caption.9}}
 \backcite {Macal2010}{{14}{2.3}{section.2.3}}
 \backcite {Taillandier2019}{{15}{2.4}{section.2.4}}
-\backcite {sobol_2001}{{16}{2.5}{section.2.5}}
-\backcite {gamal_etal_2025}{{16}{2.5}{section.2.5}}
-\backcite {taillandier_etal_2019}{{16}{2.6}{section.2.6}}
-\backcite {grimm_etal_2020}{{16}{2.7}{section.2.7}}
+\backcite {Macal2010,Taillandier2019,garcias_2024}{{15}{2.5}{section.2.5}}
+\backcite {Macal2010,Taillandier2019,garcias_2024}{{15}{2.5}{section.2.5}}
+\backcite {Macal2010,Taillandier2019,garcias_2024}{{15}{2.5}{section.2.5}}
+\backcite {Taillandier2019,garcias_2024}{{16}{2.5}{section.2.5}}
+\backcite {Taillandier2019,garcias_2024}{{16}{2.5}{section.2.5}}
+\backcite {Sobol2001}{{16}{2.5}{section.2.5}}
+\backcite {Taillandier2019}{{16}{2.6}{section.2.6}}
+\backcite {Grimm2010}{{16}{2.7}{section.2.7}}
+\backcite {Taillandier2019,garcias_2024}{{17}{2.7}{section.2.7}}
+\backcite {Taillandier2019,garcias_2024}{{17}{2.7}{section.2.7}}
 \backcite {garcias_2024}{{17}{2}{table.caption.11}}
 \backcite {oliveira_etal_2025}{{17}{2}{table.caption.11}}
-\backcite {gharakhanlou_2019, gharakhanlou_2020}{{17}{2}{table.caption.11}}
-\backcite {gharakhanlou_2019, gharakhanlou_2020}{{17}{2}{table.caption.11}}
+\backcite {gharakhanlou_2019}{{17}{2}{table.caption.11}}
 \backcite {gamal_etal_2025}{{17}{2}{table.caption.11}}
 \backcite {garcias_2024}{{17}{2.8}{table.caption.11}}
 \backcite {oliveira_etal_2025}{{17}{2.8}{table.caption.11}}
-\backcite {gharakhanlou_2019, gharakhanlou_2020}{{17}{2.8}{table.caption.11}}
-\backcite {gharakhanlou_2019, gharakhanlou_2020}{{17}{2.8}{table.caption.11}}
-\backcite {gamal_etal_2025}{{17}{2.8}{table.caption.11}}
+\backcite {gharakhanlou_2019}{{18}{2.8}{table.caption.11}}
+\backcite {gamal_etal_2025}{{18}{2.8}{table.caption.11}}
