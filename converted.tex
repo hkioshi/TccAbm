@@ -1,0 +1,3298 @@
+\textbf{SIMULAÇÃO ESPACIAL DA TRANSMISSÃO DA DENGUE NO MUNICÍPIO DE SÃO
+PAULO POR MODELAGEM BASEADA EM AGENTES NA PLATAFORMA GAMA}
+
+Texto acadêmico consolidado --- versão de revisão técnica \textbar{} 8
+nov. 2026
+
+Autoria, curso, instituição, orientador e demais elementos pré-textuais:
+preencher conforme o modelo institucional efetivamente adotado no
+repositório. Este documento não substitui a capa, a ficha catalográfica
+nem a folha de aprovação do template institucional.
+
+\section{RESUMO}\label{resumo}
+
+Este trabalho apresenta a documentação e a avaliação em desenvolvimento
+de um simulador espacial e estocástico da transmissão da dengue no
+município de São Paulo, implementado na plataforma GAMA por meio da
+linguagem GAML. A abordagem baseada em agentes representa indivíduos
+humanos, mosquitos vetores e componentes ambientais, contemplando
+estados epidemiológicos, deslocamentos, interações por proximidade,
+informações geográficas, condições climáticas e registros temporais. A
+metodologia compreende análise do código-fonte, especificação dos
+comportamentos, verificação de invariantes, planejamento de experimentos
+controlados e avaliação de reprodutibilidade. No repositório foram
+identificadas configurações de experimentos em lote para variabilidade
+estocástica, vacinação, população vetorial e escalabilidade. Um conjunto
+histórico de registros CSV permitiu identificar a necessidade de
+conferir a correspondência entre totais populacionais e estados
+epidemiológicos. Em 7 de novembro de 2026, o histórico do projeto
+registrou modificações relacionadas a sementes, população de mosquitos e
+inicialização vetorial; a eficácia dessas correções ainda demanda testes
+de execução e auditoria dos resultados associados. Assim, os resultados
+disponíveis sustentam uma análise de implementação e consistência, mas
+não constituem validação epidemiológica ou previsão de surtos reais. O
+estudo contribui para a explicitação de requisitos técnicos,
+experimentais e de documentação necessários à avaliação de simuladores
+baseados em agentes.
+
+Palavras-chave: dengue; modelagem baseada em agentes; GAMA; GAML;
+sistemas de informação geográfica; verificação de simulação.
+
+\section{ABSTRACT}\label{abstract}
+
+This study presents the documentation and ongoing assessment of a
+spatial stochastic agent-based dengue transmission simulator for the
+municipality of São Paulo, implemented in the GAMA platform using GAML.
+The model represents human individuals, mosquito vectors, and
+environmental components, including epidemiological states, mobility,
+proximity-based interactions, geographic information, climatic
+conditions, and time-series recording. The methodological approach
+includes source-code analysis, behavioral specification, invariant
+checking, controlled experimental design, and reproducibility
+assessment. The repository contains batch experiment configurations
+addressing stochastic variability, vaccination, vector population, and
+scalability. An earlier CSV dataset revealed the need to audit
+consistency between total populations and epidemiological state counts.
+On November 7, 2026, the project history reported changes concerning
+random seeds, mosquito population initialization, and vector states; the
+effectiveness of these modifications still requires execution tests and
+verification of associated outputs. Available evidence therefore
+supports an implementation and consistency analysis but does not
+establish epidemiological validation or outbreak forecasting capability.
+The work contributes technical, experimental, and documentation
+requirements for the rigorous assessment of agent-based simulators.
+
+Keywords: dengue; agent-based modeling; GAMA; GAML; geographic
+information systems; simulation verification.
+
+Nota editorial: atualizar Resumo e Abstract somente após gerar e validar
+as séries E03/E04/E05. Não inserir resultados quantitativos
+inexistentes.
+
+\section{SUMÁRIO --- ESTRUTURA}\label{sumuxe1rio-estrutura}
+
+1 INTRODUÇÃO
+
+2 FUNDAMENTAÇÃO TEÓRICA E TRABALHOS RELACIONADOS
+
+3 MODELAGEM COMPUTACIONAL E JUSTIFICATIVA DA PLATAFORMA
+
+4 ARQUITETURA E IMPLEMENTAÇÃO DO SIMULADOR
+
+5 VERIFICAÇÃO, EXPERIMENTAÇÃO, RESULTADOS E DISCUSSÃO
+
+6 CONCLUSÃO E TRABALHOS FUTUROS
+
+REFERÊNCIAS
+
+APÊNDICE A --- RASTREABILIDADE DAS EXIGÊNCIAS DO ORIENTADOR
+
+A paginação definitiva e o sumário automático devem ser gerados no
+template LaTeX/Senac; esta lista apresenta somente a estrutura do texto
+consolidado.
+
+\section{1 INTRODUÇÃO}\label{introduuxe7uxe3o}
+
+A dengue é uma arbovirose causada pelo vírus dengue (DENV), cuja
+transmissão ocorre predominantemente pela picada de fêmeas infectadas de
+mosquitos do gênero Aedes. No Brasil, o Aedes aegypti constitui o
+principal vetor urbano. São reconhecidos quatro sorotipos virais,
+denominados DENV-1, DENV-2, DENV-3 e DENV-4, cuja circulação representa
+um desafio à vigilância e à prevenção da doença (BRASIL, s.d.; WORLD
+HEALTH ORGANIZATION, 2025). (Brasil, {[}s. d.{]}; World Health
+Organization, 2025)
+
+A infecção pode permanecer assintomática, provocar manifestações febris
+ou evoluir para formas graves. A dinâmica de transmissão depende de
+relações entre hospedeiros humanos, mosquitos vetores e características
+do ambiente. O crescimento urbano, a disponibilidade de recipientes
+favoráveis ao desenvolvimento do mosquito, as condições climáticas e a
+movimentação das pessoas constituem fatores relevantes para compreender
+a heterogeneidade espacial e temporal da transmissão (WORLD HEALTH
+ORGANIZATION, 2025). (Brasil, {[}s. d.{]}; World Health Organization,
+2025)
+
+Segundo a Organização Mundial da Saúde (2025), aproximadamente metade da
+população mundial encontra-se em áreas com risco de dengue. Embora
+existam medidas preventivas e estratégias de imunização para públicos e
+condições específicos, a prevenção depende fortemente do controle do
+vetor, da redução dos criadouros, da vigilância e do acesso oportuno à
+assistência em saúde. A relevância do problema motiva o uso de
+abordagens computacionais capazes de explorar mecanismos e cenários sob
+hipóteses explícitas. (Brasil, {[}s. d.{]}; World Health Organization,
+2025)
+
+O município de São Paulo oferece um contexto territorial complexo para
+esse tipo de investigação. A concentração populacional, a diversidade de
+usos do solo e a presença de deslocamentos entre diferentes regiões
+justificam a investigação de uma representação espacial, desde que as
+bases geográficas e demográficas sejam adequadamente identificadas.
+Neste trabalho, a área de estudo corresponde ao município de São Paulo,
+não apenas ao Distrito ou à Subprefeitura de Santo Amaro. (Brasil, {[}s.
+d.{]}; World Health Organization, 2025)
+
+A representação da dengue por simulação computacional exige escolhas que
+transcendem a dimensão epidemiológica. É necessário definir entidades,
+variáveis de estado, regras de execução, agendamento temporal, relações
+de vizinhança e mecanismos de geração pseudoaleatória, além de preparar
+dados geográficos e preservar a rastreabilidade das saídas. Essas
+decisões afetam simultaneamente a interpretação do fenômeno, a
+reprodutibilidade e o custo computacional do programa. (Macal; North,
+2010)
+
+A modelagem baseada em agentes --- Agent-Based Modeling (ABM) ---
+permite representar indivíduos heterogêneos com atributos, estados e
+comportamentos próprios. Suas interações com outros agentes e com o
+ambiente podem gerar padrões coletivos que não são especificados
+diretamente como saídas agregadas. Ferramentas como a plataforma GAMA
+oferecem estruturas voltadas à implementação de modelos espacialmente
+explícitos e à execução de experimentos computacionais (MACAL; NORTH,
+2010; TAILLANDIER et al., 2019).
+
+No campo de aplicação da dengue, Garcias (2024) desenvolveu um modelo na
+plataforma GAMA para Portugal continental, com ênfase nas interações
+entre humanos, mosquitos Aedes albopictus e ambiente. Oliveira et al.
+(2025) apresentaram uma simulação multiagentes aplicada a Alto Santo,
+Ceará, investigando parâmetros vetoriais e intervenções de controle.
+Ambos os estudos demonstram possibilidades metodológicas, mas suas
+espécies vetoriais, delimitações geográficas, parâmetros e resultados
+não podem ser automaticamente transportados para uma aplicação em São
+Paulo.
+
+Neste contexto, o presente trabalho tem como objeto central a engenharia
+e a análise de um simulador espacial de transmissão da dengue
+desenvolvido na plataforma GAMA, por meio da linguagem GAML. A
+implementação é examinada a partir do repositório público TccAbm,
+observando a organização dos componentes, a inicialização dos agentes,
+as regras de transmissão, a mobilidade, os parâmetros de vacinação, o
+controle temporal, o ambiente geográfico e a produção de indicadores. A
+leitura do código, por si só, não constitui evidência de funcionamento
+correto ou validação epidemiológica, de modo que a verificação e a
+avaliação experimental são tratadas como atividades específicas.
+(Taillandier et al., 2019; Macal; North, 2010)
+
+\subsection{1.1 Problema de pesquisa}\label{problema-de-pesquisa}
+
+Um simulador pode gerar gráficos e séries temporais mesmo quando contém
+transições de estados inconsistentes, problemas de escala temporal,
+pressupostos espaciais insuficientemente documentados ou mecanismos
+pseudoaleatórios de difícil reprodução. Dessa forma, a execução do
+programa e a plausibilidade visual de suas saídas não são suficientes
+para demonstrar a conformidade entre modelo conceitual, implementação e
+propósito experimental. (HKIOSHI, 2026)
+
+A análise preliminar da versão estudada do repositório TccAbm
+identificou componentes separados para pessoas, mosquitos, ambiente,
+criadouros e procedimentos globais. Também evidenciou a necessidade de
+conferir, entre outros pontos, os estados epidemiológicos inicializados,
+a conversão de escalas temporais, o controle das sementes e a
+correspondência entre as geometrias carregadas e a área municipal. Esses
+achados serão examinados detalhadamente nos capítulos de implementação e
+avaliação; não são tratados, nesta introdução, como falhas confirmadas
+por testes de execução. (HKIOSHI, 2026)
+
+Diante desses desafios, estabelece-se a seguinte pergunta de pesquisa:
+como desenvolver, documentar e avaliar computacionalmente um simulador
+espacial e estocástico baseado em agentes na plataforma GAMA, capaz de
+representar as interações entre humanos, mosquitos Aedes aegypti e
+ambiente na dinâmica de transmissão da dengue no município de São Paulo,
+considerando a consistência das regras, a reprodutibilidade e o
+desempenho da implementação? (Taillandier et al., 2019; Macal; North,
+2010)
+
+\subsection{1.2 Hipótese de trabalho e
+pressupostos}\label{hipuxf3tese-de-trabalho-e-pressupostos}
+
+Parte-se do pressuposto de que a explicitação das entidades, transições,
+escalas, fontes de dados e mecanismos de execução permite estabelecer
+critérios verificáveis para analisar a implementação. Espera-se que a
+relação sistemática entre especificação, código-fonte e testes revele
+limites e propriedades do simulador que não podem ser inferidos apenas
+de sua visualização. Trata-se de uma hipótese metodológica que deverá
+ser examinada pelos procedimentos apresentados no Capítulo 5. (HKIOSHI,
+2026)
+
+A simulação não será considerada um mecanismo de previsão epidemiológica
+validado sem comparação adequada com dados observados. A adoção de
+população sintética reduzida, parâmetros hipotéticos ou agregação
+territorial requer descrição explícita e impede extrapolações
+automáticas para toda a população do município. (Macal; North, 2010)
+
+\subsection{1.3 Justificativa}\label{justificativa}
+
+A contribuição científica pretendida situa-se principalmente na Ciência
+da Computação. Do ponto de vista de engenharia de software, a pesquisa
+contempla modularização de código, organização de responsabilidades,
+especificação das regras, rastreabilidade entre requisitos e
+implementação, e verificação funcional. Do ponto de vista algorítmico,
+envolve eventos probabilísticos, atualização de estados, consultas
+espaciais e agendamento de processos. Na avaliação experimental,
+interessa caracterizar variabilidade, sensibilidade e desempenho sob
+configurações controladas. (HKIOSHI, 2026)
+
+A escolha do GAMA se justifica por suas capacidades de representar
+agentes espacialmente explícitos, incorporar dados territoriais e
+organizar experimentos. A plataforma constitui o ambiente computacional
+da implementação, mas sua adoção não garante, isoladamente, que as
+regras biológicas, as operações espaciais ou o desempenho estejam
+corretos (TAILLANDIER et al., 2019).
+
+A utilidade da dengue como domínio de aplicação está em oferecer um
+sistema com interações locais, agentes heterogêneos, eventos
+estocásticos e variáveis ambientais. Assim, o trabalho combina um
+problema socialmente relevante com desafios técnicos de modelagem e
+implementação. Sua contribuição deverá ser demonstrada por documentação
+e evidências, e não apenas pela escolha de uma nova cidade ou pela
+reprodução de funcionalidades descritas na literatura. (HKIOSHI, 2026)
+
+\subsection{1.4 Objetivos}\label{objetivos}
+
+1.4.1 Objetivo geral
+
+Desenvolver, documentar e avaliar um simulador computacional espacial,
+estocástico e baseado em agentes, utilizando a plataforma GAMA e dados
+de Sistemas de Informação Geográfica (SIG), para representar a dinâmica
+de transmissão da dengue no município de São Paulo, por meio das
+interações entre agentes humanos, mosquitos Aedes aegypti e componentes
+ambientais, com ênfase na modelagem e na implementação dos algoritmos,
+na verificação funcional, na reprodutibilidade e na análise do
+desempenho computacional.
+
+1.4.2 Objetivos específicos
+
+1. Investigar os fundamentos da transmissão da dengue e da modelagem
+baseada em agentes, identificando requisitos biológicos, espaciais e
+computacionais necessários à especificação do simulador.
+
+2. Especificar e documentar os agentes, atributos, estados
+epidemiológicos, comportamentos, interações e hipóteses de representação
+adotados no modelo.
+
+3. Justificar a utilização de GAMA/GAML e sua integração com SIG,
+comparando-a qualitativamente a alternativas de simulação conforme os
+requisitos do projeto.
+
+4. Analisar e documentar a implementação dos módulos responsáveis por
+humanos, mosquitos Aedes aegypti, ambientes, criadouros e procedimentos
+globais, distinguindo funcionalidades presentes de aperfeiçoamentos
+propostos.
+
+5. Caracterizar e verificar a inicialização, a distribuição espacial, a
+mobilidade, a vacinação, o controle temporal, os eventos probabilísticos
+e os mecanismos de geração de saídas.
+
+6. Definir e aplicar, conforme a disponibilidade de execução, testes de
+consistência de estados, transições, parâmetros e indicadores,
+registrando as evidências e as limitações encontradas.
+
+7. Planejar e executar, quando tecnicamente viável, experimentos com
+diferentes sementes e parâmetros, de modo a examinar a variabilidade
+estocástica e a sensibilidade dos resultados.
+
+8. Avaliar, mediante medições reproduzíveis, o custo computacional em
+diferentes configurações de agentes, incluindo tempo de processamento e
+consumo de memória.
+
+9. Investigar a compatibilidade entre indicadores simulados e séries
+epidemiológicas oficiais do município de São Paulo, realizando
+comparação quantitativa apenas quando as escalas, períodos e definições
+permitirem.
+
+10. Sistematizar as limitações identificadas na implementação e nos
+dados, propondo aperfeiçoamentos técnicos voltados à confiabilidade, à
+reprodutibilidade e à capacidade de experimentação.
+
+\subsection{1.5 Delimitação e escopo}\label{delimitauxe7uxe3o-e-escopo}
+
+O recorte territorial do estudo é o município de São Paulo, Estado de
+São Paulo, Brasil. Sua representação computacional será descrita a
+partir das bases efetivamente utilizadas pela implementação. O
+carregamento de geometrias de subprefeituras ou a utilização de regiões
+agregadas não equivale, por si só, à reprodução completa da população,
+da mobilidade e da distribuição real do risco epidemiológico em todos os
+distritos da cidade. (HKIOSHI, 2026)
+
+O domínio epidemiológico abrange a representação da transmissão
+envolvendo humanos e mosquitos Aedes aegypti, conforme as regras
+adotadas no simulador sob estudo. Os estados compartimentais e os
+componentes ambientais serão apresentados em duas camadas: especificação
+conceitual desejada e comportamento efetivamente encontrado no código.
+Diferenças entre ambas serão registradas como objetos de análise e,
+quando possível, de verificação. (HKIOSHI, 2026)
+
+Este trabalho não pressupõe representação simultânea dos quatro
+sorotipos, reprodução integral das características imunológicas da
+dengue, equivalência demográfica perfeita ou precisão preditiva de casos
+futuros. A eventual calibração ou validação com dados oficiais dependerá
+da disponibilidade de séries com período, área e indicadores
+compatíveis, e de uma regra que diferencie infecções simuladas de
+notificações observadas. (Grimm et al., 2020; Taillandier et al., 2019)
+
+\subsection{1.6 Procedimentos
+metodológicos}\label{procedimentos-metodoluxf3gicos}
+
+O trabalho é conduzido como estudo de desenvolvimento, documentação e
+avaliação computacional de uma implementação disponível no repositório
+TccAbm. Inicialmente, realizou-se revisão bibliográfica sobre dengue,
+modelagem baseada em agentes e plataformas espaciais. Em seguida, foram
+examinados a estrutura do código GAML e os dados geográficos e
+experimentais disponíveis, com o propósito de distinguir os mecanismos
+implementados das funcionalidades apenas propostas. A autoria, a
+participação dos desenvolvedores e o histórico das alterações deverão
+ser apresentados de acordo com as evidências documentais disponíveis.
+(HKIOSHI, 2026)
+
+A especificação do modelo utiliza o protocolo ODD como referência de
+documentação (GRIMM et al., 2020). A avaliação computacional é
+organizada em verificação funcional, reprodutibilidade, sensibilidade e
+desempenho. Testes e medições somente serão relatados como realizados
+quando acompanhados de configuração, procedimento, artefatos de saída e
+resultados verificáveis. A comparação com dados observados de São Paulo,
+quando possível, será tratada separadamente da verificação do software.
+
+Os registros já existentes permitem uma análise exploratória e a
+identificação de verificações necessárias, mas não demonstram,
+isoladamente, validação epidemiológica nem escalabilidade. O Capítulo 5
+separa evidências disponíveis, resultados de experimentos executados e
+protocolos experimentais pendentes, sem confundir planejamento com
+resultados observados. (Grimm et al., 2020; Taillandier et al., 2019)
+
+\subsection{1.7 Organização do
+trabalho}\label{organizauxe7uxe3o-do-trabalho}
+
+Além desta introdução, o Capítulo 2 apresenta a fundamentação
+epidemiológica e computacional e compara trabalhos relacionados. O
+Capítulo 3 especifica o modelo, as entidades, as escalas, os mecanismos
+e as hipóteses. O Capítulo 4 examina a arquitetura do código GAML, a
+inicialização, o processamento dos comportamentos, a integração GIS e a
+coleta dos indicadores. O Capítulo 5 reúne os procedimentos de
+verificação, as evidências experimentais efetivamente obtidas, as
+limitações e a avaliação de reprodutibilidade e desempenho. O Capítulo 6
+sintetiza as contribuições demonstradas e propõe melhorias e trabalhos
+futuros. (HKIOSHI, 2026)
+
+\section{2 FUNDAMENTAÇÃO TEÓRICA E TRABALHOS
+RELACIONADOS}\label{fundamentauxe7uxe3o-teuxf3rica-e-trabalhos-relacionados}
+
+Este capítulo reúne os fundamentos necessários à compreensão,
+especificação e avaliação de um simulador espacial baseado em agentes
+para a transmissão da dengue no município de São Paulo. Inicialmente,
+são apresentados os mecanismos epidemiológicos indispensáveis à
+definição das entidades e dos estados do sistema. Em seguida, são
+discutidas as abordagens de modelagem, os conceitos computacionais, a
+integração de dados geográficos, os mecanismos de estocasticidade e a
+plataforma GAMA. Por fim, os trabalhos relacionados são examinados
+criticamente, distinguindo suas contribuições da implementação
+investigada neste TCC. (Brasil, {[}s. d.{]}; World Health Organization,
+2025)
+
+A revisão mantém uma separação metodológica: a literatura epidemiológica
+fundamenta as hipóteses do fenômeno; a literatura de simulação e
+engenharia de software fundamenta a representação, a implementação e a
+avaliação do artefato computacional. Nenhum resultado relatado nos
+estudos anteriores é atribuído ao simulador desta pesquisa.
+
+\subsection{2.1 Fundamentos epidemiológicos da
+dengue}\label{fundamentos-epidemioluxf3gicos-da-dengue}
+
+\subsubsection{2.1.1 Doença, agente etiológico e
+sorotipos}\label{doenuxe7a-agente-etioluxf3gico-e-sorotipos}
+
+A dengue é uma arbovirose causada pelo vírus da dengue, transmitido
+principalmente por mosquitos do gênero Aedes. Quatro sorotipos,
+designados DENV-1, DENV-2, DENV-3 e DENV-4, participam da dinâmica
+epidemiológica. A infecção pode ser assintomática ou apresentar
+manifestações clínicas de gravidade variável. Infecções posteriores por
+sorotipos diferentes exigem atenção especial à interação entre imunidade
+prévia e risco de doença grave (WORLD HEALTH ORGANIZATION, 2026).
+(Brasil, {[}s. d.{]}; World Health Organization, 2025)
+
+Para fins de modelagem computacional, a existência de diferentes
+sorotipos demonstra que um compartimento genérico de recuperação não
+equivale automaticamente à imunidade definitiva contra todas as
+infecções futuras. Uma representação com apenas um sorotipo constitui
+simplificação legítima quando explicitada, mas limita a interpretação
+epidemiológica das saídas. Essa restrição deverá ser considerada na
+definição dos estados e na leitura dos resultados do simulador. (Brasil,
+{[}s. d.{]}; World Health Organization, 2025)
+
+\subsubsection{2.1.2 Vetor e ciclo de
+desenvolvimento}\label{vetor-e-ciclo-de-desenvolvimento}
+
+No contexto urbano brasileiro, Aedes aegypti é o vetor de maior
+relevância para o modelo estudado. A transmissão depende das fêmeas
+adultas, enquanto os estágios de ovo, larva e pupa compõem o
+desenvolvimento pré-adulto. A temperatura, a disponibilidade de água e
+as características do ambiente influenciam diferentes etapas do ciclo;
+entretanto, a presença de água ou vegetação não constitui, isoladamente,
+uma medição direta da abundância vetorial. (Brasil, {[}s. d.{]}; World
+Health Organization, 2025)
+
+A distinção entre desenvolvimento biológico e transmissão é importante
+do ponto de vista da engenharia: o sistema pode representar indivíduos
+imaturos de modo agregado, sem que isso implique que todos os estágios
+sejam objetos individuais. O nível de detalhamento deve ser justificado
+em relação à pergunta de pesquisa, à disponibilidade de dados e ao custo
+computacional. Garcias (2024) discute comportamentos de Aedes albopictus
+em Portugal, mas seus parâmetros não podem ser transferidos sem exame
+para Aedes aegypti em São Paulo.
+
+\subsubsection{2.1.3 Transmissão humano--vetor e períodos de
+incubação}\label{transmissuxe3o-humanovetor-e-peruxedodos-de-incubauxe7uxe3o}
+
+A transmissão envolve interações entre humanos e mosquitos. Uma fêmea
+suscetível pode adquirir o vírus ao realizar alimentação sanguínea em um
+humano infectante. Após o período de incubação extrínseca, o vetor pode
+tornar-se infectante. Um humano suscetível pode adquirir o vírus quando
+recebe a picada de uma fêmea infectante. Essas etapas dependem de
+condições biológicas e da oportunidade de contato, não apenas da
+proximidade geométrica. (Brasil, {[}s. d.{]}; World Health Organization,
+2025)
+
+Na modelagem, é necessário distinguir infecção, infectividade e
+manifestação clínica. Em particular, nem todo indivíduo recém-infectado
+é imediatamente capaz de transmitir o vírus; por isso a fase exposta
+requer definição cuidadosa. Uma inconsistência entre a descrição
+conceitual e a condição implementada no código deve ser tratada como
+questão de verificação, e não como prova de que o modelo representa o
+mecanismo biológico desejado. (Brasil, {[}s. d.{]}; World Health
+Organization, 2025)
+
+\subsubsection{2.1.4 Fatores ambientais, urbanos e medidas de
+controle}\label{fatores-ambientais-urbanos-e-medidas-de-controle}
+
+A dinâmica da dengue depende simultaneamente de fatores biológicos,
+climáticos e sociais. Temperatura, precipitação, disponibilidade de
+criadouros, distribuição das pessoas e deslocamentos urbanos podem
+modificar as oportunidades de encontro entre hospedeiros e vetores. No
+município de São Paulo, a heterogeneidade territorial torna importante
+distinguir limites administrativos, unidades de agregação, densidade
+populacional e escala de representação. (Brasil, {[}s. d.{]}; World
+Health Organization, 2025)
+
+As medidas de prevenção e controle podem incluir eliminação ou manejo de
+criadouros, redução da exposição a picadas, intervenções vetoriais e
+vacinação segundo critérios de saúde pública. Em modelos computacionais,
+cada intervenção exige um mecanismo operacional definido. Por exemplo,
+reduzir a probabilidade de infecção não é equivalente a reduzir a
+população de mosquitos; eficiência contra doença sintomática tampouco
+deve ser automaticamente utilizada como proteção contra infecção.
+(Brasil, {[}s. d.{]}; World Health Organization, 2025)
+
+\subsection{2.2 Modelagem e simulação
+computacional}\label{modelagem-e-simulauxe7uxe3o-computacional}
+
+Modelar significa produzir uma representação deliberadamente
+simplificada de um sistema real para responder a perguntas determinadas.
+A simulação é a execução temporal dessas regras por um programa. Deve-se
+diferenciar o fenômeno real, o modelo conceitual, a implementação em
+software e os dados de saída: uma falha pode decorrer de hipóteses
+inadequadas, erros de implementação, dados incompatíveis ou problemas
+experimentais. (Macal; North, 2010; Hinsch, {[}s. d.{]})
+
+\subsubsection{2.2.1 Abordagens de
+simulação}\label{abordagens-de-simulauxe7uxe3o}
+
+A dinâmica de sistemas representa relações agregadas por estoques e
+fluxos; a simulação a eventos discretos descreve alterações de estado
+disparadas por eventos; e a modelagem baseada em agentes representa
+entidades individuais, seus atributos e suas interações. As abordagens
+não são mutuamente exclusivas: um modelo de agentes pode usar estados
+compartimentais e produzir indicadores agregados ao longo do tempo
+(MACAL; NORTH, 2010). (Macal; North, 2010; Hinsch, {[}s. d.{]})
+
+Quadro 1 --- Abordagens computacionais de simulação
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Abordagem}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Unidade predominante}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Limitação relevante ao problema}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Dinâmica de sistemas & Variáveis agregadas & Pode ocultar
+heterogeneidade espacial individual \\
+Eventos discretos & Eventos e recursos & Exige construção explícita das
+entidades e relações geográficas \\
+Baseada em agentes & Entidades e interações locais & Aumenta demandas de
+especificação, teste e processamento \\
+\end{longtable}
+
+Fonte: elaboração própria, a partir das referências citadas.
+
+\subsubsection{2.2.2 Modelos preditivos e
+explicativos}\label{modelos-preditivos-e-explicativos}
+
+A finalidade de um modelo condiciona as abstrações utilizadas, os dados
+necessários e os critérios pelos quais seus resultados devem ser
+avaliados. Hinsch (s.d.), em apresentação introdutória sobre modelagem,
+distingue duas orientações: a preditiva, voltada à estimação do
+comportamento de um sistema sob condições especificadas, e a
+explicativa, voltada à investigação dos mecanismos capazes de gerar
+determinados padrões observáveis.
+
+Na modelagem preditiva, importa examinar a qualidade das estimativas
+diante de observações independentes e de situações que não participaram
+do ajuste do modelo. Na modelagem explicativa, o interesse concentra-se
+na relação entre hipóteses, regras e padrões emergentes: se uma
+combinação de mecanismos reproduz certo comportamento, isso fornece
+evidência de sua suficiência dentro do modelo, mas não demonstra que
+seja a única explicação possível para o fenômeno (HINSCH, s.d.). (Macal;
+North, 2010; Hinsch, {[}s. d.{]})
+
+Essa distinção não constitui uma separação absoluta entre tipos de
+software: um mesmo simulador pode sustentar investigações explicativas
+e, após calibração e avaliação apropriadas, ser utilizado em tarefas
+preditivas. Entretanto, resultados visualmente semelhantes a séries
+observadas não comprovam, por si só, capacidade de previsão. A
+interpretação das saídas depende da finalidade declarada, da qualidade
+das bases de entrada, das hipóteses de representação e do protocolo
+experimental. (Macal; North, 2010; Hinsch, {[}s. d.{]})
+
+No presente TCC, o simulador de dengue aplicado ao município de São
+Paulo é tratado predominantemente como instrumento explicativo e
+exploratório. Sua utilização permite investigar as consequências das
+regras computacionais de mobilidade, contato humano--vetor, evolução
+epidemiológica e influência ambiental. Essa classificação não significa
+que o modelo real já foi validado: a verificação funcional, a análise de
+sensibilidade, a reprodutibilidade e eventual confronto com dados
+epidemiológicos observados constituem etapas distintas que deverão ser
+documentadas no Capítulo 5. (Macal; North, 2010; Hinsch, {[}s. d.{]})
+
+O caráter explicativo orienta também a seleção de detalhes do modelo.
+Incluir novos estados, agentes ou mecanismos somente contribui para a
+pesquisa quando esses elementos são necessários às perguntas
+investigadas ou permitem testar hipóteses relevantes. Portanto, as
+simplificações devem ser justificadas e suas consequências avaliadas, em
+vez de presumir que maior complexidade necessariamente produz maior
+adequação (HINSCH, s.d.). (Macal; North, 2010; Hinsch, {[}s. d.{]})
+
+\subsection{2.3 Modelagem e simulação baseada em
+agentes}\label{modelagem-e-simulauxe7uxe3o-baseada-em-agentes}
+
+A modelagem baseada em agentes (Agent-Based Modeling --- ABM) descreve
+sistemas por agentes com atributos, estados e comportamentos. A
+simulação executa as regras dos agentes em determinado ambiente,
+permitindo observar padrões coletivos produzidos por interações locais.
+Macal e North (2010) destacam a representação de entidades e relações
+como característica central dessa abordagem. (Santos, A. R.; Santos, F.,
+2024)
+
+Para a dengue, a abordagem permite manter separados atributos
+individuais, como localização e condição vacinal, e estados dinâmicos,
+como suscetibilidade e infecção. É possível estabelecer diferentes
+oportunidades de contato dependendo do posicionamento e da mobilidade,
+sem assumir que todos os indivíduos se misturam homogeneamente. Essa
+flexibilidade, porém, produz desafios de programação, inicialização e
+calibração. (Macal; North, 2010; Taillandier et al., 2019)
+
+\subsubsection{2.3.1 Entidades, atributos, comportamentos e
+emergência}\label{entidades-atributos-comportamentos-e-emerguxeancia}
+
+Um agente pode ser descrito por identificador, tipo, atributos
+constantes, variáveis de estado e ações. Comportamentos são operações
+que consultam o estado do agente e o ambiente e podem modificá-los. A
+emergência designa padrões agregados gerados por essas interações, como
+concentrações espaciais ou curvas temporais; não deve ser confundida com
+validade empírica automática do modelo. (Macal; North, 2010; Taillandier
+et al., 2019)
+
+\subsubsection{2.3.2 Vizinhanças e custo das
+interações}\label{vizinhanuxe7as-e-custo-das-interauxe7uxf5es}
+
+Em simulações espaciais, uma interação depende de uma regra de
+vizinhança que identifica possíveis parceiros. A busca exaustiva entre
+N\_H humanos e N\_M mosquitos envolve até N\_H × N\_M comparações por
+etapa. Índices e consultas espaciais podem reduzir candidatos, mas seu
+desempenho efetivo depende da distribuição dos agentes, da atualização
+das posições e da implementação. A eficiência deve ser medida, não
+presumida. (Macal; North, 2010; Taillandier et al., 2019)
+
+\subsection{2.4 Modelos epidemiológicos compartimentais e máquinas de
+estados}\label{modelos-epidemioluxf3gicos-compartimentais-e-muxe1quinas-de-estados}
+
+Os modelos SIR, SEIR e SEI organizam fases epidemiológicas por estados.
+Em uma representação individual, esses compartimentos podem ser
+implementados como máquinas de estados: humanos suscetíveis (S),
+expostos (E), infectantes (I) e recuperados (R), e mosquitos adultos
+suscetíveis (S), expostos (E) e infectantes (I). A passagem entre
+estados depende de eventos, temporizadores e probabilidades, conforme a
+especificação adotada. (Oliveira et al., 2025; Garcias, 2024)
+
+Essas siglas não garantem que o código execute corretamente as
+transições. Uma máquina de estados deve definir o conjunto de estados
+válidos, as condições de entrada e saída, as transições proibidas e o
+comportamento terminal, como a morte. Para mosquitos, a transição
+automática de infectante a suscetível não corresponde à estrutura SEI
+habitualmente pretendida, razão pela qual necessita de justificativa ou
+correção no componente implementado. (Oliveira et al., 2025; Garcias,
+2024)
+
+Quadro 2 --- Estados epidemiológicos e verificações necessárias
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Entidade}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Estados conceituais}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Ponto de verificação}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Humano & S → E → I → R & Incubação, recuperação e infectividade \\
+Mosquito adulto & S → E → I & Incubação extrínseca e permanência no
+estado I \\
+Vacinação & Atributo independente & Efeito sobre cada desfecho
+epidemiológico \\
+\end{longtable}
+
+Fonte: elaboração própria, a partir das referências citadas.
+
+\subsection{2.5 Representação espacial e Sistemas de Informação
+Geográfica}\label{representauxe7uxe3o-espacial-e-sistemas-de-informauxe7uxe3o-geogruxe1fica}
+
+Sistemas de Informação Geográfica (SIG) permitem organizar feições
+territoriais e atributos localizados. Dados vetoriais podem representar
+polígonos administrativos, vias e pontos de interesse; dados matriciais
+podem representar superfícies ambientais. Em uma simulação espacial,
+geometrias cumprem funções operacionais --- delimitar o espaço,
+distribuir agentes, apoiar deslocamentos e localizar contatos --- e não
+apenas ilustrativas. (Taillandier; Drogoul, 2010; Taillandier et al.,
+2019)
+
+A integração entre bases exige sistema de referência de coordenadas
+coerente, unidades adequadas para cálculos de distância, geometrias
+válidas e tratamento explícito de fronteiras e agregações. No presente
+projeto, a área de estudo corresponde ao município de São Paulo. A
+divisão em Centro, Norte, Leste, Sul e Oeste encontrada na implementação
+deve ser descrita como uma forma de agregação do código, não confundida
+automaticamente com divisões oficiais equivalentes ou com resolução
+homogênea do território. (Taillandier; Drogoul, 2010; Taillandier et
+al., 2019)
+
+\subsubsection{2.5.1 Mobilidade humana e
+redes}\label{mobilidade-humana-e-redes}
+
+Mobilidade pode envolver seleção de destino e cálculo da trajetória,
+procedimentos diferentes. Em redes viárias, um grafo G = (V, E)
+representa vértices e arestas, eventualmente ponderadas por distância ou
+tempo. A escolha de destinos pode utilizar regras sintéticas ou matrizes
+origem--destino; porém, viagens agregadas entre regiões não oferecem,
+isoladamente, descrição das trajetórias individuais. As hipóteses devem
+ser declaradas quando os dados disponíveis possuem resolução espacial
+mais ampla que o movimento simulado. (Taillandier; Drogoul, 2010;
+Taillandier et al., 2019)
+
+\subsubsection{2.5.2 Integração GIS--ABM: dados espaciais, geometrias e
+agentificação}\label{integrauxe7uxe3o-gisabm-dados-espaciais-geometrias-e-agentificauxe7uxe3o}
+
+A integração entre Sistemas de Informação Geográfica (SIG) e modelos
+baseados em agentes permite que a representação do ambiente deixe de
+depender exclusivamente de grades regulares ou coordenadas abstratas.
+Taillandier e Drogoul (2010) distinguem três formas de incorporar dados
+vetoriais à simulação: (i) leitura e escrita de arquivos geográficos;
+(ii) utilização das feições como camadas espaciais que condicionam
+deslocamentos e consultas; e (iii) agentificação, em que objetos
+geográficos passam a ser instanciados como agentes com estados internos
+e comportamentos. Essas modalidades não são equivalentes e devem ser
+identificadas separadamente na descrição de cada modelo.
+
+Na primeira modalidade, arquivos como shapefiles fornecem geometrias e
+atributos utilizados na inicialização ou na exportação de resultados. Na
+segunda, linhas, pontos e polígonos podem delimitar regiões acessíveis,
+restringir movimentos ou fundamentar cálculos de proximidade e de
+trajetórias. Na terceira, um objeto geográfico, como uma edificação ou
+uma região, pode ser convertido em uma entidade computacional com
+atributos mutáveis e regras próprias. A principal contribuição da
+agentificação está na possibilidade de representar a evolução conjunta
+da configuração espacial e do comportamento dos agentes (TAILLANDIER;
+DROGOUL, 2010). (Taillandier; Drogoul, 2010; Taillandier et al., 2019)
+
+A plataforma GAMA foi concebida para facilitar essas formas de
+integração e oferece primitivas relacionadas a distâncias, geometrias,
+vizinhanças e deslocamentos. O artigo apresenta essas capacidades em
+aplicações de epidemiologia veterinária e resposta a desastres, nas
+quais objetos espaciais participam do funcionamento da simulação.
+Trata-se, contudo, de uma descrição histórica da plataforma: detalhes da
+linguagem GAML, da interface e do conjunto de operadores devem ser
+conferidos na documentação correspondente à versão efetivamente
+utilizada no projeto. (Taillandier; Drogoul, 2010; Taillandier et al.,
+2019)
+
+Para o simulador de dengue deste trabalho, a incorporação de dados
+geográficos do município de São Paulo é relevante para delimitar o
+espaço da simulação e orientar a localização dos agentes. Já a
+caracterização de uma eventual agentificação das unidades geográficas
+depende de comprovação no código GAML: a simples leitura de um shapefile
+ou a apresentação de polígonos no mapa não demonstram que cada feição
+possui comportamentos autônomos. Também é necessário verificar projeção
+cartográfica, unidades de distância e correspondência entre as regiões
+representadas e os limites administrativos empregados na análise.
+(Taillandier; Drogoul, 2010; Taillandier et al., 2019)
+
+\subsection{2.6 Estocasticidade, incerteza e experimentos
+reprodutíveis}\label{estocasticidade-incerteza-e-experimentos-reprodutuxedveis}
+
+Em modelos estocásticos, eventos podem depender de números
+pseudoaleatórios. Uma condição com probabilidade p pode ser avaliada
+comparando um sorteio uniforme U(0,1) com p. Uma taxa contínua λ não
+deve ser interpretada diretamente como probabilidade por ciclo: sob
+hipótese de risco constante, a probabilidade de ocorrência no intervalo
+Δt é p(Δt) = 1 − exp(−λΔt). Essa distinção é relevante quando o
+intervalo simulado difere das unidades usadas nas fontes biológicas.
+(Gamal et al., 2025; Morris, 1991)
+
+A repetição de experimentos com diversas sementes caracteriza a
+variabilidade aleatória. A reprodução de uma execução exige registrar
+também versão do código, dados de entrada, parâmetros, plataforma,
+cronograma de processos e ambiente computacional. Fixar a semente,
+isoladamente, não resolve diferenças decorrentes da ordem de chamadas ao
+gerador ou de alterações na execução. (Gamal et al., 2025; Morris, 1991)
+
+É importante distinguir incerteza aleatória, associada aos sorteios do
+próprio modelo, e incerteza epistêmica, associada a parâmetros e
+mecanismos insuficientemente conhecidos. Análises de sensibilidade
+investigam a influência das entradas; repetição simples não substitui
+análise de adequação dos pressupostos. Morris (1991) propõe o uso de
+efeitos elementares para triagem de parâmetros, enquanto Sobol (2001)
+oferece uma abordagem de decomposição da variância, ambos condicionados
+a um desenho experimental adequado.
+
+\subsubsection{2.6.1 Experimentação computacional, parâmetros e
+cenários}\label{experimentauxe7uxe3o-computacional-paruxe2metros-e-cenuxe1rios}
+
+A experimentação computacional permite investigar como um modelo
+responde à alteração de hipóteses, regras de interação, condições
+iniciais e parâmetros. Em um modelo baseado em agentes, fenômenos
+agregados podem emergir de ações locais, mas uma associação visual entre
+determinada alteração e uma curva simulada não substitui um desenho
+experimental controlado. É necessário definir antecipadamente fatores,
+níveis, variáveis-resposta, número de replicações e critérios de
+análise. (Morris, 1991; Gamal et al., 2025)
+
+Sanderson (2020), na apresentação didática Simulating an epidemic,
+exemplifica a comparação de cenários em um modelo SIR espacial
+simplificado. O autor examina alterações no alcance das interações, nas
+probabilidades de transmissão, na circulação entre comunidades e na
+concentração de pessoas em pontos de encontro, observando diferenças na
+evolução das curvas simuladas. A exposição também ilustra que execuções
+com os mesmos parâmetros podem produzir trajetórias distintas devido à
+aleatoriedade, reforçando a necessidade de replicações independentes.
+Trata-se de demonstração pedagógica, e não de evidência de validade
+epidemiológica do presente simulador.
+
+Nesse contexto, convém distinguir três procedimentos: (i) experimentos
+de cenário, que contrastam configurações previamente definidas; (ii)
+análise de sensibilidade, que investiga quanto as respostas dependem de
+entradas selecionadas; e (iii) avaliação estocástica, que estima a
+dispersão das saídas quando variam as sementes pseudoaleatórias. A
+alteração de um fator por vez facilita a interpretação inicial, mas não
+identifica necessariamente efeitos de interação entre parâmetros. Para
+investigações mais abrangentes, métodos como Morris (1991) e Sobol
+(2001) oferecem referenciais de análise de sensibilidade, condicionados
+à adequação do desenho amostral e do custo computacional.
+
+A transposição desses exemplos para a dengue requer ressalvas. No modelo
+SIR ilustrado no vídeo, a infecção é representada por interações diretas
+entre pessoas; na dengue, a transmissão usual depende de mosquitos
+vetores. Assim, parâmetros de distanciamento interpessoal, higiene
+respiratória e isolamento não podem ser interpretados automaticamente
+como medidas de controle vetorial. Para este trabalho, o aproveitamento
+metodológico concentra-se na comparação controlada de parâmetros
+pertinentes à interação humano--mosquito, na mobilidade espacial, na
+distribuição dos vetores e na quantificação da variabilidade das
+execuções. (Gamal et al., 2025; Morris, 1991)
+
+\subsubsection{2.6.2 Fontes de incerteza em modelos baseados em
+agentes}\label{fontes-de-incerteza-em-modelos-baseados-em-agentes}
+
+A natureza estocástica de muitos modelos baseados em agentes introduz
+variabilidade nas saídas mesmo quando as configurações de entrada são
+mantidas constantes. Entretanto, a dispersão entre execuções não
+representa a única fonte de incerteza. Gamal et al. (2025) distinguem,
+no contexto de modelos comportamentais, incertezas associadas aos
+parâmetros, à estrutura do modelo, à variabilidade entre execuções
+estocásticas e às evidências empíricas utilizadas para representar o
+sistema real.
+
+A incerteza paramétrica decorre da seleção e dos valores atribuídos às
+entradas; a incerteza estrutural relaciona-se às abstrações, regras e
+interações adotadas na construção do modelo; a variabilidade entre
+execuções resulta dos componentes aleatórios; e a incerteza empírica
+está associada às limitações dos dados observados. Essas dimensões não
+são equivalentes e não podem ser eliminadas apenas pela repetição das
+simulações (GAMAL et al., 2025).
+
+No estudo da transmissão da dengue, a distinção é relevante porque a
+escolha das probabilidades de infecção, a representação de deslocamentos
+e a resolução dos dados geográficos podem influenciar os resultados por
+mecanismos diferentes. Por exemplo, executar o mesmo cenário com
+múltiplas sementes permite caracterizar a variabilidade estocástica
+condicionada à configuração adotada, mas não demonstra que os parâmetros
+ou as regras implementadas correspondem aos processos epidemiológicos
+reais. (Morris, 1991; Gamal et al., 2025)
+
+A análise de sensibilidade (Sensitivity Analysis --- SA) e a
+quantificação da incerteza (Uncertainty Quantification --- UQ)
+constituem enfoques complementares. Enquanto a primeira investiga a
+influência das entradas sobre as saídas, a segunda procura caracterizar
+a incerteza dos resultados, conforme as fontes consideradas. A análise
+local pode variar uma entrada de cada vez; abordagens globais exploram
+combinações de parâmetros e permitem investigar interações que a
+variação isolada pode deixar de captar (GAMAL et al., 2025).
+
+Entre os métodos globais, os índices de Sobol permitem estimar
+contribuições dos parâmetros para a variância das saídas, inclusive
+efeitos associados às interações. Sua aplicação, contudo, requer um
+desenho amostral apropriado e esforço computacional compatível com o
+número de parâmetros e execuções. Portanto, a escolha do método deve
+respeitar a questão de pesquisa, o orçamento computacional e a
+estabilidade das estimativas, evitando interpretar alterações isoladas
+de parâmetros como uma análise global completa. (Sobol, 2001; Gamal et
+al., 2025)
+
+\subsubsection{2.6.3 Heterogeneidade espacial e propagação temporal da
+incerteza}\label{heterogeneidade-espacial-e-propagauxe7uxe3o-temporal-da-incerteza}
+
+Em modelos espacialmente explícitos, os indicadores agregados podem
+ocultar diferenças entre unidades geográficas. Duas execuções com totais
+municipais semelhantes podem produzir distribuições regionais distintas.
+Por isso, a avaliação da variabilidade apenas no encerramento das
+simulações pode ser insuficiente para compreender onde e quando a
+incerteza se manifesta. (Gamal et al., 2025; Morris, 1991)
+
+Gamal et al. (2025) propõem a abordagem Spatio-Temporal Uncertainty
+Analysis (ST-UA), que combina medidas de incerteza ou sensibilidade por
+unidade espacial com índices destinados a caracterizar a relevância de
+sua propagação entre dois instantes da simulação. Para demonstrar o
+procedimento, os autores empregam o modelo Tobacco Town, voltado a
+comportamentos relacionados ao tabagismo, e um indicador de
+sensibilidade de efeitos totais associado ao método de Sobol. A
+contribuição do artigo consiste na metodologia para examinar resultados
+espacialmente heterogêneos, e não em regras ou parâmetros diretamente
+transferíveis à transmissão da dengue.
+
+A abordagem destaca a importância de definir antecipadamente a unidade
+espacial, a variável de resposta e os instantes de comparação. No caso
+de uma simulação aplicada ao município de São Paulo, análises futuras
+poderiam considerar, mediante exportação adequada de dados, contagens ou
+proporções de agentes infectados por unidades espaciais estáveis, em
+diferentes tempos simulados. Tal aplicação dependeria da correspondência
+entre as unidades geográficas usadas, da existência de replicações
+suficientes e da consistência dos mecanismos de contagem. (Gamal et al.,
+2025; Morris, 1991)
+
+Uma estratégia metodológica progressiva consiste em começar pela
+verificação das saídas e pela comparação descritiva entre execuções
+repetidas, incluindo médias e medidas de dispersão ao longo do tempo.
+Somente depois, se houver suporte nos dados e no desempenho da
+implementação, seria justificável empregar índices globais de
+sensibilidade ou a ST-UA completa. Mapas de incerteza, por si sós, não
+validam epidemiologicamente o modelo; tornam explícita a variabilidade
+das consequências de determinadas hipóteses computacionais. (Gamal et
+al., 2025; Morris, 1991)
+
+\subsection{2.7 Plataforma GAMA e linguagem
+GAML}\label{plataforma-gama-e-linguagem-gaml}
+
+A plataforma GAMA oferece recursos para especificar e executar modelos
+espacialmente explícitos baseados em agentes. A linguagem GAML organiza
+elementos como global, species, init, reflex, action e experiment,
+permitindo definir estados, operações, inicialização e interfaces de
+observação. Taillandier et al. (2019) descrevem sua aplicação à
+construção, composição e experimentação de modelos espaciais complexos.
+(Santos, A. R.; Santos, F., 2024)
+
+A escolha do GAMA para este estudo decorre da necessidade de articular
+agentes heterogêneos, dados geográficos e observação das execuções. Essa
+adequação funcional não constitui demonstração de superioridade de
+desempenho sobre NetLogo, Mesa, Repast ou AnyLogic. Comparações de
+velocidade ou memória exigiriam implementações e condições experimentais
+equivalentes, não examinadas nesta pesquisa. (Taillandier et al., 2019;
+Taillandier; Drogoul, 2010)
+
+\subsubsection{2.7.1 Primitivas geométricas e relevância para interações
+espaciais}\label{primitivas-geomuxe9tricas-e-relevuxe2ncia-para-interauxe7uxf5es-espaciais}
+
+Taillandier e Drogoul (2010) descrevem operações geométricas
+disponibilizadas no GAMA, entre elas cálculo de distância, teste de
+interseção, construção de áreas de influência, seleção de pontos dentro
+de polígonos, identificação de vizinhos e cálculo de trajetórias em
+geometrias ou redes. Essas possibilidades são especialmente pertinentes
+à representação de encontros entre agentes humanos e mosquitos em
+modelos de transmissão vetorial. Entretanto, a disponibilidade de um
+operador na plataforma não autoriza afirmar que ele foi utilizado no
+simulador analisado; tal afirmação exige rastreabilidade até o
+código-fonte.
+
+Além disso, consultas espaciais envolvem escolhas de implementação com
+consequências para o desempenho. A interpretação de um raio de busca
+exige identificar a unidade do sistema de referência espacial e a
+semântica do operador de distância; uma distância numérica sem unidade
+explicitada não representa automaticamente metros no território real. A
+eventual utilização de estruturas de indexação, grafos ou algoritmos de
+caminho mínimo deve ser apresentada somente após inspeção da
+implementação correspondente. (Taillandier et al., 2019; Taillandier;
+Drogoul, 2010)
+
+\subsection{2.8 Documentação ODD e rastreabilidade entre modelo e
+software}\label{documentauxe7uxe3o-odd-e-rastreabilidade-entre-modelo-e-software}
+
+O protocolo ODD (Overview, Design concepts and Details) organiza a
+descrição de modelos baseados em agentes em componentes relacionados a
+propósito, entidades, escalas, processos, inicialização, entradas e
+submodelos. Grimm et al. (2020) ressaltam a importância de tornar
+descrições compreensíveis, verificáveis e úteis à replicação, incluindo
+as justificativas das escolhas de modelagem.
+
+Neste TCC, o ODD será utilizado como referência para mapear requisitos
+conceituais aos componentes GAML, explicando o que o software realmente
+faz. O documento da especificação, entretanto, não substitui a análise
+do código, nem comprova sozinho a correção dos processos. A
+rastreabilidade depende de trechos identificáveis, versões documentadas
+e testes executáveis. (Grimm et al., 2020)
+
+\subsection{2.9 Verificação, validação e desempenho
+computacional}\label{verificauxe7uxe3o-validauxe7uxe3o-e-desempenho-computacional}
+
+O rigor de verificação e validação de modelos epidemiológicos baseados
+em agentes é discutido por Arifin, Madey e Collins (2016), que
+distinguem atividades destinadas a identificar erros de implementação
+daquelas que buscam avaliar a adequação do modelo à realidade
+investigada. Essas dimensões também se distinguem da reprodutibilidade:
+resultados comparáveis requerem o registro da versão do software,
+parâmetros, sementes e ambiente de execução. No presente estudo, a
+verificação interna constitui requisito anterior a qualquer alegação de
+validação externa.
+
+Verificação examina se a implementação corresponde às regras
+especificadas; validação avalia em que medida o modelo é adequado ao uso
+pretendido em relação ao sistema representado; calibração corresponde ao
+ajuste de parâmetros perante observações. Os procedimentos precisam ser
+distintos: um programa pode funcionar sem erros aparentes e produzir
+padrões epidemiológicos inadequados. Da mesma maneira, a proximidade
+entre uma curva simulada e outra observada não confirma isoladamente a
+correção dos mecanismos internos. (Grimm et al., 2020; Macal; North,
+2010)
+
+A avaliação computacional pode utilizar cenários controlados para
+verificar estados e invariantes, testes de reprodutibilidade, comparação
+entre sementes e perfis de execução. Indicadores de desempenho incluem
+tempo de inicialização, duração dos ciclos, memória e custo do registro
+de saídas. No contexto de São Paulo, importa separar escala geográfica
+da quantidade de agentes sintéticos, evitando interpretar redução
+populacional como equivalência automática ao comportamento do município
+real. (Grimm et al., 2020; Macal; North, 2010)
+
+\subsection{2.10 Trabalhos relacionados}\label{trabalhos-relacionados}
+
+\subsubsection{2.10.1 Garcias (2024): simulador GAMA em
+Portugal}\label{garcias-2024-simulador-gama-em-portugal}
+
+Garcias (2024) apresenta um modelo baseado em agentes para a transmissão
+da dengue no contexto de Portugal Continental, utilizando principalmente
+Aedes albopictus, agentes humanos e entidades territoriais. O trabalho
+descreve decisões epidemiológicas, parâmetros, mobilidade e componentes
+ambientais, além de organizar cenários e procedimentos de verificação e
+validação. Sua principal contribuição para este TCC é a estrutura de
+documentação dos comportamentos e a relação entre representação
+geográfica, regras e experimentação.
+
+A diferença entre os vetores e as áreas de aplicação impede a
+transferência automática de parâmetros, dados demográficos e conclusões.
+Além disso, a afirmação de validação do estudo anterior não equivale à
+validação do software analisado neste trabalho. (Garcias, 2024; Oliveira
+et al., 2025)
+
+\subsubsection{2.10.2 Oliveira et al. (2025): simulação multiagentes em
+Alto
+Santo}\label{oliveira-et-al.-2025-simulauxe7uxe3o-multiagentes-em-alto-santo}
+
+Oliveira et al. (2025) apresentam uma simulação multiagentes da dengue
+aplicada ao município de Alto Santo, no Ceará, também na plataforma
+GAMA. Os autores representam humanos, mosquitos, ovos e criadouros;
+empregam dados geoespaciais e realizam experimentos variando mortalidade
+vetorial, oviposição, criadouros, estratégias de nebulização e
+distribuição espacial. Os resultados apresentados pertencem ao contexto
+daquele estudo e não devem ser tratados como resultados da simulação de
+São Paulo.
+
+O trabalho fornece um exemplo concreto de organização de parâmetros e de
+comparação de cenários. Seu horizonte experimental e suas hipóteses
+diferem do presente projeto; por isso, sua utilidade está no desenho da
+investigação e na comparação crítica, não na substituição do protocolo
+de verificação próprio. (Garcias, 2024; Oliveira et al., 2025)
+
+\subsubsection{2.10.3 Modelos individuais de dengue e de outras doenças
+transmitidas por
+mosquitos}\label{modelos-individuais-de-dengue-e-de-outras-doenuxe7as-transmitidas-por-mosquitos}
+
+Isidoro et al. (2011) desenvolveram um modelo baseado em agentes voltado
+à interação entre populações humanas e populações de Aedes aegypti na
+transmissão da dengue. O estudo é particularmente pertinente ao presente
+TCC por explicitar a representação dos vetores e das relações de
+transmissão em uma população simulada. Entretanto, a plataforma, a
+estrutura do modelo e os parâmetros daquele trabalho não equivalem aos
+adotados no simulador GAMA investigado nesta pesquisa; seu emprego aqui
+é metodológico e comparativo, e não uma fonte de parâmetros
+automaticamente transferíveis.
+
+Jindal e Rao (2017) propuseram um modelo de transmissão de doenças
+veiculadas por mosquitos que articula a mobilidade dos hospedeiros, a
+distribuição espacial das populações, os dados geográficos e as
+condições climáticas. Os autores apresentam uma aplicação relacionada à
+chikungunya e discutem a utilização de dados epidemiológicos para
+avaliação do modelo. Sua contribuição reforça o interesse de combinar
+representação individual e ambiente espacial; todavia, qualquer
+capacidade preditiva obtida naquele estudo não implica que o simulador
+de dengue desenvolvido neste TCC seja preditivo ou tenha sido validado
+empiricamente.
+
+Em termos comparativos, os dois estudos ajudam a distinguir três
+decisões de projeto: como representar entidades humanas e vetoriais;
+quais dados espaciais e ambientais alimentam as regras; e como testar se
+os resultados decorrem de uma implementação correta. Tais decisões
+orientam a especificação e a verificação do modelo deste trabalho, mas
+somente podem ser consideradas implementadas quando confirmadas no
+código-fonte e nos registros experimentais correspondentes (Isidoro et
+al., 2011; Jindal; Rao, 2017).
+
+\subsubsection{2.10.4 Estudos espaciais de vetores e outras
+doenças}\label{estudos-espaciais-de-vetores-e-outras-doenuxe7as}
+
+Arifin, Madey e Collins (2016) apresentam uma abordagem sistemática de
+simulação espacial baseada em agentes aplicada à epidemiologia da
+malária. A obra articula processos biológicos, agentes vetoriais e
+informações geográficas, incluindo discussões específicas de
+verificação, validação, replicação e reprodutibilidade. Embora trate
+sobretudo de Anopheles e malária, e não de Aedes aegypti e dengue, sua
+discussão de engenharia de modelos e avaliação computacional é
+aproveitável no presente projeto, sem transpor os parâmetros biológicos
+entre doenças.
+
+Gharakhanlou, Mesgari e Hooshangi (2019) e Gharakhanlou, Hooshangi e
+Helbich (2020) discutem modelos espaciais baseados em agentes para
+malária na região de Sarbaz, no Irã. Embora o sistema biológico seja
+diferente, os trabalhos contribuem para compreender a integração entre
+entidades, espaço, parâmetros ambientais e intervenções. As regras
+epidemiológicas específicas da malária não são transferíveis sem
+adaptação ao mecanismo da dengue. (Gharakhanlou; Mesgari; Hooshangi,
+2019; Gharakhanlou; Hooshangi; Helbich, 2020)
+
+\subsubsection{2.10.5 Gamal et al. (2025): propagação espaço-temporal da
+incerteza}\label{gamal-et-al.-2025-propagauxe7uxe3o-espauxe7o-temporal-da-incerteza}
+
+Gamal et al. (2025) apresentam uma abordagem de análise da incerteza
+espaço-temporal aplicada a modelos baseados em agentes. Diferentemente
+de estudos centrados exclusivamente na evolução de um indicador
+agregado, sua proposta examina como medidas de sensibilidade ou
+incerteza variam entre unidades espaciais e entre estados temporais do
+modelo.
+
+O estudo emprega o Tobacco Town, um modelo de comportamentos
+relacionados ao tabagismo, para ilustrar a metodologia ST-UA. A
+aplicação utiliza distribuições de variáveis individuais, múltiplas
+execuções e índices relacionados à decomposição da variância, com
+resultados representados espacialmente. A originalidade metodológica
+reside na comunicação e identificação de áreas com alterações relevantes
+na incerteza, não em uma contribuição específica à epidemiologia da
+dengue. (Gamal et al., 2025)
+
+Para o presente TCC, o artigo oferece fundamentação para tratar a
+variabilidade estocástica e a heterogeneidade espacial como dimensões
+distintas da avaliação computacional. Sua metodologia poderá inspirar
+protocolos de observação por região e tempo, mas a reprodução integral
+dos índices propostos não constitui resultado alcançado e exigiria
+adequação do armazenamento de dados, definição das unidades de análise,
+controle de parâmetros e recursos computacionais. (Gamal et al., 2025)
+
+\subsubsection{2.10.6 Comparação crítica e posicionamento do presente
+trabalho}\label{comparauxe7uxe3o-cruxedtica-e-posicionamento-do-presente-trabalho}
+
+Como trabalho brasileiro recente, Doege (2026) apresenta um TCC de
+Biomedicina na UFCSPA que utilizou NetLogo, 500 agentes humanos, 250
+mosquitos e estados SEIR/SEI para comparar estratégias de controle da
+dengue. O autor documenta cinco cenários de intervenção e 30 execuções
+independentes por cenário. Trata-se de uma referência metodológica para
+definir métricas de pico, duração e carga acumulada, além de organizar
+réplicas estocásticas; suas conclusões e seus valores quantitativos não
+podem ser atribuídos às simulações do presente TCC, que utilizam outro
+software e requerem testes próprios.
+
+De forma convergente, Isidoro et al. (2011) enfatizam a representação do
+Aedes aegypti, Jindal e Rao (2017) enfatizam a integração de dados
+espaciais, ambientais e de mobilidade, enquanto Arifin, Madey e Collins
+(2016) sistematizam mecanismos de avaliação e reprodutibilidade. A
+contribuição diferenciadora buscada aqui é documentar e examinar
+tecnicamente um simulador de dengue na plataforma GAMA aplicado ao
+município de São Paulo, sem reivindicar inovação epidemiológica ou
+capacidade preditiva ainda não demonstradas.
+
+Quadro 3 --- Síntese comparativa dos trabalhos relacionados
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.2500}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.2500}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.2500}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.2500}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Estudo}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Domínio e enfoque}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Contribuição ao presente TCC}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Não transferir automaticamente}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Garcias (2024) & Dengue / A. albopictus / Portugal / GAMA &
+Especificação dos agentes, cenários e documentação & Biologia e
+parâmetros do vetor \\
+Oliveira et al. (2025) & Dengue / A. aegypti / Alto Santo / GAMA &
+Desenho experimental e análises de parâmetros & Resultados e
+configuração territorial \\
+Gharakhanlou et al. (2019; 2020) & Malária / Sarbaz / ABM espacial &
+Integração geográfica e discussão de intervenções & Regras de
+transmissão da malária \\
+Este TCC & Dengue / São Paulo / GAMA & Análise de código,
+rastreabilidade, verificação e avaliação computacional & A validade
+ainda depende de evidências próprias \\
+\end{longtable}
+
+Fonte: elaboração própria, a partir das referências citadas.
+
+A contribuição que este TCC pode efetivamente demonstrar não decorre
+apenas da mudança do território para São Paulo. Ela deverá resultar da
+descrição rastreável da implementação, da identificação de escolhas e
+limitações computacionais, da execução de testes e da apresentação de
+resultados próprios. O repositório público constitui fonte primária para
+a descrição técnica posterior, mas as afirmações de correção e
+desempenho dependem de evidência adicional. (Taillandier et al., 2019;
+Gamal et al., 2025)
+
+\subsubsection{2.10.7 Taillandier e Drogoul (2010): integração de GIS e
+agentificação na plataforma
+GAMA}\label{taillandier-e-drogoul-2010-integrauxe7uxe3o-de-gis-e-agentificauxe7uxe3o-na-plataforma-gama}
+
+Taillandier e Drogoul (2010) apresentam uma contribuição conceitual para
+a integração de informações geográficas em modelos baseados em agentes,
+enfatizando a possibilidade de representar feições vetoriais como
+agentes. Os exemplos de propagação de influenza aviária e de resposta a
+desastres demonstram a aplicabilidade dessa abordagem em sistemas cujas
+relações dependem do espaço. Em contraste com trabalhos voltados à
+dinâmica epidemiológica específica da dengue, essa referência fundamenta
+a arquitetura espacial e os recursos da plataforma. Sua principal
+limitação para este TCC é a antiguidade tecnológica: a comparação com
+plataformas concorrentes e as descrições de versões do GAMA refletem o
+contexto de publicação de 2010 e não substituem uma avaliação atual das
+ferramentas.
+
+\subsection{2.11 Síntese do capítulo}\label{suxedntese-do-capuxedtulo}
+
+A literatura examinada fundamenta a escolha da modelagem baseada em
+agentes para representar heterogeneidade individual e interações
+espaciais na transmissão da dengue. Também estabelece requisitos
+computacionais: definição precisa das máquinas de estados, integração de
+dados territoriais, controle temporal, rastreabilidade dos algoritmos e
+reprodução de experimentos. O capítulo seguinte transforma esses
+conceitos em uma especificação explícita do modelo, distinguindo o
+comportamento desejado das regras presentes na implementação examinada.
+(Taillandier et al., 2019; Gamal et al., 2025)
+
+A discussão de Gamal et al. (2025) complementa essa fundamentação ao
+demonstrar que a avaliação de modelos espaciais pode exigir a
+caracterização das incertezas tanto entre regiões quanto ao longo do
+tempo. No presente estudo, tal perspectiva constitui orientação
+metodológica para análises futuras, e não evidência de experimentos já
+executados.
+
+\section{3 MODELAGEM COMPUTACIONAL E JUSTIFICATIVA DA
+PLATAFORMA}\label{modelagem-computacional-e-justificativa-da-plataforma}
+
+Este capítulo estabelece a especificação computacional do simulador de
+transmissão da dengue aplicado ao município de São Paulo. O propósito
+não é repetir a fundamentação epidemiológica, mas transformá-la em
+requisitos, entidades, estados, regras, entradas e saídas verificáveis.
+Também apresenta os critérios utilizados para justificar a seleção da
+plataforma GAMA e dos recursos de Sistemas de Informação Geográfica (SIG
+ou GIS), confrontando-os com alternativas reconhecidas de modelagem
+baseada em agentes. (Taillandier; Drogoul, 2010; Taillandier et al.,
+2019)
+
+A especificação distingue três níveis de evidência: regras desejadas do
+modelo conceitual; comportamentos reconhecidos nos arquivos públicos do
+projeto TccAbm; e procedimentos de avaliação ainda necessários. A
+presença de uma função no código não comprova sua execução correta, e
+saídas armazenadas não constituem, isoladamente, validação
+epidemiológica. (HKIOSHI, 2026)
+
+\subsection{3.1 Propósito, fronteira e requisitos da
+simulação}\label{propuxf3sito-fronteira-e-requisitos-da-simulauxe7uxe3o}
+
+O sistema investigado é uma simulação espacial e estocástica da
+interação entre pessoas, mosquitos Aedes aegypti e estruturas
+ambientais. O ambiente territorial corresponde ao município de São
+Paulo. A representação não pretende reproduzir um a um os habitantes
+reais: agentes sintéticos ocupam regiões do município conforme regras de
+inicialização e dados geográficos. Consequentemente, devem ser
+distinguidos o domínio espacial, a resolução das unidades cartográficas
+e o tamanho efetivo da população representada. (Garcias, 2024; Oliveira
+et al., 2025)
+
+O objetivo computacional é permitir observação, explicação e comparação
+de trajetórias simuladas sob alterações de parâmetros. A utilização
+epidemiológica é exploratória: padrões produzidos dependem de hipóteses,
+escalas, condições iniciais e algoritmos, não devendo ser interpretados
+como previsões de notificações oficiais sem calibração e validação
+independentes. (Macal; North, 2010; Grimm et al., 2020)
+
+Quadro 4 --- Requisitos computacionais e evidências esperadas
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Código}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Requisito}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Evidência ou teste}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+R01 & Criar e identificar diferentes espécies de agentes & Inspeção das
+species e testes de contagem \\
+R02 & Carregar unidades geográficas compatíveis com o município &
+Inventário de arquivos GIS, projeção e cobertura \\
+R03 & Definir transições epidemiológicas sem estados inválidos & Tabela
+de transições e testes de invariantes \\
+R04 & Implementar contatos espaciais e deslocamentos & Trajetórias e
+inspeção de distâncias \\
+R05 & Controlar tempo simulado e probabilidades & Rastreio dos ciclos e
+teste de frequência \\
+R06 & Registrar parâmetros, sementes e indicadores & Arquivos de saída e
+metadados da execução \\
+R07 & Viabilizar execuções comparáveis e aferir custo & Protocolos de
+repetição, tempo e memória \\
+\end{longtable}
+
+Fonte: elaboração própria.
+
+\subsection{3.2 Seleção do ambiente de desenvolvimento: GAMA com
+GIS}\label{seleuxe7uxe3o-do-ambiente-de-desenvolvimento-gama-com-gis}
+
+\subsubsection{3.2.1 Critérios de
+seleção}\label{crituxe9rios-de-seleuxe7uxe3o}
+
+A definição da ferramenta foi orientada pela compatibilidade com as
+características do problema: heterogeneidade de agentes; geometrias
+reais; proximidade e mobilidade; regras temporais e probabilísticas;
+visualização do estado do sistema; experimentos parametrizados;
+disponibilidade para uso acadêmico; e facilidade de registrar a
+implementação. Esses critérios dizem respeito à adequação funcional, e
+não à superioridade universal de uma linguagem ou plataforma.
+(Taillandier; Drogoul, 2010; Taillandier et al., 2019) (Santos, A. R.;
+Santos, F., 2024)
+
+GAMA disponibiliza uma linguagem específica de modelagem, GAML, na qual
+elementos como global, species, init, reflex, action e experiment
+oferecem uma organização diretamente relacionada aos conceitos de
+modelos baseados em agentes. A plataforma possui orientação geoespacial
+e recursos para representar objetos e consultas no mesmo ambiente da
+simulação (TAILLANDIER et al., 2019). A documentação de experimentos em
+lote descreve mecanismos para explorar configurações de parâmetros e
+replicações com diferentes sementes (GAMA PLATFORM, s.d.).
+
+\subsubsection{3.2.2 Alternativas
+consideradas}\label{alternativas-consideradas}
+
+Banos, Lang e Marilleau (2015) apresentam um guia metodológico de
+simulação espacial baseada em agentes utilizando NetLogo, com ênfase na
+concepção de modelos, exploração de cenários e boas práticas de
+modelagem. A referência contribui para contextualizar NetLogo como
+alternativa relevante no campo, mas não constitui evidência de
+superioridade ou inferioridade de desempenho da plataforma GAMA,
+comparação que exigiria benchmarks sob condições equivalentes.
+
+NetLogo oferece um ambiente amplamente difundido para experimentação com
+agentes. Sua extensão GIS carrega dados vetoriais, incluindo Shapefile e
+GeoJSON, e grades raster, mediante transformação entre coordenadas
+geográficas e espaço do modelo. Portanto, seria incorreto dizer que
+NetLogo não trabalha com dados geográficos; a diferença pertinente é a
+forma de organizar a integração espacial e o fluxo de desenvolvimento.
+(Taillandier; Drogoul, 2010; Taillandier et al., 2019)
+
+Mesa, em Python, permite estruturar agentes em um ecossistema de
+programação geral, enquanto Mesa-Geo oferece estruturas geográficas e
+integração com bibliotecas de análise espacial. Repast Simphony fornece
+recursos baseados em Java e objetos geográficos; AnyLogic permite
+combinar paradigmas de simulação e possui recursos de mapas e
+deslocamentos, sujeitos às funcionalidades e licenciamento da edição
+escolhida. Todas constituem alternativas tecnicamente plausíveis, mas
+exigiriam decisões distintas de implementação, dependências e
+documentação (NETLOGO, 2026; MESA, s.d.; MESA-GEO, s.d.; REPAST, s.d.;
+ANYLOGIC, s.d.). (NetLogo, {[}s. d.{]}; Mesa, {[}s. d.{]}; Repast, {[}s.
+d.{]}; AnyLogic, {[}s. d.{]})
+
+Quadro 5 --- Comparação qualitativa de plataformas para o projeto
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.2500}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.2500}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.2500}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.2500}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Ferramenta}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{GIS e representação espacial}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Programação e experimentos}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Implicação para este estudo}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+GAMA & Integração geográfica no ambiente de simulação & GAML;
+experimentos gráficos e em lote & Alinhamento direto com o modelo
+geográfico já implementado \\
+NetLogo & Extensão GIS, Shapefile, GeoJSON e raster & Linguagem NetLogo;
+BehaviorSpace & Alternativa didática; requer adequação da integração
+espacial \\
+Mesa + Mesa-Geo & Agentes geográficos no ecossistema GeoPandas & Python
+e bibliotecas auxiliares & Flexibilidade e análise; mais decisões de
+integração \\
+Repast Simphony & Representação geográfica no ecossistema Java & Java e
+framework de simulação & Alternativa de engenharia com curva própria \\
+AnyLogic & GIS e roteamento conforme recursos disponíveis & Modelagem
+gráfica e Java & Opção híbrida; avaliar limites de licença/edição \\
+\end{longtable}
+
+Fonte: elaboração própria, com base nas documentações das plataformas;
+comparação funcional, não benchmark.
+
+\subsubsection{3.2.3 Justificativa da adoção e
+limitações}\label{justificativa-da-adouxe7uxe3o-e-limitauxe7uxf5es}
+
+A adoção de GAMA com GIS mostrou-se coerente com a necessidade de reunir
+no mesmo modelo agentes humanos, mosquitos e entidades territoriais,
+cuja localização deve participar das operações de inicialização,
+movimento e contato. O repositório analisado apresenta arquivos GAML
+separados e um ponto de entrada Main.gaml, além de carregar camadas
+geográficas, constituindo evidência prática de que essa tecnologia
+corresponde à arquitetura escolhida no projeto (HKIOSHI, s.d.).
+(HKIOSHI, 2026)
+
+Os dados GIS não são um programa independente que ``executa'' a
+simulação. Eles fornecem geometrias, atributos e relações espaciais;
+GAMA usa essas informações para instanciar entidades e calcular
+interações. O funcionamento depende da qualidade das camadas, da
+adequação do sistema de coordenadas, dos parâmetros de distância e do
+custo de processamento. Sem implementação equivalente nas alternativas,
+não se conclui que GAMA seja mais veloz ou precise de menos memória.
+(Taillandier; Drogoul, 2010; Taillandier et al., 2019)
+
+\subsubsection{3.2.4 Integração de dados GIS e níveis de representação
+espacial}\label{integrauxe7uxe3o-de-dados-gis-e-nuxedveis-de-representauxe7uxe3o-espacial}
+
+A escolha do GAMA também se fundamenta na integração de dados vetoriais
+com entidades e operações de simulação. Taillandier e Drogoul (2010)
+distinguem a importação de informações geográficas, o emprego de feições
+como suporte espacial e a agentificação das feições, pela qual cada
+objeto geográfico pode adquirir estados e comportamentos próprios. Tal
+distinção é importante para evitar a interpretação de qualquer camada
+vetorial carregada como uma população de agentes autônomos.
+
+Na aplicação ao município de São Paulo, a leitura de um shapefile e a
+organização espacial dos agentes constituem funcionalidades cuja
+implementação pode ser inspecionada no código. A classificação das
+unidades territoriais como agentes, por sua vez, exige verificar a
+criação de espécies e instâncias correspondentes e suas regras de
+execução. A utilização de regiões administrativas, geometria de
+referência e densidades sintéticas deve ser explicitada como escolha de
+modelagem, não como reprodução integral da população ou da transmissão
+real. (HKIOSHI, 2026)
+
+A adequação espacial do simulador depende, adicionalmente, da
+consistência do sistema de coordenadas e das unidades utilizadas nas
+operações de proximidade. Por isso, o protocolo de verificação deverá
+conferir a correspondência entre os dados geográficos de entrada, a
+escala do mapa, as distâncias efetivamente calculadas e os limites do
+município. Operações de caminho mínimo e algoritmos de grafos citados na
+literatura sobre GAMA são possibilidades da plataforma; sua presença no
+modelo permanece condicionada a evidências no código-fonte. (HKIOSHI,
+2026)
+
+\subsection{3.3 Delimitação territorial e representação
+espacial}\label{delimitauxe7uxe3o-territorial-e-representauxe7uxe3o-espacial}
+
+A área de estudo é o município de São Paulo. A divisão em Centro, Norte,
+Leste, Sul e Oeste aparece nas regras de inicialização previamente
+identificadas no código, enquanto o arquivo denominado
+subprefeitura\_v2.shp fornece unidades geográficas ao modelo. Essas
+designações não devem ser confundidas sem conferir suas geometrias,
+extensão territorial, atributos e regras de associação. A existência de
+um Shapefile de subprefeituras não basta para demonstrar que a
+representação cobre adequadamente todos os distritos ou que as
+proporções populacionais estão atualizadas. (HKIOSHI, 2026)
+
+A preparação da base requer documentar sua fonte, ano, sistema de
+referência de coordenadas (SRC), unidades de comprimento, consistência
+topológica, critérios de agregação territorial e tratamento de
+geometrias problemáticas. Caso as operações de distância utilizem
+coordenadas angulares em vez de métricas, um raio expresso no código não
+poderá ser interpretado diretamente em metros. Os critérios serão
+verificados na etapa de implementação e no protocolo experimental.
+(HKIOSHI, 2026)
+
+\subsection{3.4 Entidades, atributos e
+relações}\label{entidades-atributos-e-relauxe7uxf5es}
+
+Os agentes humanos representam hospedeiros com localização, destino,
+estado epidemiológico, condição vacinal e rotinas. Os mosquitos
+representam vetores que podem movimentar-se, procurar humanos e
+participar de eventos probabilísticos de infecção. Elementos ambientais
+e criadouros fornecem suporte à dinâmica da população vetorial. O nível
+de individualização dos estágios imaturos deve ser descrito a partir do
+conteúdo efetivo dos módulos do repositório, sem assumir a existência de
+uma species para cada fase biológica. (HKIOSHI, 2026)
+
+Quadro 6 --- Entidades e variáveis para a especificação
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Entidade}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Principais atributos / variáveis}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Operações ou relações}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Humano & Identificador; posição; residência e destino; estado; vacinação
+& Movimento, contato, progressão de estados \\
+Mosquito & Posição; idade; estado; parâmetros de picada & Movimento,
+picada, infecção, mortalidade \\
+Criador/poça & Geometria ou posição; água; capacidade & Atualização
+ambiental e suporte à reprodução \\
+Unidade territorial & Geometria; identificador; região; atributos &
+Pertencimento, distribuição inicial e consultas \\
+Controlador global & Relógio; parâmetros; semente; contadores &
+Inicialização, eventos, exportação \\
+\end{longtable}
+
+Fonte: elaboração própria.
+
+A expressão ``criador/poça'' neste quadro é uma classe conceitual: o
+identificador exato e a existência de objetos específicos devem ser
+confirmados no arquivo Poca.gaml. De modo semelhante, os atributos acima
+não são uma transcrição literal completa das variáveis; constituem o
+conjunto necessário à documentação funcional. (HKIOSHI, 2026)
+
+\subsection{3.5 Estados epidemiológicos e máquinas de
+estados}\label{estados-epidemioluxf3gicos-e-muxe1quinas-de-estados}
+
+A especificação de referência considera humanos com estados suscetível
+(S), exposto (E), infectante (I) e recuperado (R), e mosquitos adultos
+com estados suscetível (S), exposto (E) e infectante (I). A condição
+vacinal é independente do estado epidemiológico. As transições precisam
+corresponder a eventos explícitos; um contato isolado não implica
+transmissão, e a incubação não deve ser confundida com infectividade.
+(Garcias, 2024; Oliveira et al., 2025)
+
+Humano: S → E → I → R
+
+Mosquito: S → E → I (com possibilidade de morte em qualquer estágio)
+
+Essa formulação representa o modelo conceitual adotado para análise, não
+uma certificação de correspondência integral com o código. A inspeção
+anterior identificou uso de rnd(0,3) na inicialização vetorial e uma
+operação de transição circular (estado + 1) mod 3. É necessário testar
+se essas rotinas introduzem estados não previstos ou permitem retorno
+inadequado do mosquito infectante ao estado suscetível. A seção de
+implementação deverá registrar literalmente as condições de cada
+transição, os períodos e os gatilhos temporais. (HKIOSHI, 2026)
+
+\subsection{3.6 Interações, transmissão e
+probabilidade}\label{interauxe7uxf5es-transmissuxe3o-e-probabilidade}
+
+Uma oportunidade de transmissão exige um mosquito e um humano elegíveis,
+proximidade espacial, ocorrência da picada e sucesso probabilístico de
+transmissão conforme a direção humano--mosquito ou mosquito--humano.
+Esses eventos devem ser especificados separadamente para distinguir
+frequência de contatos e probabilidade condicional de infecção. O
+tratamento da condição vacinal precisa indicar a variável de proteção e
+seu alvo: infecção, manifestação clínica ou gravidade. (Garcias, 2024;
+Oliveira et al., 2025)
+
+P(infecção \textbar{} contato elegível) = p\_base × (1 − ε\_inf)
+{[}hipótese de redução por vacinação{]}
+
+A equação anterior é uma regra conceitual para proteção contra infecção
+e somente deve ser atribuída à implementação se sua lógica e parâmetros
+forem confirmados no código. Taxas definidas por dia não podem ser
+reaplicadas sem conversão em múltiplos ciclos subdiários; sob hipótese
+de risco exponencial constante, p(Δt) = 1 − exp(−λΔt). A adequação dessa
+hipótese depende do processo e do intervalo temporal representados.
+(HKIOSHI, 2026)
+
+\subsection{3.7 Mobilidade humana e consultas de
+vizinhança}\label{mobilidade-humana-e-consultas-de-vizinhanuxe7a}
+
+A modelagem da mobilidade diferencia decisão de destino e percurso
+realizado. As rotinas reconhecidas anteriormente em Pessoa.gaml
+contemplam janelas de saída de 5h a 8h e retorno de 16h a 19h, além de
+deslocamentos locais. A documentação definitiva deverá esclarecer
+seleção do destino, velocidades, uso de redes, restrições geográficas e
+o significado da unidade temporal. Atribuir viagens sem verificar a
+conectividade das vias pode gerar trajetórias irreais. (HKIOSHI, 2026)
+
+As consultas de proximidade utilizadas em eventos de picada são
+particularmente sensíveis à resolução espacial e ao número de agentes.
+Se uma busca examinar indiscriminadamente todos os pares, seu custo
+potencial cresce como O(N\_H × N\_M). A existência de operações
+espaciais em GAML não dispensa medir seu custo real, que dependerá dos
+filtros usados, da distribuição dos agentes e das estruturas de
+indexação disponíveis. (HKIOSHI, 2026)
+
+\subsection{3.8 Ambiente, clima, desenvolvimento e reprodução
+vetorial}\label{ambiente-clima-desenvolvimento-e-reproduuxe7uxe3o-vetorial}
+
+O módulo Poca.gaml contém regras de atualização de poças em função de
+condições ambientais como chuva e temperatura, segundo a análise
+anterior do repositório. Para que essas relações sejam reprodutíveis,
+será preciso identificar parâmetros, unidades, frequência de
+atualização, fonte meteorológica e interação com os mecanismos de
+reprodução. Uma relação climática implementada como regra simplificada
+não constitui estimativa observacional direta de larvas ou mosquitos.
+(HKIOSHI, 2026)
+
+A representação dos estágios imaturos exige verificar se ovos, larvas e
+pupas são agentes, grupos ou estados de uma mesma entidade. É
+metodologicamente preferível documentar a estrutura existente e
+explicitar simplificações do que descrever um ciclo detalhado que ainda
+não corresponda aos objetos GAML. (HKIOSHI, 2026)
+
+\subsection{3.9 Tempo, agendamento e
+aleatoriedade}\label{tempo-agendamento-e-aleatoriedade}
+
+O simulador depende de um relógio global e de diferentes eventos
+programados. A análise anterior identificou atualizações de horário a
+cada dez ciclos e outra regra associada ao produto 240 ×
+velocidade\_tempo; a conversão desses elementos para horas e dias
+simulados precisa ser estabelecida a partir do código inteiro e
+verificada em execuções controladas. A ordem de movimento, picada,
+mortalidade, transmissão e atualização de estados também deverá ser
+explicitada, pois pode alterar os resultados. (HKIOSHI, 2026)
+
+A reprodutibilidade deve registrar versão do código, versão do GAMA,
+arquivos GIS, parâmetros, configuração experimental e sementes. O
+repositório apresenta um parâmetro configurável de semente e também uma
+atribuição fixa de 12345.0 na inicialização. Antes de declarar que o
+parâmetro da interface controla a execução, é necessário verificar qual
+atribuição prevalece e como o gerador pseudoaleatório é inicializado.
+(HKIOSHI, 2026)
+
+\subsection{3.10 Inicialização, escalonamento populacional e dados de
+entrada}\label{inicializauxe7uxe3o-escalonamento-populacional-e-dados-de-entrada}
+
+A configuração examinada anteriormente define quantidade\_pessoas igual
+a 1.191 e distribui agentes de acordo com regiões da cidade. O valor é
+quantidade de agentes sintéticos, não a população real de São Paulo. Uma
+simulação reduzida deve justificar pesos, densidades, formação de
+contatos e interpretação das contagens. Preservar apenas percentuais
+demográficos não demonstra equivalência epidemiológica entre a população
+sintética e a real. (HKIOSHI, 2026)
+
+A matriz de entradas deve relacionar cada arquivo a sua finalidade: base
+territorial, atributos populacionais, parâmetros ambientais, valores de
+vacinação e configuração de cenários. Sempre que uma entrada representar
+hipótese experimental e não informação observada, isso será declarado
+explicitamente. Os arquivos externos precisam ser acompanhados de
+origem, licença, data e transformações, quando disponíveis. (Macal;
+North, 2010; Grimm et al., 2020)
+
+\subsection{3.11 Saídas do modelo e
+indicadores}\label{sauxeddas-do-modelo-e-indicadores}
+
+As saídas incluem contagens por estado humano e vetorial, população
+total, mortes, tempo simulado e resultados persistidos em CSV, conforme
+as estruturas já encontradas no repositório. Antes de utilizá-las em
+gráficos epidemiológicos, será necessário verificar as identidades de
+contagem, a interpretação de cada coluna, a escala temporal e a
+consistência das unidades. Contagens de infecções simuladas não
+equivalem automaticamente a casos notificados nos sistemas de
+vigilância. (HKIOSHI, 2026)
+
+Quadro 7 --- Verificações mínimas das saídas
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.5000}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.5000}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Indicador}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Checagem necessária}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Estados humanos & S + E + I + R ≤ população humana total, com explicação
+para outras condições \\
+Estados vetoriais & S + E + I = total vivo se os estados forem
+exaustivos \\
+Mortes & Não negatividade, monotonicidade se o indicador for
+acumulado \\
+Tempo & Intervalo entre linhas do CSV e correspondência com ciclos \\
+Reprodutibilidade & Comparar resultados com parâmetros e sementes
+idênticos \\
+\end{longtable}
+
+Fonte: elaboração própria.
+
+\subsection{3.12 Hipóteses, limitações e
+rastreabilidade}\label{hipuxf3teses-limitauxe7uxf5es-e-rastreabilidade}
+
+As principais simplificações identificadas ou previstas incluem uso de
+população sintética, representação limitada dos sorotipos, agregação
+espacial, probabilidades parametrizadas e critérios simplificados de
+deslocamento e condições ambientais. Cada hipótese deverá ser rastreável
+aos arquivos GAML, à literatura que a sustenta ou à declaração de que é
+uma opção experimental. Uma mesma variável pode ser biologicamente
+significativa e, ao mesmo tempo, insuficientemente fundamentada para uso
+preditivo. (HKIOSHI, 2026)
+
+A análise crítica inicial ainda aponta possíveis fragilidades na
+inicialização de estados vetoriais, no calendário de eventos, na
+compatibilidade das unidades espaciais e no significado epidemiológico
+de algumas transições. Essas observações são hipóteses de defeito a
+confirmar em revisão e testes, não constatação de falha em todas as
+execuções. Os testes e resultados serão apresentados no Capítulo 5.
+(Macal; North, 2010; Grimm et al., 2020)
+
+\subsection{3.13 Síntese do capítulo}\label{suxedntese-do-capuxedtulo-1}
+
+A escolha do GAMA com recursos GIS é sustentada por sua adequação à
+representação integrada de entidades, espaço e experimentação e pela
+correspondência com os módulos existentes no repositório. O modelo
+computacional foi apresentado em termos de entidades, estados,
+interações, entradas e saídas, mantendo separadas as regras desejadas e
+as evidências da implementação. O Capítulo 4 apresentará os componentes
+GAML com trechos de código rastreáveis, detalhará o agendamento e
+examinará a consistência das operações descritas. (HKIOSHI, 2026)
+
+NOTA DE ATUALIZAÇÃO --- 8/11/2026: esta análise preserva evidências
+históricas referentes à versão inspecionada em 30/10/2026.
+Posteriormente, em 7/11/2026, os commits 94754bf e 621703c foram
+associados à issue \#12, com relatos de mudanças em sementes, população
+vetorial, inicialização e gravação dos resultados. O encerramento da
+issue não substitui a confirmação por testes nem permite atribuir os
+CSVs históricos ao novo código. As descrições de defeitos anteriores
+devem ser lidas como achados da versão histórica, e não como prova de
+que persistem na versão atual. (HKIOSHI, 2026)
+
+\subsection{4.0 Atualização de implementação e rastreabilidade da
+revisão de novembro de
+2026}\label{atualizauxe7uxe3o-de-implementauxe7uxe3o-e-rastreabilidade-da-revisuxe3o-de-novembro-de-2026}
+
+Em 7 de novembro de 2026 foram registrados no repositório os commits
+94754bf e 621703c, vinculados à issue \#12. Segundo o comentário
+publicado na issue, houve modificações no registro da semente e nos
+nomes dos arquivos de saída, no uso do parâmetro quantidade\_mosquito,
+na restrição dos estados iniciais dos mosquitos e na condição de
+transmissão humano--vetor. Essas alterações devem ser descritas como
+modificações declaradas no histórico até que o comportamento seja
+confirmado por execução. Os requisitos de probabilidade de transmissão,
+eficácia vacinal, reprodutibilidade e exportação por cenário e réplica
+permanecem sujeitos a auditoria por testes objetivos. GitHub:
+https://github.com/hkioshi/TccAbm/issues/12. (HKIOSHI, 2026)
+
+\section{4 ARQUITETURA E IMPLEMENTAÇÃO DO
+SIMULADOR}\label{arquitetura-e-implementauxe7uxe3o-do-simulador}
+
+Este capítulo analisa a implementação existente no repositório público
+TccAbm, desenvolvida em GAML para a plataforma GAMA. A descrição foi
+baseada na leitura dos arquivos-fonte da ramificação main em 26 de
+outubro de 2026. Por se tratar de análise estática do código, não se
+atribui a ela o mesmo estatuto de teste executado, validação
+epidemiológica ou medição de desempenho. A área geográfica declarada
+para o experimento é o município de São Paulo; sua representação
+computacional utiliza feições geográficas e uma agregação operacional em
+cinco regiões. (HKIOSHI, 2026)
+
+\subsection{4.1 Organização arquitetural e responsabilidades dos
+módulos}\label{organizauxe7uxe3o-arquitetural-e-responsabilidades-dos-muxf3dulos}
+
+O arquivo Main.gaml funciona como ponto de entrada do experimento
+gráfico, importando explicitamente Mosquito.gaml, Pessoa.gaml,
+Ambiente.gaml, Poca.gaml e globals.gaml. O componente global, por sua
+vez, centraliza parâmetros, inicialização, agendamento, ambiente
+geográfico e exportação de dados. Existe ainda um componente
+Imaturo.gaml, importado por Poca.gaml, destinado às fases anteriores à
+vida adulta. Essa separação por arquivos favorece a leitura das
+responsabilidades, embora importações cruzadas exijam cuidado com o
+acoplamento (TCCABM, 2026). (HKIOSHI, 2026)
+
+A representação visual da arquitetura deverá ser inserida no arquivo
+final somente após conferência da figura e de sua legenda. Os módulos
+efetivamente descritos no texto são Main.gaml, globals.gaml e as
+espécies de agentes. (HKIOSHI, 2026)
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.5000}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.5000}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Arquivo}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Responsabilidade identificada}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Main.gaml & Parâmetros da interface, exibição cartográfica e
+monitores \\
+globals/globals.gaml & Inicialização, clima, tempo, população,
+mortalidade e relatório CSV \\
+agents/Pessoa.gaml & Atributos humanos, estados epidemiológicos,
+mobilidade e natalidade \\
+agents/Mosquito.gaml & Atributos vetoriais, picada, transmissão,
+deslocamento e mortalidade \\
+agents/Poca.gaml & Capacidade de criadouro conforme chuva e
+temperatura \\
+agents/Imaturo.gaml & Estágios ovo, larva e pupa e criação de adultos \\
+agents/Ambiente.gaml & Feições territoriais, atributo de região e
+representação gráfica \\
+\end{longtable}
+
+\subsection{4.2 Importação GIS e delimitação
+municipal}\label{importauxe7uxe3o-gis-e-delimitauxe7uxe3o-municipal}
+
+No componente global, o arquivo ../Gis/subprefeitura\_v2.shp é declarado
+como entrada e seu envelope é utilizado para definir a geometria global
+do mundo. A criação dos agentes territoriais emprega o atributo
+nm\_regiao\_. A abordagem permite associar posições e agentes humanos a
+geometrias reais, mas o nome do arquivo ou da variável não comprova por
+si só a exatidão da fronteira municipal, do sistema de referência ou da
+integridade topológica. Essas propriedades exigem inspeção do Shapefile
+e de sua documentação cartográfica. (HKIOSHI, 2026)
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 0\tabcolsep) * \real{1.0000}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{file subprefeituras\_shapefile \textless-
+file("../Gis/subprefeitura\_v2.shp");\\
+geometry shape \textless- envelope(subprefeituras\_shapefile);\\
+create ambiente from: subprefeituras\_shapefile\\
+with: {[}nm\_regiao\_::read("nm\_regiao\_"){]};}\strut
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\end{longtable}
+
+Código --- fragmentos de globals.gaml, linhas 58--59 e 113 (TccAbm,
+2026).
+
+A implementação analisada utiliza cinco rótulos de região: Centro,
+Norte, Leste, Sul e Oeste. Esse agrupamento é uma simplificação
+operacional e não deve ser confundido com os distritos administrativos
+ou com a totalidade das subprefeituras do município. O posicionamento
+utiliza any\_location\_in sobre geometrias das regiões, devendo ser
+conferidos o sistema de coordenadas, a unidade efetiva das distâncias e
+a forma de tratar fronteiras. (HKIOSHI, 2026)
+
+\subsection{4.3 Inicialização das populações
+sintéticas}\label{inicializauxe7uxe3o-das-populauxe7uxf5es-sintuxe9ticas}
+
+O parâmetro quantidade\_pessoas é fixado em 1.191, acompanhado de
+comentário que o descreve como escala 1:10.000. A implementação também
+cria 100 mosquitos na inicialização. Os humanos são alocados entre as
+cinco regiões mediante fatores proporcionais expressos diretamente no
+código; o total da região Oeste é calculado por diferença para preservar
+o total de humanos definido. Os fatores efetivamente programados devem
+prevalecer sobre percentuais descritos em comentários antigos, pois não
+são idênticos. (HKIOSHI, 2026)
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 0\tabcolsep) * \real{1.0000}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{int quantidade\_pessoas \textless- 1191;\\
+int qtd\_centro \textless- int(quantidade\_pessoas * 0.0370);\\
+int qtd\_norte \textless- int(quantidade\_pessoas * 0.1929);\\
+int qtd\_leste \textless- int(quantidade\_pessoas * 0.3485);\\
+int qtd\_sul \textless- int(quantidade\_pessoas * 0.3262);\\
+int qtd\_oeste \textless- quantidade\_pessoas - qtd\_centro - qtd\_norte
+- qtd\_leste - qtd\_sul;}\strut
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\end{longtable}
+
+Código --- globals.gaml, linhas 62 e 128--132 (TccAbm, 2026).
+
+Atribuir proporções regionais a uma amostra populacional não assegura,
+isoladamente, equivalência de contatos e densidade com a população real
+de São Paulo. A calibração espacial e a relação entre as grandezas
+simuladas e observadas precisam ser tratadas na seção experimental.
+(HKIOSHI, 2026)
+
+\subsection{4.4 Agentes humanos e mobilidade
+espacial}\label{agentes-humanos-e-mobilidade-espacial}
+
+A espécie pessoa usa a skill moving e possui idade, condição vacinal,
+estado epidemiológico, variáveis de duração da infecção, destino,
+velocidade e atributos de mortalidade. A ação andar implementa
+deslocamentos em janelas horárias entre 5h e 8h e entre 16h e 19h;
+nessas janelas o destino é sorteado conforme uma tabela de
+probabilidades por região e executado com goto. Fora delas, o indivíduo
+realiza um movimento local por wander. A rotina também reposiciona o
+agente quando ele é detectado fora das geometrias territoriais (TCCABM,
+2026). (HKIOSHI, 2026)
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 0\tabcolsep) * \real{1.0000}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{if ((hora \textgreater= 5 and hora \textless{} 8) or (hora
+\textgreater= 16 and hora \textless{} 19)) \{\\
+if (destino = nil) \{\\
+destino \textless- sortear\_destino(location);\\
+velocidade \textless- velocidade\_andando;\\
+\}\\
+if (destino != nil) \{\\
+do goto target: destino speed: velocidade;\\
+\}\\
+\} else \{\\
+do wander speed: velocidade amplitude: 360.0;\\
+\}}\strut
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\end{longtable}
+
+Código --- excerto abreviado de Pessoa.gaml, linhas 62--87 (TccAbm,
+2026).
+
+A rotina de escolha de destinos define distribuições distintas para
+manhã e tarde. Não se identificou, nesses trechos, cálculo de caminhos
+sobre um grafo viário; o movimento documentado deve ser descrito como
+deslocamento para coordenadas espaciais, e não como roteamento
+comprovado pela malha de ruas. É necessário verificar ainda se os
+intervalos de seleção de destinos são completos e mutuamente exclusivos
+para os valores sorteados. (HKIOSHI, 2026)
+
+\subsection{4.5 Estados epidemiológicos
+humanos}\label{estados-epidemioluxf3gicos-humanos}
+
+O arquivo Pessoa.gaml estabelece a codificação 0 = suscetível, 1 =
+exposto, 2 = infectado e 3 = recuperado. A ação MudarEstado incrementa o
+estado e retorna ao suscetível após o estado 3. A progressão temporal
+está na ação Envelhecer, que utiliza periodo\_incubacao, periodo\_viral
+e periodo\_recuperacao. A condição vacinal é mantida separadamente, como
+atributo booleano. Essa estrutura aproxima-se da especificação SEIR, mas
+seu comportamento exato depende das condições de acionamento. (HKIOSHI,
+2026)
+
+Há um ponto de atenção: o contador dias\_Infectado só é incrementado
+quando o estado é 1 ou 2. Como a condição de saída do estado 3 depende
+desse contador atingir a soma dos três períodos, pode ocorrer
+permanência indefinida em R caso ele não atinja o limite antes da
+recuperação. O comportamento deverá ser demonstrado por teste unitário
+de transições, não presumido a partir do nome do parâmetro. (HKIOSHI,
+2026)
+
+\subsection{4.6 Agente mosquito, transmissão e
+reprodução}\label{agente-mosquito-transmissuxe3o-e-reproduuxe7uxe3o}
+
+A espécie mosquito define sexo, idade, velocidade, posição associada à
+poça natal, distância máxima, alcance de contato e parâmetros
+probabilísticos. A ação Picar é convocada pelo agendamento global
+somente para mosquitos identificados como fêmeas. Ela efetua o sorteio
+de tentativa de picada, seleciona uma pessoa dentro da distância de
+1.800 unidades espaciais e avalia combinações de estados que podem
+provocar transmissão. A eficácia vacinal aparece como redução
+multiplicativa da probabilidade efetiva de infecção do humano. (HKIOSHI,
+2026)
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 0\tabcolsep) * \real{1.0000}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{if (alvo.estado = 0 and estado = 2) \{\\
+ask alvo \{\\
+float prob\_efetiva \textless- prob\_transmissao;\\
+if (vacinado) \{\\
+prob\_efetiva \textless- prob\_transmissao * (1 - eficacia / 100.0);\\
+\}\\
+if (rnd(1, 100) \textless= prob\_efetiva) \{ do MudarEstado; \}\\
+\}\\
+\}}\strut
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\end{longtable}
+
+Código --- excerto de Mosquito.gaml, linhas 81--92 (TccAbm, 2026).
+
+O uso de rnd(0,1) na tentativa de picada e de rnd(1,100) na transmissão
+exige explicitar a escala de cada parâmetro. O código declara
+prob\_picada = 0,25 e prob\_transmissao = 27,50 no mosquito, enquanto o
+agente humano apresenta outro parâmetro de transmissão. Não é
+metodologicamente correto tratá-los como a mesma probabilidade. Também
+há condição que considera humanos expostos ou infectados aptos a
+transmitir ao mosquito, aspecto que deve ser justificado biologicamente
+ou ajustado. (HKIOSHI, 2026)
+
+A rotina de reprodução cria um lote de 100 agentes imaturos ao encontrar
+poça próxima e capacidade residual. Como a condição antecedente apenas
+testa se a quantidade atual é menor que a capacidade, deve-se verificar
+se a criação do lote pode ultrapassar o limite. O vínculo entre
+reprodução e a existência de pessoa próxima é outra hipótese da
+implementação que demanda revisão. (HKIOSHI, 2026)
+
+\subsection{4.7 Desenvolvimento imaturo e dinâmica de
+criadouros}\label{desenvolvimento-imaturo-e-dinuxe2mica-de-criadouros}
+
+Imaturo.gaml implementa três estágios numéricos: ovo, larva e pupa. A
+duração de cada fase é sorteada em função da temperatura global; quando
+o estágio 2 termina, o agente imaturo cria um mosquito adulto na
+localização da poça e é removido. Poca.gaml representa a disponibilidade
+hídrica por um atributo tamanho, limitado a cinco níveis. A intensidade
+de chuva aumenta o nível e a ausência de chuva o diminui, enquanto a
+capacidade é expressa pelo produto tamanho × 20. Essas relações são
+hipóteses operacionais e não equivalem, automaticamente, a uma medição
+entomológica no município. (Taillandier et al., 2019; GAMA Platform,
+{[}s. d.{]})
+
+A leitura estática identifica o mecanismo de atualização ambiental, mas
+não comprova que todas as listas de imaturos estejam sempre
+sincronizadas após mortalidade e transformação em adultos. Essa
+invariável deve ser testada. Também é importante documentar se as
+durações sorteadas em dias são aplicadas na mesma unidade de Envelhecer,
+o que depende do agendamento global. (HKIOSHI, 2026)
+
+\subsection{4.8 Controle temporal, clima e variabilidade
+estocástica}\label{controle-temporal-clima-e-variabilidade-estocuxe1stica}
+
+Na versão atual de globals.gaml, a atualização da hora está configurada
+para ocorrer a cada cinco ciclos (tempo\_hora = 5), e o evento diário a
+cada 120 × velocidade\_tempo ciclos (tempo\_dia = 24 × 5). Esses
+parâmetros diferem da versão anteriormente examinada. O modelo também
+emprega atualização climática e eventos de agentes, cuja ordem de
+execução deve ser verificada no GAMA. (Taillandier et al., 2019; GAMA
+Platform, {[}s. d.{]})
+
+Registro da auditoria histórica (versão de outubro de 2026): A interface
+expõe o parâmetro seed, mas a rotina init atribui seed \textless-
+12345.0. Trata-se de um risco de reprodutibilidade a ser verificado em
+execução, principalmente nos experimentos batch que declaram 30
+repetições. Observação: a issue \#12 relata alterações posteriores em
+7/11/2026; confirmar a situação atual no código e por testes antes de
+repetir esta crítica como defeito vigente. (HKIOSHI, 2026)
+
+\subsection{4.9 Interface, indicadores e persistência das
+saídas}\label{interface-indicadores-e-persistuxeancia-das-sauxeddas}
+
+O experimento MeuExperimento, em Main.gaml, disponibiliza velocidade do
+tempo, percentual de vacinados, semente e eficácia vacinal. A
+visualização bidimensional exibe ambiente, pessoas, mosquitos e poças.
+Monitores mostram ciclo, dia, mês, hora, população por estado e mortes
+por dengue. O arquivo globals.gaml contém a ação Relatorio, que grava em
+resultados.csv totais por classe, estados epidemiológicos e mortalidade
+por faixas etárias. (HKIOSHI, 2026)
+
+A estrutura de gravação é adequada para produzir uma série temporal de
+indicadores. Contudo, a ausência de campos explícitos para a versão do
+código, conjunto de parâmetros, semente efetiva e identificador de
+repetição dificulta a auditoria de experimentos. Recomenda-se um
+manifesto por execução e verificações automáticas de consistência:
+totais de humanos e mosquitos devem corresponder à soma das respectivas
+categorias válidas, desde que as categorias sejam mutuamente exclusivas
+e exaustivas. (HKIOSHI, 2026)
+
+\subsection{4.10 Revisão crítica: divergências e requisitos de
+verificação}\label{revisuxe3o-cruxedtica-diverguxeancias-e-requisitos-de-verificauxe7uxe3o}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Achado na leitura estática}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Risco ou interpretação}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Teste ou ação recomendada}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+rnd(0,3) na inicialização dos mosquitos & Possível estado 3 não
+monitorado, se os limites forem inclusivos & Assegurar domínio \{0,1,2\}
+e testar toda inicialização \\
+MudarEstado do mosquito com mod 3 & Possível retorno I → S em
+acionamentos adicionais & Verificar ciclo de vida epidemiológico e
+trajetórias \\
+Contador humano não cresce no estado R & Possível impossibilidade de R →
+S & Teste das transições com relógio controlado \\
+seed definida na interface e no init & Semente da interface pode ser
+sobrescrita & Testar igualdade e variação entre execuções \\
+240 × velocidade\_tempo para evento diário & Inconsistência potencial de
+escala temporal & Tabela de equivalência ciclo--hora--dia \\
+Lote de 100 imaturos com teste apenas do limite inicial & Possível
+excesso de capacidade da poça & Teste com capacidade residual de 1 a
+99 \\
+Distâncias 1.800 e 50.000 sem CRS documentado & Impossibilidade de
+interpretar alcances fisicamente & Documentar projeção e unidade
+espacial \\
+População sintética de 1.191 pessoas & Resultados não equivalentes
+automaticamente à cidade real & Documentar escala, densidade e
+sensibilidade \\
+\end{longtable}
+
+Esses achados não são equivalentes a erros confirmados em execução;
+descrevem riscos, inconsistências textuais ou consequências possíveis da
+lógica examinada. A etapa seguinte deverá gerar evidências por meio de
+testes reproduzíveis e registros de execução, com identificação de
+versão e parâmetros. (HKIOSHI, 2026)
+
+\subsection{4.11 Configuração de experimentos em lote
+(batch)}\label{configurauxe7uxe3o-de-experimentos-em-lote-batch}
+
+A versão pública de Main.gaml consultada em 30 de outubro de 2026
+contém, além do experimento interativo MeuExperimento, quatro definições
+de experimentos do tipo batch. Na linguagem GAML, essas declarações
+especificam variações de parâmetros, números de repetições e condições
+de término. Sua existência no código comprova a configuração
+experimental, mas não a conclusão das execuções nem a integridade das
+saídas. (HKIOSHI, 2026)
+
+Quadro 4.1 --- Experimentos declarados em Main.gaml. Fonte: elaboração
+própria a partir de TccAbm (2026), Main.gaml, linhas 71--129.
+
+E03Variabilidade --- repeat: 30; porcentagem\_de\_vacinados = 0;
+eficacia = 0; condição de término: cycle \textgreater= 87600. (HKIOSHI,
+2026)
+
+E04Vacinacao --- repeat: 30; porcentagem\_de\_vacinados de 0 a 100,
+passo 25; eficacia = 100; condição de término: cycle \textgreater=
+87600. (HKIOSHI, 2026)
+
+E05PopulacaoVetorial --- repeat: 30; quantidade\_mosquito de 50 a 400,
+passo 50; vacinação desativada; condição de término: cycle \textgreater=
+87600. (HKIOSHI, 2026)
+
+E07Escalabilidade --- repeat: 1; quantidade\_pessoas de 500 a 10.000,
+passo 500; quantidade\_mosquito = 100; vacinação desativada; condição de
+término: cycle \textgreater= 87600. (HKIOSHI, 2026)
+
+Uma distinção arquitetural necessária é que o número de repetições
+indicado por repeat não substitui o registro de identificadores de
+execução e sementes efetivamente utilizadas. O experimento de
+escalabilidade tem apenas uma execução configurada por combinação; por
+isso, sua definição atual não basta para caracterizar estatisticamente a
+variabilidade do desempenho. (HKIOSHI, 2026)
+
+\subsection{4.12 Contrato entre parâmetros, inicialização e
+execução}\label{contrato-entre-paruxe2metros-inicializauxe7uxe3o-e-execuuxe7uxe3o}
+
+Registro da auditoria histórica (versão de outubro de 2026): A
+configuração externa de um parâmetro só se torna efetiva se as rotinas
+de inicialização e atualização o consumirem. Em globals.gaml, embora
+quantidade\_mosquito seja declarada com valor inicial 100 e variada no
+experimento E05PopulacaoVetorial, o bloco de inicialização continua
+utilizando create mosquito number: 100. Portanto, na leitura estática do
+código, não se identifica aplicação direta da variável
+quantidade\_mosquito na criação inicial. A alteração da variável no
+batch não permite, por si só, afirmar que o número inicial de mosquitos
+mudou. Observação: a issue \#12 relata alterações posteriores em
+7/11/2026; confirmar a situação atual no código e por testes antes de
+repetir esta crítica como defeito vigente. (HKIOSHI, 2026)
+
+Registro da auditoria histórica (versão de outubro de 2026): O parâmetro
+seed é exposto no experimento gráfico, mas a rotina global init executa
+seed \textless- 12345.0. Esta atribuição merece teste controlado,
+especialmente nas 30 replicações, para determinar como o mecanismo
+interno de sementes do GAMA e a atribuição no código interagem. Sem
+registrar a semente efetiva de cada execução, não é possível assegurar
+independência estatística nem reprodução exata dos resultados.
+Observação: a issue \#12 relata alterações posteriores em 7/11/2026;
+confirmar a situação atual no código e por testes antes de repetir esta
+crítica como defeito vigente. (HKIOSHI, 2026)
+
+O mecanismo temporal usa tempo\_hora = 5 ciclos e tempo\_dia = 24 × 5 =
+120 ciclos. A atualização de hora ocorre a cada 5 ciclos, enquanto o
+evento diário usa 120 × velocidade\_tempo ciclos. Assim, a
+compatibilidade entre hora, dia, velocidade\_tempo e condição de término
+cycle \textgreater= 87600 precisa ser verificada para cada cenário. Com
+velocidade\_tempo = 1, 87.600/120 = 730 intervalos diários de 120
+ciclos; a duração real da série registrada depende também da lógica de
+atualização do contador dia e dos demais eventos. (HKIOSHI, 2026)
+
+\subsection{4.13 Registro de resultados, rastreabilidade e requisitos de
+verificação}\label{registro-de-resultados-rastreabilidade-e-requisitos-de-verificauxe7uxe3o}
+
+A ação Relatorio grava 19 campos em resultados.csv: dia, chuva,
+temperatura, quatro indicadores humanos mais o total, três
+compartimentos vetoriais mais o total, e sete contadores de mortalidade.
+O cabeçalho é regravado na inicialização (rewrite: true), enquanto as
+linhas de resultado são acrescentadas posteriormente (rewrite: false).
+Este desenho fornece uma série temporal para uma execução, mas pode
+apagar registros anteriores e não inclui automaticamente o nome do
+experimento, a repetição, a semente, os parâmetros, o commit ou o tempo
+de processamento. (HKIOSHI, 2026)
+
+Registro da auditoria histórica (versão de outubro de 2026): A
+representação dos mosquitos utiliza contagens para estados 0, 1 e 2;
+entretanto, a inicialização executa estado \textless- rnd(0,3), que
+também admite o valor 3. Além disso, a ação MudarEstado usa (estado + 1)
+mod 3. Estas construções exigem verificar os invariantes de contagem e
+as transições esperadas para a progressão vetorial antes de interpretar
+as séries epidemiológicas. Observação: a issue \#12 relata alterações
+posteriores em 7/11/2026; confirmar a situação atual no código e por
+testes antes de repetir esta crítica como defeito vigente. (HKIOSHI,
+2026)
+
+Requisitos de verificação resultantes da auditoria estática: (a)
+assegurar que todas as entidades estejam em estados válidos e que a soma
+dos compartimentos corresponda aos totais; (b) comprovar que os
+parâmetros alterados pelo batch mudam o comportamento inicial ou
+dinâmico esperado; (c) guardar semente e identificador por réplica; (d)
+aferir a duração temporal real e a frequência de registro; (e) separar
+resultados por execução; (f) medir explicitamente tempo e memória para
+sustentar alegações de escalabilidade. A realização desses testes
+pertence à avaliação experimental do Capítulo 5. (HKIOSHI, 2026)
+
+Versão consultada: branch main do repositório público TccAbm, em 30 de
+outubro de 2026. A inspeção foi estática, a partir dos arquivos
+Main.gaml, globals.gaml e Mosquito.gaml disponibilizados publicamente;
+não foi efetuada execução da plataforma GAMA nesta revisão. (HKIOSHI,
+2026)
+
+\subsection{4.14 Síntese do capítulo}\label{suxedntese-do-capuxedtulo-2}
+
+A implementação examinada reúne módulos GAML, agentes humanos e
+vetoriais, dados GIS, estados imaturos, atualização ambiental e
+mecanismos de exportação. A versão mais recente acrescenta quatro
+experimentos batch. Sua descrição técnica, porém, revela contratos de
+parâmetros e invariantes epidemiológicos que demandam verificação
+funcional antes de interpretar resultados. A avaliação experimental
+correspondente será conduzida no Capítulo 5. (Taillandier et al., 2019;
+GAMA Platform, {[}s. d.{]})
+
+NOTA DE ATUALIZAÇÃO --- 8/11/2026: esta análise preserva evidências
+históricas referentes à versão inspecionada em 30/10/2026.
+Posteriormente, em 7/11/2026, os commits 94754bf e 621703c foram
+associados à issue \#12, com relatos de mudanças em sementes, população
+vetorial, inicialização e gravação dos resultados. O encerramento da
+issue não substitui a confirmação por testes nem permite atribuir os
+CSVs históricos ao novo código. As descrições de defeitos anteriores
+devem ser lidas como achados da versão histórica, e não como prova de
+que persistem na versão atual. (HKIOSHI, 2026)
+
+\subsection{5.0 Alcance das evidências e versões
+analisadas}\label{alcance-das-eviduxeancias-e-versuxf5es-analisadas}
+
+As 229 linhas históricas atribuídas ao CSV consultado em outubro de 2026
+constituem registros observacionais da versão anterior à revisão de
+7/11/2026. Elas não são evidência de que E03, E04 ou E05 tenham sido
+executados no código atualizado, nem comprovam adequação das correções.
+Os resultados que dependem de mudanças na seed, nas probabilidades de
+transmissão, na população de mosquitos e na vacinação somente poderão
+ser acrescentados depois de testados os commits correspondentes. Até
+então, os resultados históricos devem ser identificados como análise
+exploratória e auditoria de integridade. (HKIOSHI, 2026)
+
+\section{5 VERIFICAÇÃO, EXPERIMENTAÇÃO, RESULTADOS E
+DISCUSSÃO}\label{verificauxe7uxe3o-experimentauxe7uxe3o-resultados-e-discussuxe3o}
+
+Este capítulo examina as evidências experimentais atualmente disponíveis
+para o simulador baseado em agentes implementado na plataforma GAMA,
+cuja área geográfica de aplicação é o município de São Paulo. São
+examinadas saídas arquivadas no repositório TccAbm, definidos critérios
+de verificação da implementação e estabelecido um protocolo para a
+avaliação estocástica, epidemiológica e computacional. A análise
+diferencia expressamente os resultados observáveis no arquivo de saída,
+os procedimentos ainda não executados nesta revisão e as limitações que
+restringem inferências sobre o comportamento real da dengue. (HKIOSHI,
+2026)
+
+Escopo da revisão de 30 out. 2026. As afirmações sobre o estado recente
+do repositório referem-se ao commit f3b3a424; não houve execução local
+do simulador GAMA. O CSV examinado não informa a identidade das
+repetições e as figuras herdadas da revisão anterior mostram apenas um
+trecho histórico. Não se declaram testes aprovados ou cenários
+comparativos concluídos. (HKIOSHI, 2026)
+
+A simples execução de um modelo não constitui demonstração de validade
+epidemiológica. Verificação significa examinar a correspondência entre
+código e especificação; validação investiga a adequação da representação
+ao fenômeno e aos propósitos definidos; calibração ajusta parâmetros com
+dados de referência; e avaliação de desempenho caracteriza o consumo de
+recursos computacionais. Essas atividades precisam ser documentadas
+separadamente (GRIMM et al., 2020; MACAL; NORTH, 2010).
+
+\subsection{5.1 Fontes de evidência e
+rastreabilidade}\label{fontes-de-eviduxeancia-e-rastreabilidade}
+
+A fonte primária desta atualização é o arquivo resultados.csv no
+repositório público TccAbm, examinado na revisão de 30 out. 2026 e
+referenciado ao commit f3b3a42414129268888e2120a275b1bcd290d525. Essa
+versão contém 229 registros de dados e 19 colunas, incluindo dia, chuva,
+temperatura, contagens humanas, estados dos mosquitos e mortalidade. O
+nome do arquivo e a estrutura das colunas não identificam, por si
+mesmos, qual experimento produziu cada linha. A branch principal do
+repositório pode receber modificações posteriores: por isso, as
+constatações abaixo se referem ao instantâneo explicitamente
+identificado. (HKIOSHI, 2026)
+
+O arquivo CSV, isoladamente, não informa o identificador exato do commit
+executado, a versão do GAMA, a semente efetivamente utilizada, as
+dependências ambientais, as opções do experimento, o hardware e as
+condições de coleta. Portanto, os resultados são tratados neste capítulo
+como saídas arquivadas e exploratórias, sem afirmar que tenham sido
+reproduzidos nesta análise. (HKIOSHI, 2026)
+
+Quadro 5.1 --- Fontes utilizadas e alcance de suas evidências
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Fonte}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Permite verificar}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Não demonstra isoladamente}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Código GAML no GitHub & Regras e organização da implementação & Execução
+correta ou validade biológica \\
+resultados.csv & Séries numéricas e verificações aritméticas &
+Identificação da execução, replicações ou calibração \\
+Garcias (2024); Oliveira et al. (2025) & Abordagens e experimentos de
+referência & Resultados obtidos pelo simulador de São Paulo \\
+Bases públicas de vigilância (a selecionar) & Observações da dengue em
+São Paulo & Equivalência direta com infecções simuladas \\
+\end{longtable}
+
+Fonte: elaboração própria (2026).
+
+\subsection{5.2 Configuração da execução e limites das informações
+disponíveis}\label{configurauxe7uxe3o-da-execuuxe7uxe3o-e-limites-das-informauxe7uxf5es-disponuxedveis}
+
+No primeiro registro do CSV analisado, observam-se 1.191 agentes humanos
+e 100 mosquitos. As contagens humanas são 1.189 suscetíveis, 2 expostos,
+0 infectados e 0 recuperados, o que totaliza 1.191. Já as contagens de
+mosquitos são 28 suscetíveis, 29 expostos e 21 infectados, totalizando
+78, e não os 100 indicados na coluna mosquitos\_total. Trata-se de
+divergência verificável entre indicadores exportados, que exige
+auditoria do estado inicial e da lógica de contabilização. (HKIOSHI,
+2026)
+
+Embora o CSV apresente 229 linhas de dados, a coluna dia não constitui
+um identificador inequívoco de execução: após o registro de dia 30, a
+numeração retorna para 1. Sem identificador de execução, semente e
+cenário, não é possível afirmar quantas execuções independentes estão
+contidas no arquivo, nem usar suas linhas como uma única série
+cronológica contínua. Antes da análise estatística, o CSV deve ser
+segmentado e vinculado a metadados de execução. (HKIOSHI, 2026)
+
+Quadro 5.2 --- Metadados necessários para um experimento reprodutível
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.5000}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.5000}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Elemento}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Situação nesta análise}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Commit e versão integral dos dados & A registrar no protocolo
+definitivo \\
+Versão da plataforma GAMA & A confirmar na máquina da execução \\
+Semente aleatória realmente utilizada & A confirmar por
+instrumentação \\
+Duração e unidade temporal & Há dias rotulados de 0 a 14; sem
+confirmação externa do calendário \\
+Hardware, sistema operacional e memória & Não informado no CSV \\
+Quantidade de replicações & Não demonstrada pelo arquivo único \\
+Resolução e projeção do mapa GIS & A documentar a partir das bases
+efetivamente carregadas \\
+\end{longtable}
+
+Fonte: elaboração própria (2026).
+
+\subsection{5.3 Resultados exploratórios presentes no
+repositório}\label{resultados-exploratuxf3rios-presentes-no-reposituxf3rio}
+
+\subsubsection{5.3.1 Evolução dos estados
+humanos}\label{evoluuxe7uxe3o-dos-estados-humanos}
+
+A Figura 5.1 foi gerada em versão anterior do estudo a partir de um
+trecho inicial de 15 registros; por isso, deve ser lida como ilustração
+exploratória de um subconjunto histórico, e não como representação dos
+229 registros agora identificados. Na versão atual do CSV, entre os dias
+rotulados 0 e 30 do primeiro segmento, os infectados humanos passam de 0
+a 382, ao passo que os suscetíveis caem de 1.189 a 121. Esses valores
+descrevem saídas registradas, não casos reais de dengue nem desempenho
+epidemiológico validado. (HKIOSHI, 2026)
+
+Figura 5.1 --- Curvas exploratórias de estados humanos em subconjunto
+histórico de 15 linhas. Fonte: elaboração própria a partir de registro
+anterior de resultados.csv; não representa todos os dados do instantâneo
+de 30 out. 2026. {[}Figura histórica: conferir dados e vínculo ao commit
+antes de manter na versão final.{]}
+
+O teste de integridade dos estados humanos deve ser reaplicado
+sistematicamente a todos os 229 registros: humanos\_total = suscetíveis
++ expostos + infectados + recuperados, com exame separado de mortes,
+nascimentos e eventuais categorias adicionais. A concordância em um
+registro não garante a consistência da série inteira. Registros que
+divergirem devem ser rastreados até o instante de atualização, a lógica
+de transição e as operações de escrita no CSV. (HKIOSHI, 2026)
+
+\subsubsection{5.3.2 Evolução e consistência da população
+vetorial}\label{evoluuxe7uxe3o-e-consistuxeancia-da-populauxe7uxe3o-vetorial}
+
+A Figura 5.2 documenta divergências observadas na amostra histórica
+usada na versão anterior. Na versão atual do CSV, a diferença já aparece
+no registro inicial: mosquitos\_total = 100, mas mosquitos\_suscetiveis
++ mosquitos\_expostos + mosquitos\_infectados = 78, diferença de 22
+indivíduos. A leitura do código sugere como hipótese a inicialização de
+um estado adicional ao conjunto contabilizado; essa explicação permanece
+condicionada a teste de execução e inspeção dos agentes. (HKIOSHI, 2026)
+
+Figura 5.2 --- Divergência exploratória entre totais e estados vetoriais
+em subconjunto histórico. Fonte: elaboração própria a partir de registro
+anterior de resultados.csv; requer reavaliação integral. {[}Figura
+histórica: conferir dados e vínculo ao commit antes de manter na versão
+final.{]}
+
+Uma hipótese plausível é a existência de indivíduos em um estado não
+contabilizado ou de diferenças no momento de atualização dos monitores.
+Entretanto, nenhuma dessas hipóteses pode ser apresentada como causa
+comprovada sem inspecionar a inicialização dos estados, os filtros dos
+contadores e o escalonamento das exportações. A divergência é um achado
+de consistência a ser investigado. (HKIOSHI, 2026)
+
+\subsubsection{5.3.3 Indicadores de
+mortalidade}\label{indicadores-de-mortalidade}
+
+No primeiro segmento disponível do CSV recente, entre as linhas
+rotuladas 0 e 30, os campos de mortalidade por dengue aparecem com valor
+zero. Mais adiante no arquivo existem registros de mortalidade não nula.
+Sem uma segmentação confiável das execuções, não é adequado interpretar
+esses valores como uma curva única de óbitos ou calcular uma taxa de
+letalidade agregada. (HKIOSHI, 2026)
+
+\subsection{5.4 Verificação funcional: critérios e casos de
+teste}\label{verificauxe7uxe3o-funcional-crituxe9rios-e-casos-de-teste}
+
+Seguindo a separação metodológica entre verificação e validação
+discutida por Arifin, Madey e Collins (2016), a primeira etapa dos
+testes deve examinar invariantes computacionais, como conservação e
+exclusividade dos estados, consistência dos totais registrados, controle
+das sementes e coerência entre parâmetros batch e número de agentes
+inicializados. Somente após essas verificações caberá uma análise de
+ajuste ou plausibilidade epidemiológica; a documentação científica de
+outros simuladores não substitui evidências produzidas no modelo deste
+trabalho.
+
+A verificação deve conectar cada requisito da especificação aos testes
+das ações implementadas. Propõe-se uma bateria de testes unitários e
+cenários controlados, seguida por testes de integração. Para cada teste,
+será necessário registrar entradas, semente, resultado esperado,
+resultado observado, evidência (log, captura de tela ou CSV) e situação
+de aprovação. (HKIOSHI, 2026)
+
+Quadro 5.3 --- Matriz de verificação proposta
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Identificação}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Teste e condição}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Critério esperado}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+V01 & Inicialização do mosquito & Estado inicial pertencente ao domínio
+epidemiológico definido \\
+V02 & Progressão dos estados vetoriais & Sem retorno não previsto de
+infectante para suscetível \\
+V03 & Contagem dos estados & Soma das classes compatível com total e
+eventuais estados adicionais explicitados \\
+V04 & Transmissão sem contato & Nenhuma nova infecção quando contato
+impossível \\
+V05 & Transmissão com probabilidade zero & Nenhuma transmissão atribuída
+ao evento \\
+V06 & Vacinação & Efeito corresponde à regra implementada e ao
+parâmetro \\
+V07 & Relógio & Conversão consistente entre ciclo, hora e dia
+simulados \\
+V08 & Semente & Mesma configuração e semente produzem saídas
+reproduzíveis sob ambiente controlado \\
+V09 & GIS e mobilidade & Agentes permanecem em geometrias/rotas
+admissíveis segundo o modelo \\
+V10 & Exportação & Campos, unidades, timestamps e contadores
+coerentes \\
+\end{longtable}
+
+Fonte: elaboração própria (2026). Testes propostos, ainda não executados
+nesta revisão.
+
+\subsection{5.5 Planejamento da análise estocástica e de
+sensibilidade}\label{planejamento-da-anuxe1lise-estocuxe1stica-e-de-sensibilidade}
+
+O repositório contém quatro definições de experimento em lote,
+identificadas como E03Variabilidade, E04Vacinacao, E05PopulacaoVetorial
+e E07Escalabilidade. Essa constatação altera o estado do trabalho: não
+se trata apenas de planejamento abstrato, pois os cenários estão
+declarados no código. Contudo, a presença de uma definição de
+experimento não demonstra que suas execuções ocorreram, que os
+parâmetros foram efetivamente utilizados ou que as saídas foram
+arquivadas de maneira rastreável. O protocolo de validação deve
+anteceder qualquer inferência comparativa. (HKIOSHI, 2026)
+
+Uma estratégia de investigação consiste em variar isoladamente a
+cobertura vacinal, a eficácia representada, a probabilidade de picada, a
+mortalidade e a quantidade inicial de vetores. As saídas de interesse
+incluem pico de infectados, tempo até o pico, infecções acumuladas,
+estados vetoriais e tempo de execução. Deve-se distinguir a exploração
+local, variando um parâmetro de cada vez, de uma análise global, que
+considera interações entre fatores. Métodos como Morris e Sobol podem
+ser discutidos, conforme viabilidade computacional (MORRIS, 1991; SOBOL,
+2001). (Gamal et al., 2025; Morris, 1991; Sobol, 2001)
+
+\subsubsection{5.5.1 Desenho experimental proposto: fatores, respostas e
+replicações}\label{desenho-experimental-proposto-fatores-respostas-e-replicauxe7uxf5es}
+
+Para justificar a seleção das métricas, Doege (2026) constitui um
+exemplo de análise de estratégias de controle da dengue com múltiplos
+cenários, repetição estocástica e acompanhamento de indicadores como
+pico de infecção, tempo ao pico, total acumulado e duração da epidemia.
+O desenho do presente estudo pode adotar indicadores comparáveis, desde
+que suas definições sejam explicitadas e as respectivas séries temporais
+sejam realmente geradas pelo GAMA. A presença dessas métricas na
+literatura não comprova que os experimentos E03, E04 e E05 tenham sido
+executados no repositório analisado.
+
+A sistematização do planejamento experimental adota como inspiração
+didática a comparação gradual de cenários apresentada por Sanderson
+(2020), adaptando-a à transmissão vetorial da dengue. Os procedimentos a
+seguir constituem um protocolo a executar, não resultados observados.
+Antes da campanha, é necessário corrigir ou justificar as
+inconsistências de contagem dos estados vetoriais, revisar a relação
+entre ticks e tempo epidemiológico, e confirmar o funcionamento do
+controle de sementes no código GAML.
+
+O cenário de referência deverá ser descrito por uma configuração
+versionada do modelo: commit do repositório, versão do GAMA, arquivo
+geográfico e respectivo sistema de coordenadas, duração e passo
+temporal, população sintética, número inicial de mosquitos, parâmetros
+de transmissão, mobilidade, ambiente e critérios de encerramento. Cada
+execução deverá receber um identificador único e preservar a
+configuração efetivamente utilizada. (Oliveira et al., 2025; Garcias,
+2024)
+
+Recomenda-se iniciar por uma avaliação de variabilidade com uma
+configuração fixa e várias sementes distintas, verificando a
+estabilidade de médias, dispersões e intervalos de incerteza de
+indicadores predefinidos. Para comparação entre cenários, sempre que
+adequado, pode-se empregar o mesmo conjunto de sementes em cada condição
+para reduzir ruído de comparação; deve-se ainda avaliar se essa
+estratégia é compatível com a ordem de sorteios do simulador. O número
+final de replicações dependerá da precisão obtida no estudo piloto e
+será documentado. (Gamal et al., 2025; Morris, 1991; Sobol, 2001)
+
+Em seguida, poderão ser contrastados, um fator por vez, níveis
+previamente justificados de: (a) probabilidade de transmissão associada
+à interação humano--vetor; (b) abundância inicial dos mosquitos; (c)
+parâmetros da mobilidade humana; e (d) distribuição espacial inicial de
+agentes e criadouros. A escolha das faixas deverá respeitar a
+parametrização efetiva do modelo e as fontes epidemiológicas, evitando
+percentuais arbitrários interpretados como realistas. Experimentos
+multifatoriais poderão investigar interações após a etapa exploratória.
+(HKIOSHI, 2026)
+
+Como variáveis-resposta, sugere-se registrar infecções humanas
+incidentes e acumuladas, pico de infectados, tempo até o pico, população
+vetorial por estado e distribuição espacial dos eventos, desde que os
+respectivos contadores sejam verificados. Para avaliação de engenharia
+de software, registrar também duração da execução, consumo de memória e
+número de agentes. Comparações devem apresentar valores centrais e
+dispersão, bem como as condições que diferem entre cenários. (Gamal et
+al., 2025; Morris, 1991; Sobol, 2001)
+
+Um indicador de reprodução de infecções humanas só poderá ser estimado
+de maneira epidemiologicamente defensável se a implementação registrar
+eventos de transmissão e possibilitar sua atribuição ao ciclo
+humano--vetor--humano, com definição explícita de geração e janela
+temporal. Não se deve transplantar diretamente o cálculo de R ou R₀ da
+demonstração SIR do vídeo para um modelo com transmissão vetorial.
+(Oliveira et al., 2025; Garcias, 2024)
+
+Por fim, observações sobre pontos de circulação compartilhados e viagens
+entre comunidades podem orientar perguntas adicionais sobre mobilidade,
+mas tais mecanismos devem estar efetivamente implementados e
+documentados antes de serem transformados em experimentos. Nenhuma
+conclusão causal sobre intervenções ou previsões para a cidade de São
+Paulo decorre exclusivamente das animações ou dos exemplos do vídeo.
+(HKIOSHI, 2026)
+
+\subsubsection{5.5.2 Quantificação da incerteza e variabilidade entre
+execuções}\label{quantificauxe7uxe3o-da-incerteza-e-variabilidade-entre-execuuxe7uxf5es}
+
+A análise proposta por Gamal et al. (2025) distingue quatro fontes de
+incerteza em modelos comportamentais: (i) incerteza paramétrica,
+decorrente dos valores e das distribuições atribuídas às entradas; (ii)
+incerteza estrutural, associada às simplificações e às hipóteses da
+representação; (iii) variabilidade do conjunto de execuções (ensemble),
+associada aos mecanismos estocásticos; e (iv) incerteza empírica,
+relativa à observação e à qualidade dos dados do sistema real. Essas
+fontes não devem ser confundidas com defeitos de implementação:
+inconsistências lógicas e falhas de contagem precisam ser corrigidas ou
+justificadas na verificação, antes da interpretação estatística das
+saídas.
+
+Como etapa inicial, propõe-se executar um experimento piloto com
+parâmetros, dados geográficos, quantidade de agentes e horizonte
+temporal constantes, alterando somente a semente pseudoaleatória. Para
+cada execução r e instante t, devem ser registrados os indicadores de
+interesse y(r,t), permitindo estimar média amostral, desvio-padrão,
+quantis empíricos e intervalos de Monte Carlo. O número definitivo de
+replicações não será fixado sem evidência: deverá ser ampliado até
+atingir precisão previamente estabelecida para as medidas escolhidas,
+observando autocorrelação temporal e eventuais trajetórias com extinção
+precoce. (Gamal et al., 2025; Morris, 1991; Sobol, 2001)
+
+O procedimento deverá distinguir intervalos que representam a
+distribuição dos resultados entre execuções dos intervalos de confiança
+relativos à estimativa de sua média. Essa distinção evita interpretar a
+faixa de trajetórias como erro de medição ou como incerteza sobre os
+casos reais de dengue. Para resultados acumulados, é importante definir
+explicitamente o denominador populacional, a duração e a unidade
+temporal, garantindo comparações consistentes entre cenários. (Gamal et
+al., 2025; Morris, 1991; Sobol, 2001)
+
+\subsubsection{5.5.3 Análise da sensibilidade espacial e temporal:
+extensão metodológica
+proposta}\label{anuxe1lise-da-sensibilidade-espacial-e-temporal-extensuxe3o-metodoluxf3gica-proposta}
+
+Gamal et al. (2025) propõem a Spatio-Temporal Uncertainty Analysis
+(ST-UA) para caracterizar a propagação, entre dois instantes, de medidas
+de incerteza ou sensibilidade calculadas em unidades espaciais. O
+trabalho aplica o método a um modelo de tabagismo, Tobacco Town, e
+demonstra índices espaciais relacionados à relevância e à irrelevância
+da propagação da incerteza, utilizando como exemplo um índice de efeitos
+totais associado a Sobol. O presente simulador não reproduz esse modelo
+nem seus parâmetros; a contribuição aproveitável é o desenho da análise,
+cuja adaptação requer justificativa própria.
+
+Uma aplicação inicial e factível ao município de São Paulo consistiria
+em definir unidades territoriais não sobrepostas compatíveis com a base
+GIS e registrar, para cada região i, tempo t e execução r, os
+indicadores de infecções humanas incidentes, população de mosquitos por
+estado e/ou presença de criadouros, conforme a disponibilidade e a
+verificação dos registros. Para cada combinação (i,t), poderiam ser
+produzidos mapas da média e do desvio-padrão entre replicações,
+acompanhados por contagens ou taxas normalizadas pelo tamanho da
+população sintética regional. Regiões com população sintética nula ou
+reduzida deverão ser identificadas para evitar instabilidade e
+interpretações enganosas. (Gamal et al., 2025; Morris, 1991; Sobol,
+2001)
+
+A comparação de mapas em dois ou mais instantes permitiria descrever a
+evolução da dispersão espacial dos resultados, mas não constituiria
+automaticamente a aplicação integral da ST-UA. A reprodução formal dos
+índices do artigo exigiria definir previamente a medida de incerteza
+U(i,t), justificar limiares e coeficientes dos índices, assegurar a
+compatibilidade espacial e temporal e executar uma campanha de
+amostragem apropriada. A mera diferença entre desvios-padrão de dois
+dias não deverá ser denominada índice ST-UA. (Gamal et al., 2025;
+Morris, 1991; Sobol, 2001)
+
+Para avaliar os parâmetros de transmissão, abundância vetorial,
+mobilidade e condições ambientais, propõe-se uma progressão: (a) triagem
+de fatores com variações controladas; (b) análise de sensibilidade
+global, se tecnicamente viável, com amostragem de combinações e
+consideração das interações; (c) eventual estimação de índices de Sobol
+e, em uma etapa avançada, sua associação à análise espaço-temporal. A
+análise um-fator-por-vez é útil como triagem, mas não estima interações
+entre fatores; índices de Sobol exigem delineamento amostral e custo
+computacional substancialmente maiores. As milhares de execuções
+utilizadas por Gamal et al. (2025) pertencem à aplicação daquele estudo
+e não constituem uma exigência universal para este TCC.
+
+Para manter a rastreabilidade, cada observação espacial deverá ser
+vinculada ao identificador da execução, semente, versão do código,
+parâmetros, data simulada, código da região e definição do indicador.
+Antes da análise, serão verificadas a conservação ou a coerência das
+contagens epidemiológicas, a estabilidade do relógio do modelo, o
+sistema de coordenadas, a associação de agentes às regiões e a ausência
+de duplicação dos eventos registrados. Quando essas condições não forem
+satisfeitas, os mapas e índices deverão permanecer classificados como
+não avaliados. (Oliveira et al., 2025; Garcias, 2024)
+
+Quadro 5.5 --- Plano escalonado de análise da incerteza (não executado)
+
+Etapa A --- Verificação: testar integridade dos estados, consistência
+temporal e atribuição espacial; produto esperado: registros de teste e
+correções documentadas. (HKIOSHI, 2026)
+
+Etapa B --- Ensemble estocástico: replicar o cenário de referência com
+sementes distintas; produto esperado: médias, dispersões, trajetórias e
+precisão estimada. (Gamal et al., 2025; Morris, 1991; Sobol, 2001)
+
+Etapa C --- Incerteza espaço-temporal descritiva: gerar indicadores por
+região e por instante; produto esperado: mapas de médias, dispersões e
+evolução temporal. (Gamal et al., 2025; Morris, 1991; Sobol, 2001)
+
+Etapa D --- Sensibilidade global / ST-UA: somente se houver
+instrumentação e orçamento computacional suficientes; produto esperado:
+índices e mapas com delineamento e limitações explicitados. (Gamal et
+al., 2025; Morris, 1991; Sobol, 2001)
+
+Fonte: elaboração própria (2026), adaptado conceitualmente de Gamal et
+al. (2025). Etapas propostas, sem resultados experimentais nesta versão.
+
+\subsection{5.6 Configurações batch incorporadas ao código e verificação
+de
+execução}\label{configurauxe7uxf5es-batch-incorporadas-ao-cuxf3digo-e-verificauxe7uxe3o-de-execuuxe7uxe3o}
+
+O Main.gaml do instantâneo identificado declara quatro experimentos
+batch, apresentados no Quadro 5.6. As contagens de repetições e as
+faixas de parâmetros abaixo descrevem a configuração encontrada no
+código, não a quantidade de execuções bem-sucedidas comprovadas.
+(HKIOSHI, 2026)
+
+Quadro 5.6 --- Experimentos em lote identificados no código-fonte
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Identificador}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Configuração declarada}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Questão de verificação}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+E03Variabilidade & 30 repetições, cenário sem vacinação & Confirmar
+sementes independentes e saídas por repetição. \\
+E04Vacinacao & Cobertura de 0\% a 100\% em intervalos de 25\%; eficácia
+de 100\%; 30 repetições & Confirmar que a cobertura modifica o
+comportamento e que a eficácia é hipótese de cenário, não estimativa
+clínica. \\
+E05PopulacaoVetorial & 50 a 400 mosquitos, passos de 50; 30 repetições &
+Confirmar vínculo do parâmetro com a criação efetiva de mosquitos. \\
+E07Escalabilidade & 500 a 10.000 humanos, passos de 500; uma execução
+por configuração & Confirmar tamanho populacional real, hardware, tempo
+e memória medidos. \\
+\end{longtable}
+
+Fonte: elaboração própria, a partir das declarações do Main.gaml no
+commit f3b3a424 (consulta de 30 out. 2026). Parâmetros e repetições
+configurados; não representam resultados experimentais verificados.
+
+\subsubsection{5.6.1 Dependências que condicionam a
+interpretação}\label{dependuxeancias-que-condicionam-a-interpretauxe7uxe3o}
+
+A inicialização dos mosquitos apresenta criação fixa de 100 indivíduos
+em trecho examinado do código, enquanto o experimento E05 declara
+variação de quantidade\_mosquito. Se o valor declarado não for conectado
+ao comando de criação, diferentes níveis do experimento poderão gerar a
+mesma condição inicial. Analogamente, a atribuição de uma semente fixa
+no procedimento de inicialização pode comprometer a independência das
+repetições. Esses comportamentos devem ser comprovados mediante
+rastreamento do valor efetivo das variáveis por execução. (HKIOSHI,
+2026)
+
+Registro da auditoria histórica (versão de outubro de 2026): Também se
+observou uma transição vetorial circular envolvendo a operação módulo 3
+e uma inicialização com rnd(0,3), apesar de os indicadores
+contabilizarem três estados. O teste deve enumerar as transições
+permitidas e conferir a distribuição inicial, sem antecipar a causa
+definitiva das divergências do CSV. O limite de ciclos deve ser
+interpretado de acordo com o relógio efetivo, incluindo eventuais
+multiplicadores de velocidade, antes de convertê-lo em dias
+epidemiológicos. Observação: a issue \#12 relata alterações posteriores
+em 7/11/2026; confirmar a situação atual no código e por testes antes de
+repetir esta crítica como defeito vigente. (HKIOSHI, 2026)
+
+\subsubsection{5.6.2 Critérios mínimos para considerar um experimento
+concluído}\label{crituxe9rios-muxednimos-para-considerar-um-experimento-concluuxeddo}
+
+Cada execução deverá registrar ID do experimento, ID da repetição,
+semente efetiva, hash do commit, versão do GAMA, parâmetros resolvidos,
+tamanho inicial e final das populações, duração simulada, número de
+ciclos, tempo real de execução e localização dos arquivos de saída. Em
+cada instante devem ser testadas as invariantes de contagem; falhas não
+devem ser silenciosamente eliminadas da análise. Para E07, uma única
+execução por tamanho não permite estimar adequadamente a dispersão do
+desempenho, motivo pelo qual se recomendam repetições controladas.
+(Gamal et al., 2025; Morris, 1991; Sobol, 2001)
+
+\subsubsection{5.6.3 Interpretação preliminar dos registros, sem
+atribuição de
+cenário}\label{interpretauxe7uxe3o-preliminar-dos-registros-sem-atribuiuxe7uxe3o-de-cenuxe1rio}
+
+No primeiro segmento do CSV do commit f3b3a424, o dia rotulado 0
+registra 1.191 humanos e 100 mosquitos; no dia rotulado 30, o campo
+humanos\_infectados atinge 382. A população vetorial cresce e decresce
+ao longo do mesmo segmento. Essas observações documentam que o sistema
+exportou séries dinâmicas, mas não permitem atribuir causalidade às
+intervenções, inferir um efeito da vacinação ou estimar parâmetros
+epidemiológicos reais sem identificar a configuração e a repetição de
+origem. (HKIOSHI, 2026)
+
+\subsection{5.7 Comparação com observações reais de São
+Paulo}\label{comparauxe7uxe3o-com-observauxe7uxf5es-reais-de-suxe3o-paulo}
+
+A avaliação epidemiológica poderá utilizar séries oficiais de casos do
+município de São Paulo, preferencialmente desagregadas por semana
+epidemiológica e, quando disponível, por distrito ou outra unidade
+territorial compatível. O ano de 2024 constitui uma possível referência
+por sua relevância epidemiológica, mas sua escolha deverá ser
+acompanhada de justificativa do período, população, parâmetros,
+condições ambientais e dados de inicialização utilizados no simulador.
+(Oliveira et al., 2025; Garcias, 2024)
+
+É necessário estabelecer a distinção entre infecções internas do modelo
+e casos observados. A notificação real depende de manifestações
+clínicas, acesso ao diagnóstico e processos de vigilância, ao passo que
+o contador de infecções simuladas pode representar eventos diferentes. A
+comparação poderá exigir um submodelo de observação, reamostragem
+temporal e indicadores normalizados, sem confundir uma população
+sintética reduzida com a população municipal real. (HKIOSHI, 2026)
+
+Somente após a construção de séries comparáveis poderá ser estimada uma
+medida de erro, como RMSE = raiz{[} (1/n) × soma\_t (y\_sim,t −
+y\_obs,t)\^{}2 {]}, ou outras métricas predefinidas. Ajustar parâmetros
+e avaliar o modelo com a mesma série, sem separação de dados, enfraquece
+a evidência de generalização. A validade deverá ser apresentada de
+maneira proporcional às bases e aos testes efetivamente realizados.
+(HKIOSHI, 2026)
+
+\subsection{5.8 Avaliação do desempenho
+computacional}\label{avaliauxe7uxe3o-do-desempenho-computacional}
+
+A avaliação de desempenho, componente central para um TCC de Ciência da
+Computação, deverá caracterizar o custo de inicialização, o
+processamento por ciclo e a memória consumida, controlando o número de
+agentes, as configurações de visualização e a resolução espacial. Os
+testes deverão ser feitos em hardware identificado, com aquecimento e
+execução padronizados quando aplicável, distinguindo diferenças de
+desempenho das diferenças de comportamento estocástico. (HKIOSHI, 2026)
+
+Quadro 5.4 --- Cenários experimentais de desempenho (planejados)
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Fator}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Variação proposta}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Métrica}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+População humana & Configurações crescentes e documentadas & Tempo total
+e por ciclo \\
+População vetorial & Configurações crescentes e documentadas & Custo das
+interações e memória \\
+Visualização & Com e sem renderização gráfica, quando suportado &
+Sobrecarga de interface \\
+Resolução territorial & Camadas e agregações comparáveis & Tempo de
+carga e processamento \\
+Consultas espaciais & Estratégia implementada e alternativa, se viável &
+Tempo por consulta/ciclo \\
+\end{longtable}
+
+Fonte: elaboração própria (2026). Experimentos não executados nesta
+revisão.
+
+Sem medições reais, não é possível afirmar escalabilidade, superioridade
+computacional em relação a NetLogo, Mesa ou Repast, nem complexidade
+prática garantida das consultas espaciais. Caso implementadas por
+varredura completa dos agentes humanos e mosquitos, comparações par a
+par podem crescer proporcionalmente ao produto das populações;
+entretanto, a avaliação da implementação GAMA requer medidas e inspeção
+das operações realmente chamadas. (Oliveira et al., 2025; Garcias, 2024)
+
+\subsection{5.9 Discussão crítica e
+limitações}\label{discussuxe3o-cruxedtica-e-limitauxe7uxf5es}
+
+O arquivo consultado demonstra que o software dispõe de uma rotina de
+registro de séries temporais, com variação dos estados humanos e
+vetoriais no intervalo exportado. Entretanto, as diferenças entre totais
+e estados, o crescimento de uma unidade na população humana e a ausência
+de metadados suficientes impedem classificar essas saídas como validação
+do modelo. Tais limitações são especialmente relevantes porque um
+simulador pode produzir curvas visualmente plausíveis apesar de conter
+erros de implementação ou hipóteses inadequadas. (HKIOSHI, 2026)
+
+Os trabalhos de Oliveira et al. (2025) e Garcias (2024) oferecem
+contexto para a modelagem da dengue em GAMA, enquanto Gamal et al.
+(2025) fundamentam a distinção entre variabilidade estocástica,
+incerteza paramétrica e análise espaço-temporal. Seus resultados
+numéricos e cenários são externos a este projeto; não constituem
+validação automática das saídas do TccAbm.
+
+Portanto, a contribuição computacional demonstrável nesta etapa está na
+análise rastreável do software, na descrição das evidências existentes e
+na especificação de um protocolo capaz de produzir resultados
+auditáveis. A confirmação experimental da correção do código, da
+adequação epidemiológica e do desempenho ainda requer novas execuções e
+documentação sistemática. (HKIOSHI, 2026)
+
+A aplicação de métodos de incerteza espaço-temporal, inspirados em Gamal
+et al. (2025), somente será considerada após a instrumentação de
+resultados desagregados por território e o controle de replicações. A
+presença de heterogeneidade espacial ou de dispersão entre sementes, por
+si só, não valida a representação epidemiológica nem estabelece
+capacidade preditiva.
+
+\subsection{5.10 Síntese do capítulo}\label{suxedntese-do-capuxedtulo-3}
+
+Foi identificado um arquivo CSV com 229 registros e quatro experimentos
+em lote declarados no código-fonte do instantâneo analisado. A inspeção
+exploratória evidenciou divergências na contabilização dos estados
+vetoriais, ausência de identificadores adequados de execução e pontos
+que exigem teste no controle temporal, nas sementes e na parametrização.
+O capítulo distingue evidências registradas, configurações implementadas
+e etapas ainda não executadas ou não verificadas. Antes de concluir
+sobre sensibilidade, vacinação, escalabilidade ou validade
+epidemiológica, são necessárias execuções controladas e reproduzíveis.
+(Gamal et al., 2025; Morris, 1991; Sobol, 2001)
+
+\section{6 CONCLUSÃO E TRABALHOS
+FUTUROS}\label{conclusuxe3o-e-trabalhos-futuros}
+
+\subsection{6.1 Síntese da pesquisa}\label{suxedntese-da-pesquisa}
+
+O presente trabalho abordou a especificação, a documentação e a
+avaliação computacional em desenvolvimento de um simulador espacial e
+estocástico de transmissão da dengue, implementado na plataforma GAMA e
+delimitado ao município de São Paulo. O problema central investigado foi
+a construção de uma representação baseada em agentes capaz de articular
+entidades humanas, mosquitos e ambiente geográfico, com comportamentos
+individuais e mecanismos probabilísticos de interação. Ao longo do
+texto, foram caracterizados os conceitos epidemiológicos necessários, a
+integração entre dados GIS e simulação, a estrutura modular do código
+GAML e os critérios indispensáveis para uma avaliação experimental
+reproduzível. (Gamal et al., 2025)
+
+A contribuição computacional do estudo consiste no exame estruturado da
+arquitetura e do comportamento implementado, na formalização dos
+requisitos experimentais e na explicitação dos limites da evidência
+disponível. A organização dos agentes e das regras de interação oferece
+um objeto concreto para discutir simulação baseada em agentes, controle
+temporal, estados epidemiológicos, parâmetros, persistência de saídas e
+integridade de indicadores. O trabalho não assume, por essa razão, que
+representar computacionalmente um mecanismo epidemiológico seja
+equivalente a demonstrar sua fidelidade à dinâmica observada da dengue.
+
+\subsection{6.2 Contribuições documentadas e estado das
+verificações}\label{contribuiuxe7uxf5es-documentadas-e-estado-das-verificauxe7uxf5es}
+
+A análise dos arquivos do repositório identificou a existência de
+módulos de inicialização, espécies de agentes humanos e vetoriais,
+elementos ambientais e configurações de experimentos em lote. O código
+disponível foi organizado para permitir cenários de variabilidade
+estocástica, vacinação, população vetorial e escalabilidade. No
+acompanhamento de 7 de novembro de 2026, commits vinculados à issue \#12
+registraram alterações destinadas a corrigir inconsistências
+relacionadas a sementes, quantidade inicial de mosquitos, inicialização
+dos estados vetoriais e armazenamento dos resultados. Tais registros
+evidenciam evolução do projeto e revisão orientada por testes, mas não
+comprovam, isoladamente, a execução satisfatória dos cenários. (Gamal et
+al., 2025)
+
+O conjunto histórico de dados examinado na revisão de outubro permitiu
+identificar uma divergência entre o total de mosquitos e a soma das
+categorias epidemiológicas registradas no primeiro instante observado.
+Essa divergência teve valor metodológico como indicação da necessidade
+de estabelecer invariantes de população e testes automatizados. A
+confirmação da correção dessa condição e dos demais critérios de
+aceitação da issue \#12 depende de executar o código atualizado e
+confrontar as saídas por cenário, réplica e semente. (Taillandier et
+al., 2019; Macal; North, 2010)
+
+\subsection{6.3 Limitações}\label{limitauxe7uxf5es}
+
+A principal limitação desta versão consolidada é a ausência, nos
+materiais analisados para sua preparação, de um pacote comprovadamente
+completo de saídas experimentais associadas aos commits atuais, contendo
+configuração, semente efetiva, duração simulada e série temporal para
+cada execução. Consequentemente, não é metodologicamente adequado
+afirmar diferenças estatisticamente demonstradas entre cenários de
+vacinação, variação vetorial e escalabilidade. Também permanecem
+pendentes a confirmação integral das fontes e dos tratamentos de dados
+climáticos e geográficos, a especificação operacional de parâmetros
+epidemiológicos e a verificação de consistência temporal entre ciclos e
+dias.
+
+O emprego de uma população sintética reduzida, a simplificação dos
+estados e das condições de transmissão e a inexistência de um
+procedimento de calibração e avaliação externa completo limitam a
+interpretação epidemiológica dos resultados. As saídas do simulador não
+podem ser convertidas diretamente em previsão do número de casos
+notificados no município de São Paulo, porque diferem da observação real
+em tamanho populacional, cobertura espacial efetiva, subnotificação e
+regras de observação. Essas limitações são particularmente relevantes em
+modelos explicativos e exploratórios, cujas conclusões devem permanecer
+condicionadas às hipóteses representadas.
+
+\subsection{6.4 Trabalhos futuros e critérios para conclusão
+experimental}\label{trabalhos-futuros-e-crituxe9rios-para-conclusuxe3o-experimental}
+
+A primeira prioridade é validar os critérios de aceite associados à
+correção de código: executar o cenário E03 com sementes distintas e
+confirmar séries distintas; repetir uma semente e confirmar
+reprodutibilidade; verificar a igualdade entre o total de mosquitos e a
+soma de seus estados; e assegurar a rastreabilidade por cenário, réplica
+e semente. Em seguida, é necessário executar os cenários E04 e E05,
+confirmar que os parâmetros manipulados afetam efetivamente a
+inicialização ou os eventos do modelo, e construir tabelas de
+estatísticas descritivas sobre replicações independentes. A avaliação de
+escalabilidade deverá utilizar configurações controladas de ambiente e
+registrar tempo de execução e consumo de recursos, sem inferir
+desempenho a partir de um único teste. (Taillandier et al., 2019; Macal;
+North, 2010)
+
+Como extensões científicas, recomenda-se investigar a sensibilidade
+global dos parâmetros após a estabilização dos resultados, aprimorar a
+representação da heterogeneidade espacial e comparar indicadores
+adequadamente normalizados com séries oficiais de dengue no município. A
+aplicação de técnicas de quantificação de incerteza espaço-temporal,
+como discutido por Gamal et al. (2025), requer saídas por unidade
+geográfica, múltiplas execuções e controle rigoroso das fontes de
+variabilidade. Somente depois de cumpridas essas condições será possível
+avaliar a contribuição de técnicas de calibração, análise de
+sensibilidade global e eventual previsão de cenários.
+
+\subsection{6.5 Considerações finais}\label{considerauxe7uxf5es-finais}
+
+O trabalho demonstra a pertinência da modelagem baseada em agentes e da
+integração GIS para a investigação computacional de mecanismos
+associados à transmissão da dengue. Demonstra igualmente que um
+simulador cientificamente defensável depende não apenas de uma
+arquitetura funcional, mas de verificações de consistência, controle dos
+experimentos, documentação dos parâmetros e interpretação responsável
+das saídas. A conclusão definitiva sobre os objetivos experimentais
+permanecerá condicionada à apresentação das evidências exigidas pelo
+orientador, sem substituir resultados ainda não obtidos por descrições
+de intenção. (Taillandier et al., 2019; Macal; North, 2010)
+
+\section{REFERÊNCIAS}\label{referuxeancias}
+
+ANYLOGIC. AnyLogic Help. {[}S. l.{]}: AnyLogic, {[}s. d.{]}. Disponível
+em: https://anylogic.help/. Acesso em: 8 nov. 2026.
+
+ARIFIN, S. M. Niaz; MADEY, Gregory R.; COLLINS, Frank H. Spatial
+agent-based simulation modeling in public health: design,
+implementation, and applications for malaria epidemiology. Hoboken: John
+Wiley \& Sons, 2016. DOI: https://doi.org/10.1002/9781118964385.
+
+BANOS, Arnaud; LANG, Christophe; MARILLEAU, Nicolas (org.). Agent-based
+spatial simulation with NetLogo: volume 1: introduction and bases.
+London: ISTE Press; Elsevier, 2015. ISBN 9781785480553.
+
+BRASIL. Ministério da Saúde. Dengue. Brasília, DF: Ministério da Saúde,
+{[}s. d.{]}. Disponível em:
+https://www.gov.br/saude/pt-br/assuntos/saude-de-a-a-z/d/dengue. Acesso
+em: 8 nov. 2026.
+
+DOEGE, Daniel Garbin. Avaliação de estratégias de controle da dengue por
+modelagem baseada em agentes. 2026. Trabalho de Conclusão de Curso
+(Graduação em Biomedicina) --- Universidade Federal de Ciências da Saúde
+de Porto Alegre, Porto Alegre, 2026. Disponível em:
+https://repositorio.ufcspa.edu.br/handle/123456789/3553. Acesso em: 8
+nov. 2026.
+
+GAMA PLATFORM. GAMA Platform: documentação oficial. {[}S. l.{]}: GAMA
+Platform, {[}s. d.{]}. Disponível em: https://gama-platform.org/. Acesso
+em: 8 nov. 2026.
+
+GAMAL, Yahya et al. An analysis of spatial and temporal uncertainty
+propagation in agent-based models. Philosophical Transactions of the
+Royal Society A: Mathematical, Physical and Engineering Sciences,
+London, v. 383, n. 2293, art. 20240229, 2025. DOI:
+https://doi.org/10.1098/rsta.2024.0229.
+
+GARCIAS, David Batista. Modelo de simulação da transmissão da dengue
+baseado em agentes. 2024. Dissertação (Mestrado) --- Universidade NOVA
+de Lisboa, Portugal, 2024. {[}Conferir unidade acadêmica e dados
+catalográficos na folha de rosto da dissertação{]}.
+
+GHARAKHANLOU, N. M.; HOOSHANGI, N.; HELBICH, M. A spatial agent-based
+model to assess the spread of malaria in relation to anti-malaria
+interventions in Southeast Iran. ISPRS International Journal of
+Geo-Information, {[}S. l.{]}, 2020. {[}Conferir volume, fascículo e
+identificador do artigo{]}.
+
+GHARAKHANLOU, N. M.; MESGARI, M. S.; HOOSHANGI, N. Developing an
+agent-based model for simulating the dynamic spread of Plasmodium vivax
+malaria: a case study of Sarbaz, Iran. Ecological Informatics, {[}S.
+l.{]}, v. 54, 2019. {[}Conferir identificador do artigo e DOI{]}.
+
+GRIMM, Volker et al. The ODD protocol for describing agent-based and
+other simulation models: a second update to improve clarity,
+replication, and structural realism. Journal of Artificial Societies and
+Social Simulation, {[}S. l.{]}, v. 23, n. 2, art. 7, 2020. DOI:
+https://doi.org/10.18564/jasss.4259.
+
+HINSCH, Martin. Introduction to modelling: part 1. YouTube, {[}s. d.{]}.
+Disponível em: https://www.youtube.com/watch?v=V5XyzCQa6uo. Acesso em:
+27 out. 2026. {[}Confirmar título e data diretamente no vídeo{]}.
+
+HKIOSHI. TccAbm: repositório de código-fonte e dados do simulador.
+GitHub, 2026. Disponível em: https://github.com/hkioshi/TccAbm. Acesso
+em: 8 nov. 2026. Para observações históricas, consultar o commit
+específico indicado no corpo do texto.
+
+ISIDORO, Carlos; FACHADA, Nuno; BARATA, Fábio; ROSA, Agostinho.
+Agent-based model of dengue disease transmission by Aedes aegypti
+populations. In: ADVANCES IN ARTIFICIAL LIFE: DARWIN MEETS VON NEUMANN.
+Berlin: Springer, 2011. p. 345--352. DOI:
+https://doi.org/10.1007/978-3-642-21283-3\_43.
+
+JINDAL, Akshay; RAO, Shrisha. Agent-based modeling and simulation of
+mosquito-borne disease transmission. In: INTERNATIONAL CONFERENCE ON
+AUTONOMOUS AGENTS AND MULTIAGENT SYSTEMS, 16., 2017, São Paulo.
+Proceedings {[}...{]}. {[}S. l.{]}: International Foundation for
+Autonomous Agents and Multiagent Systems, 2017. p. 426--435. Disponível
+em: https://aamas.csc.liv.ac.uk/Proceedings/aamas2017/pdfs/p426.pdf.
+Acesso em: 8 nov. 2026.
+
+MACAL, Charles M.; NORTH, Michael J. Tutorial on agent-based modelling
+and simulation. Journal of Simulation, {[}S. l.{]}, v. 4, n. 3, p.
+151--162, 2010. DOI: https://doi.org/10.1057/jos.2010.3.
+
+MESA-GEO. Mesa-Geo: GIS extension for Mesa. {[}S. l.{]}: Mesa-Geo, {[}s.
+d.{]}. Disponível em: https://mesa-geo.readthedocs.io/. Acesso em: 8
+nov. 2026.
+
+MESA. Mesa: agent-based modeling in Python. {[}S. l.{]}: Mesa, {[}s.
+d.{]}. Disponível em: https://mesa.readthedocs.io/. Acesso em: 8 nov.
+2026.
+
+MORRIS, Max D. Factorial sampling plans for preliminary computational
+experiments. Technometrics, {[}S. l.{]}, v. 33, n. 2, p. 161--174, 1991.
+DOI: https://doi.org/10.1080/00401706.1991.10484804.
+
+NETLOGO. GIS Extension: NetLogo User Manual. {[}S. l.{]}: NetLogo, {[}s.
+d.{]}. Disponível em: https://docs.netlogo.org/gis.html. Acesso em: 8
+nov. 2026.
+
+OLIVEIRA, Emily Brito de et al. Modelo de transmissão da dengue por
+simulação multi-agentes. In: SIMPÓSIO BRASILEIRO DE PESQUISA
+OPERACIONAL, 57., 2025, Gramado. Anais {[}...{]}. {[}S. l.{]}: Galoá,
+2025. DOI: https://doi.org/10.59254/sbpo-2025-212362.
+
+REPAST. Repast Simphony: documentação. {[}S. l.{]}: Repast, {[}s. d.{]}.
+Disponível em: https://repast.github.io/. Acesso em: 8 nov. 2026.
+
+SANDERSON, Grant. Simulating an epidemic. 3Blue1Brown, 27 mar. 2020.
+Vídeo (23 min). Disponível em:
+https://www.youtube.com/watch?v=gxAaO2rsdIs. Acesso em: 27 out. 2026.
+
+SANTOS, Aline Rodrigues; SANTOS, Fernando. Introductory guide to
+agent-based simulation development on the GAMA platform. In:
+WORKSHOP-ESCOLA DE SISTEMAS DE AGENTES, SEUS AMBIENTES E APLICAÇÕES
+(WESAAC), 18., 2024, Brasília. Anais {[}...{]}. Porto Alegre: Sociedade
+Brasileira de Computação, 2024. p. 96--107. DOI:
+https://doi.org/10.5753/wesaac.2024.33459.
+
+SOBOL, Ilya M. Global sensitivity indices for nonlinear mathematical
+models and their Monte Carlo estimates. Mathematics and Computers in
+Simulation, {[}S. l.{]}, v. 55, n. 1--3, p. 271--280, 2001. DOI:
+https://doi.org/10.1016/S0378-4754(00)00270-6.
+
+TAILLANDIER, Patrick et al. Building, composing and experimenting
+complex spatial models with the GAMA platform. GeoInformatica, {[}S.
+l.{]}, v. 23, p. 299--322, 2019. DOI:
+https://doi.org/10.1007/s10707-018-00339-6.
+
+TAILLANDIER, Patrick; DROGOUL, Alexis. From GIS data to GIS agents,
+modeling with the GAMA simulation platform. In: TECHNICAL FORUM GROUP ON
+AGENT AND MULTI-AGENT-BASED SIMULATION, 2010. {[}Anais...{]}. {[}S. l.:
+s. n.{]}, 2010. {[}Conferir os dados do evento no documento original{]}.
+
+WORLD HEALTH ORGANIZATION. Dengue. Geneva: WHO, 21 ago. 2025. Disponível
+em:
+https://www.who.int/news-room/fact-sheets/detail/dengue-and-severe-dengue.
+Acesso em: 8 nov. 2026.
+
+Nota técnica bibliográfica: referências normalizadas no padrão
+autor-data da ABNT. As entradas de Garcias (2024), Gharakhanlou et al.
+(2019/2020), Hinsch ({[}s. d.{]}) e Taillandier e Drogoul (2010) ainda
+requerem conferência catalográfica final nos documentos originais,
+indicada entre colchetes; essas indicações não devem permanecer na
+versão de depósito. Esta revisão não constitui validação científica do
+simulador e não substitui a compilação da bibliografia no LaTeX
+institucional.
+
+\section{APÊNDICE A --- RASTREABILIDADE DAS EXIGÊNCIAS DO
+ORIENTADOR}\label{apuxeandice-a-rastreabilidade-das-exiguxeancias-do-orientador}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Exigência / issue}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Providência textual nesta versão}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Evidência ainda necessária}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\#13 Resumo/Abstract & Reescritos para GAMA/GAML, sem Mesa, ML ou
+validação não demonstrada & Atualizar números somente após resultados e
+recompilar LaTeX/BibTeX \\
+\#8 Metodologia & Capítulos 3, 4 e 5 especificam agentes, parâmetros,
+verificação e cenários & Confirmar fonte, ano, CRS, clima, valores e
+ciclos no código \\
+\#12 Correção experimental & Nota de atualização registra commits 7/11 e
+critérios de aceitação & E03 por semente, E04 eficácia 50\%, E05
+população, estados S+E+I \\
+\#11 Resultados/Conclusão & Capítulo 5 distingue dados históricos de
+resultados futuros; capítulo 6 limita inferências & CSV rastreáveis e
+gráficos com replicações \\
+\#16 Prazo 12/11 & Texto consolidado e roteiro documental & Publicar no
+main, PDF compilado e comentários nas issues \\
+\end{longtable}
+
+\subsection{A.1 Protocolo mínimo de validação das
+execuções}\label{a.1-protocolo-muxednimo-de-validauxe7uxe3o-das-execuuxe7uxf5es}
+
+1. Registrar commit SHA do código, versão do GAMA, data, sistema
+operacional, configuração da máquina e fontes de dados.
+
+2. Executar E03 com duas sementes distintas; comparar séries e comprovar
+diferenças; repetir uma das sementes para comprovar igualdade sob o
+mesmo ambiente.
+
+3. Confirmar em cada CSV as colunas cenário, réplica, semente, ciclo,
+dia acumulado, totais e compartimentos epidemiológicos.
+
+4. Garantir invariantes: total de mosquitos = S + E + I, sob definição
+de categorias mutuamente exclusivas; mesmo princípio para humanos
+conforme estados de recuperação, morte e outros estados presentes.
+
+5. No E05, verificar a correspondência entre quantidade\_mosquito
+configurada e a contagem inicial registrada.
+
+6. No E04, testar eficácia 50\% em cenário controlado e comparar a
+probabilidade de transmissão efetiva na escala 0--100, sem exigir que
+toda réplica apresente infecção de vacinados.
+
+7. Calcular média, desvio-padrão, mediana, percentis e total de novas
+infecções por cenário, somente após verificar consistência e número de
+réplicas.
+
+8. Publicar CSVs, protocolo, gráficos e PDF; comentar cada issue com
+commit, caminho dos arquivos e evidências reproduzíveis.
+
+\subsection{A.2 Limitações desta
+entrega}\label{a.2-limitauxe7uxf5es-desta-entrega}
+
+Nota de incorporação bibliográfica (8 nov. 2026): as referências de
+Arifin, Madey e Collins (2016), Banos, Lang e Marilleau (2015), Isidoro
+et al. (2011), Jindal e Rao (2017) e Doege (2026) foram acrescentadas às
+seções metodológicas ou comparativas pertinentes. Não foram utilizados
+resultados desses autores como se fossem produzidos pelo simulador GAMA
+do presente projeto. Permanecem necessárias a execução dos experimentos,
+a conferência bibliográfica integral e a integração ao template LaTeX
+institucional.
+
+Este DOCX é uma consolidação editorial de versões prévias dos capítulos
+disponíveis nesta conversa, acrescida de correções conceituais e de uma
+nota histórica sobre o estado mais recente observado nas issues. Não
+substitui a verificação da árvore completa dos arquivos do repositório,
+não altera o GitHub, não compila o projeto LaTeX e não executa o modelo
+GAMA. Por isso, o atendimento integral às exigências do orientador
+permanece condicionado às ações técnicas descritas neste apêndice.

@@ -1,0 +1,49 @@
+\chapter{INTRODUÇÃO}
+\label{cap:introducao}
+
+\section{Contexto e motivação}
+
+A dengue é uma arbovirose causada pelo vírus dengue (DENV), transmitido pela picada de fêmeas infectadas de mosquitos do gênero \textit{Aedes}. No Brasil, o principal vetor urbano é o \textit{Aedes aegypti}. Existem quatro sorotipos virais (DENV-1 a DENV-4), e a infecção pode ser assintomática, febril ou evoluir para formas graves \cite{MinisterioSaude2025, WHO2023}. Segundo a Organização Mundial da Saúde, cerca de metade da população mundial vive em áreas com risco de dengue, e a prevenção depende sobretudo do controle do vetor, da redução de criadouros e da vigilância epidemiológica \cite{WHO2023}.
+
+A transmissão resulta da interação entre hospedeiros humanos, mosquitos e ambiente. Crescimento urbano, disponibilidade de recipientes que acumulam água, clima e deslocamento das pessoas tornam a transmissão heterogênea no espaço e no tempo \cite{WHO2023}. Representar essas relações em conjunto e explorá-las sob condições controladas é difícil por meios analíticos, o que motiva o uso de simulação computacional.
+
+A modelagem baseada em agentes (\textit{Agent-Based Modeling}, ABM) representa indivíduos e componentes do ambiente com atributos, estados e comportamentos próprios, de modo que padrões coletivos emergem das interações locais \cite{Macal2010}. Plataformas como o GAMA oferecem recursos para modelos espacialmente explícitos e para a realização de experimentos \cite{Taillandier2019}. A abordagem é adequada à dengue porque combina entidades heterogêneas (pessoas, mosquitos, criadouros), eventos estocásticos e dependência de fatores espaciais e climáticos.
+
+O município de São Paulo é um cenário relevante por sua dimensão, concentração populacional e diversidade espacial, o que exige preparar dados geográficos e adotar simplificações compatíveis com os objetivos do modelo. Do ponto de vista da Ciência da Computação, o trabalho envolve especificar regras e estados, executar eventos probabilísticos, processar informações espaciais e estabelecer correspondência clara entre o modelo conceitual e sua implementação. A contribuição pretendida é um modelo documentado e verificável, que represente aspectos da transmissão sob hipóteses explícitas, e não uma ferramenta de previsão epidemiológica.
+
+\section{Problema e pergunta de pesquisa}
+
+Executar um simulador e gerar gráficos não demonstra que ele se comporta conforme sua especificação. Inconsistências em transições de estado, parâmetros, escala temporal ou geração de números aleatórios podem comprometer a interpretação dos resultados. Além disso, usar dados geográficos e climáticos exige preparar as entradas e integrá-las ao comportamento dos agentes. Disso decorre a seguinte pergunta de pesquisa:
+
+\begin{quote}
+Como desenvolver e avaliar um simulador espacial e estocástico baseado em agentes, na plataforma GAMA, que represente as interações entre humanos, mosquitos \textit{Aedes aegypti} e ambiente na transmissão da dengue no município de São Paulo?
+\end{quote}
+
+\section{Objetivos}
+
+\subsection{Objetivo geral}
+
+Desenvolver, documentar e avaliar um simulador espacial, estocástico e baseado em agentes, na plataforma GAMA e com dados de Sistemas de Informação Geográfica (SIG), para representar aspectos da transmissão da dengue no município de São Paulo por meio das interações entre agentes humanos, mosquitos \textit{Aedes aegypti} e componentes ambientais.
+
+\subsection{Objetivos específicos}
+
+\begin{enumerate}
+    \item Revisar os fundamentos da dengue, da simulação e da modelagem baseada em agentes, e os trabalhos relacionados;
+    \item Especificar o modelo conceitual: entidades, atributos, estados epidemiológicos, comportamentos e interações;
+    \item Implementar o simulador em GAMA/GAML, integrando dados geográficos e climáticos e documentando hipóteses, parâmetros e simplificações;
+    \item Verificar regras, estados, parâmetros e saídas do simulador;
+    \item Executar experimentos computacionais e analisar os indicadores produzidos, considerando a variabilidade estocástica e as limitações do modelo.
+\end{enumerate}
+
+\section{Escopo e delimitação}
+\label{sec:escopo}
+
+O recorte territorial é o município de São Paulo. A representação do território usa apenas as bases geográficas efetivamente incorporadas ao simulador e não reproduz todas as características demográficas, territoriais e epidemiológicas da cidade. A população humana é sintética, isto é, não corresponde individualmente aos habitantes reais.
+
+O domínio do modelo restringe-se às interações entre humanos, mosquitos \textit{Aedes aegypti} e componentes ambientais. Ficam fora do escopo a dinâmica simultânea dos quatro sorotipos, a resposta imunológica detalhada e a distribuição real do risco no município.
+
+O simulador não é apresentado como sistema de previsão epidemiológica nem como modelo validado com dados observados. Seus resultados devem ser lidos como consequência das regras, dos parâmetros, das condições iniciais e dos cenários definidos neste estudo. Comparações com dados epidemiológicos exigiriam compatibilidade de indicadores, escalas espaciais e períodos, além de calibração, e são indicadas como trabalho futuro.
+
+\section{Organização do trabalho}
+
+O Capítulo~\ref{cap:fundamentacao} apresenta a fundamentação teórica e os trabalhos relacionados. O Capítulo~\ref{cap:metodologia} descreve a metodologia, incluindo dados, verificação e protocolo experimental. O Capítulo~\ref{cap:modelo} apresenta o modelo e sua implementação em GAMA. O Capítulo~\ref{cap:resultados} reúne a verificação e os resultados dos experimentos. O Capítulo~\ref{cap:conclusao} traz a discussão, as limitações, as conclusões e os trabalhos futuros.
