@@ -97,7 +97,7 @@ global {
 
 		// Mortalidade
 		mortos_por_dengue, mortes_menor_1_ano, mortes_1_a_19_anos, mortes_20_a_39_anos, mortes_40_a_59_anos, mortes_60_a_79_anos, mortes_80_anos_ou_mais] to:
-		"resultados/resultados_" + int(seed) + ".csv" format: "csv" rewrite: false header: false;
+		"resultados/resultados_" + int(seed) + ".csv" format: "csv" rewrite: false header: true;
 	}
 
 	init {
@@ -107,9 +107,13 @@ global {
 		}
 
 		save
-		["seed", "dia_simulacao", "chuva", "temperatura", "humanos_total", "humanos_suscetiveis", "humanos_expostos", "humanos_infectados", "humanos_recuperados", "mosquitos_total", "mosquitos_suscetiveis", "mosquitos_expostos", "mosquitos_infectados", "mortos_por_dengue"]
-		to: "resultados/resultados_" + int(seed) + ".csv" format: "csv" rewrite: true header: true;
-		write "Seed utilizada: " + seed;
+	    to: "resultados/resultados_" + int(seed) + ".csv"
+	    format: "csv"
+	    rewrite: true
+	    header: false;
+	    
+	    write "Seed utilizada: " + seed;
+	    
 		// Criadouros permanentes
 		
 		create ambiente from: subprefeituras_shapefile with: [nm_regiao_::read("nm_regiao_")];
@@ -185,6 +189,8 @@ global {
 	}
 
 	reflex evento when: every(tempo_dia) {
+		dia <- dia +1;
+		dia_simulacao <- dia_simulacao + 1;
 		if (dia > 30) {
 			dia <- 1;
 			if (mes < 12) {
@@ -194,6 +200,8 @@ global {
 			}
 
 		}
+		
+		
 
 		write "hoje é dia: " + dia_simulacao + " da simulação";
 		do Relatorio;
@@ -216,6 +224,7 @@ global {
 		// Assim, a probabilidade representa a frequência histórica de dias chuvosos
 		// em cada mês, e não a quantidade de chuva acumulada.
 		// Os valores foram utilizados como referência para a simulação da chuva.
+		//TODO: fazer chuva
 		switch mes {
 			match 1 {
 				if (rnd(100.0) < 73.1) {
@@ -434,7 +443,7 @@ global {
 			} else {
 				quantidade_pocas <- 50;
 			}
-
+			//TODO: calibrar poça
 			create poca number: quantidade_pocas {
 				permanente <- false;
 				nivel_agua <- nivel_inicial_poca;
