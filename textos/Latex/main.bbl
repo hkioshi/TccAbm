@@ -45,10 +45,26 @@ Dispon{\'\i}vel em: \url{https://www.gov.br/saude/pt-br/assuntos/saude-de-a-a-z/
 \abntrefinfo{Oliveira et al.}{OLIVEIRA et al.}{2025}
 {OLIVEIRA, E. B.~d. et al. Modelo de transmissão da dengue por simulação multi-agentes. In:  \emph{Anais do LVII Simpósio Brasileiro de Pesquisa Operacional}. Gramado, RS: Galoá, 2025. Dispon{\'\i}vel em: \url{https://proceedings.science/sbpo/sbpo-2025/trabalhos/modelo-de-transmissao-da-dengue-por-simulacao-multi-agentes?lang=pt-br}.}
 
+\bibitem[{Prefeitura do Município de São Paulo} 2022]{prefeitura_sp_taxa_natalidade}
+\abntrefinfo{{Prefeitura do Município de São Paulo}}{{Prefeitura do Município de São Paulo}}{2022}
+{{Prefeitura do Município de São Paulo}. \emph{Taxas de natalidade: 1980--2022}. 2022. Disponível em: \url{https://drive.prefeitura.sp.gov.br/cidade/secretarias/upload/chamadas/7_taxas_de__natalidade_1980_2022_1720199076.htm}.
+Acesso em: 2026-11-10.}
+
 \bibitem[Sobol' 2001]{Sobol2001}
 \abntrefinfo{Sobol'}{SOBOL'}{2001}
 {SOBOL', I.~M. Global sensitivity indices for nonlinear mathematical models and their monte carlo estimates.
 \emph{Mathematics and Computers in Simulation}, v.~55, n.~1--3, p. 271--280, 2001.}
+
+\bibitem[SOUZA et al. 2025]{souza_letalidade_dengue_2025}
+\abntrefinfo{SOUZA et al.}{SOUZA et al.}{2025}
+{SOUZA, G. C.~d. et al. Perfil de letalidade dos casos prováveis de dengue no brasil no ano de 2024.
+\emph{Journal of Social Issues and Health Sciences}, v.~2, n.~5, 2025.
+Dispon{\'\i}vel em: \url{https://ojs.thesiseditora.com.br/index.php/jsihs/article/view/407}.}
+
+\bibitem[{São Paulo (Município). Secretaria Municipal de Urbanismo e Licenciamento} 2024]{prefeitura_sp_2024_populacao}
+\abntrefinfo{{São Paulo (Município). Secretaria Municipal de Urbanismo e Licenciamento}}{{São Paulo (Município). Secretaria Municipal de Urbanismo e Licenciamento}}{2024}
+{{São Paulo (Município). Secretaria Municipal de Urbanismo e Licenciamento}. \emph{População absoluta em 2022}.
+São Paulo, 2024.  (Informes Urbanos, 64). Dispon{\'\i}vel em: \url{https://gestaourbana.prefeitura.sp.gov.br/wp-content/uploads/2024/05/IU\_64\_censo-2022-1.pdf}.}
 
 \bibitem[Taillandier et al. 2019]{Taillandier2019}
 \abntrefinfo{Taillandier et al.}{TAILLANDIER et al.}{2019}

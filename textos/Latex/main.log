@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2026.10.30)  10 NOV 2026 15:57
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2026.10.30)  10 NOV 2026 18:17
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1174,21 +1174,9 @@ Underfull \hbox (badness 1983) in paragraph at lines 66--66
 []|\T1/lmr/m/n/12 (+20) Estados e tran-si-
  []
 
-
-LaTeX Warning: Reference `sec:res-cenarios' on page 20 undefined on input line 84.
-
 [20]) (./Capitulos/modelo_implementacao.tex [21]
-
-LaTeX Warning: Reference `sec:odd' on page 22 undefined on input line 4.
-
-
-LaTeX Warning: Reference `ap:parametros' on page 22 undefined on input line 4.
-
-
-LaTeX Warning: Reference `tab:distribuicao-regional' on page 22 undefined on input line 10.
-
-LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 15.
-(/usr/share/texmf/tex/latex/lm/t1lmtt.fd
+LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 39.
+ (/usr/share/texmf/tex/latex/lm/t1lmtt.fd
 File: t1lmtt.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
 Package microtype Info: Loading generic protrusion settings for font family
@@ -1196,68 +1184,99 @@ Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
 
-Overfull \hbox (6.38884pt too wide) in paragraph at lines 27--27
- [][]\T1/lmtt/m/n/10.95 Imaturo.gaml 
- []
-
-
-Overfull \hbox (12.13757pt too wide) in paragraph at lines 28--28
- [][]\T1/lmtt/m/n/10.95 Mosquito.gaml 
- []
-
-
-Overfull \hbox (0.6401pt too wide) in paragraph at lines 29--29
- [][]\T1/lmtt/m/n/10.95 Pessoa.gaml 
- []
-
-
-Overfull \hbox (11.85013pt too wide) in paragraph at lines 31--31
- [][]\T1/lmtt/m/n/10.95 Ambiente.gaml 
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 57--57
-[]|\T1/lmr/m/n/12 (+20) Mosquito
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 58--58
-[]|\T1/lmtt/m/n/12 estagio \T1/lmr/m/n/12 (+20) (0 = ovo, 1
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 58--58
-\T1/lmr/m/n/12 (+20) = larva, 2 = pupa),
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 58--58
-\T1/lmtt/m/n/12 idade\T1/lmr/m/n/12 (+20) , \T1/lmtt/m/n/12 duracao_estagio\T1/lmr/m/n/12 (+20) ,
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 59--59
-[]|\T1/lmr/m/n/12 (+20) Criadouro
+Overfull \hbox (9.86386pt too wide) in paragraph at lines 62--63
+ [][] 
  []
 
 [22
 
 ]
 
-LaTeX Warning: Reference `ap:parametros' on page 23 undefined on input line 72.
+LaTeX Warning: Citation `usp_expectativa_vida_2024' on page 23 undefined on input line 87.
+
+
+Underfull \hbox (badness 1389) in paragraph at lines 87--88
+[]|\T1/lmr/m/n/12 (+20) Expectativa de vida uti-li-zada
+ []
+
+
+Overfull \hbox (28.21405pt too wide) in paragraph at lines 101--102
+[]|\T1/lmtt/m/n/12 mortalidade_menor_1_ano| 
+ []
+
+
+Overfull \hbox (28.20705pt too wide) in paragraph at lines 105--106
+[]|\T1/lmtt/m/n/12 mortalidade_1_a_19_anos| 
+ []
+
+
+Overfull \hbox (34.38205pt too wide) in paragraph at lines 109--110
+[]|\T1/lmtt/m/n/12 mortalidade_20_a_39_anos| 
+ []
+
+
+Overfull \hbox (34.38205pt too wide) in paragraph at lines 113--114
+[]|\T1/lmtt/m/n/12 mortalidade_40_a_59_anos| 
+ []
+
+
+Overfull \hbox (34.37505pt too wide) in paragraph at lines 117--118
+[]|\T1/lmtt/m/n/12 mortalidade_60_a_79_anos| 
+ []
+
+
+Overfull \hbox (52.91406pt too wide) in paragraph at lines 121--122
+[]|\T1/lmtt/m/n/12 mortalidade_80_anos_ou_mais| 
+ []
+
+
+LaTeX Warning: Citation `jindal_rao_2017' on page 23 undefined on input line 127.
+
+
+LaTeX Warning: Citation `periodo_incubacao_dengue' on page 23 undefined on input line 131.
+
+
+LaTeX Warning: Citation `periodo_incubacao_dengue' on page 23 undefined on input line 135.
+
+
+Overfull \hbox (3.51404pt too wide) in paragraph at lines 137--138
+[]|\T1/lmtt/m/n/12 periodo_recuperacao| 
+ []
+
+
+LaTeX Warning: Citation `periodo_recuperacao_dengue' on page 23 undefined on input line 139.
+
+
+Overfull \hbox (28.21405pt too wide) in paragraph at lines 141--142
+[]|\T1/lmtt/m/n/12 taxa_de_mortalidade_dia| 
+ []
+
+
+LaTeX Warning: Float too large for page by 50.91661pt on input line 152.
+
+
+Overfull \hbox (84.27362pt too wide) in paragraph at lines 193--193
+[]|\T1/lmtt/m/n/12 quantidade_criadouros_permanentes| 
+ []
+
+
+Overfull \hbox (28.6986pt too wide) in paragraph at lines 194--194
+[]|\T1/lmtt/m/n/12 nivel_inicial_permanente| 
+ []
+
+
+Overfull \hbox (22.52359pt too wide) in paragraph at lines 195--195
+[]|\T1/lmtt/m/n/12 nivel_minimo_permanente| 
+ []
 
 [23]
 
-LaTeX Warning: Reference `tab:parametros-epidemiologicos' on page 24 undefined on input line 80.
+LaTeX Warning: Reference `tab:parametros-epidemiologicos' on page 24 undefined on input line 212.
 
 
-LaTeX Warning: Reference `tab:parametros-deslocamento' on page 24 undefined on input line 84.
+LaTeX Warning: Reference `tab:parametros-deslocamento' on page 24 undefined on input line 216.
 
-[24]
-
-LaTeX Warning: Reference `ap:parametros' on page 25 undefined on input line 100.
-
-[25]) (./Capitulos/Resultado.tex [26]
+[24] [25]) (./Capitulos/Resultado.tex [26] [27] [28]
 Underfull \hbox (badness 1237) in paragraph at lines 22--22
 []|\T1/lmr/m/n/12 (+20) Metadados por re-gis-tro
  []
@@ -1267,13 +1286,9 @@ Underfull \hbox (badness 4181) in paragraph at lines 22--22
 \T1/lmr/m/n/12 (+20) (ex-pe-ri-mento, re-pe-ti-ção,
  []
 
-[27
+[29
 
 ]
-
-LaTeX Warning: Reference `tab:distribuicao-regional' on page 28 undefined on input line 52.
-
-
 Overfull \hbox (47.78403pt too wide) in paragraph at lines 46--59
  [][] 
  []
@@ -1288,13 +1303,9 @@ Underfull \hbox (badness 10000) in paragraph at lines 79--79
 []|\T1/lmr/m/n/12 (+20) População hu-
  []
 
-[28]) (./Capitulos/conclusao.tex [29] [30
+[30]) (./Capitulos/conclusao.tex [31] [32
 
-]
-
-LaTeX Warning: Reference `ap:repositorio' on page 31 undefined on input line 38.
-
-[31]
+] [33]
 Underfull \hbox (badness 2334) in paragraph at lines 71--72
 []|\T1/lmr/m/n/12 (+20) Atendido [PEN-DENTE:
  []
@@ -1308,11 +1319,11 @@ Underfull \hbox (badness 2875) in paragraph at lines 72--73
 \tf@brf=\write6
 \openout6 = `main.brf'.
 
- [32]
+ [34]
 bibitemlist
-) [33
+[35
 
-] [34
+]) [36] [37
 
 ]
 \tf@lof=\write7
@@ -1333,21 +1344,21 @@ L3 programming layer <2020/03/25>
 LaTeX Warning: There were undefined references.
 
 Package rerunfilecheck Info: File `main.brf' has not changed.
-(rerunfilecheck)             Checksum: CBEB5A044DBE1916346423F9984973D7;1587.
+(rerunfilecheck)             Checksum: 8A03E31AF7BCE1B8AE1EC8829CC96054;2443.
  ) 
 Here is how much of TeX's memory you used:
- 31802 strings out of 476162
- 571588 string characters out of 5794813
- 1942975 words of memory out of 5000000
- 52928 multiletter control sequences out of 15000+600000
- 648749 words of font info for 193 fonts, out of 8000000 for 9000
+ 31874 strings out of 476162
+ 573602 string characters out of 5794813
+ 1952975 words of memory out of 5000000
+ 52985 multiletter control sequences out of 15000+600000
+ 649072 words of font info for 196 fonts, out of 8000000 for 9000
  16 hyphenation exceptions out of 8191
  99i,13n,107p,1048b,878s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/share/texmf/fonts/type1/public/lm/lmbx10.pfb></usr/share/texmf/fonts/type1/public/lm/lmbx12.pfb></usr/share/texmf/fonts/type1/public/lm/lmbxi10.pfb></usr/share/texmf/fonts/type1/public/lm/lmr10.pfb></usr/share/texmf/fonts/type1/public/lm/lmr12.pfb></usr/share/texmf/fonts/type1/public/lm/lmr9.pfb></usr/share/texmf/fonts/type1/public/lm/lmri10.pfb></usr/share/texmf/fonts/type1/public/lm/lmri12.pfb></usr/share/texmf/fonts/type1/public/lm/lmss12.pfb></usr/share/texmf/fonts/type1/public/lm/lmss17.pfb></usr/share/texmf/fonts/type1/public/lm/lmssbx10.pfb></usr/share/texmf/fonts/type1/public/lm/lmtt10.pfb></usr/share/texmf/fonts/type1/public/lm/lmtt12.pfb>
-Output written on main.pdf (35 pages, 420745 bytes).
+Output written on main.pdf (38 pages, 434601 bytes).
 PDF statistics:
- 709 PDF objects out of 1000 (max. 8388607)
- 636 compressed objects within 7 object streams
- 129 named destinations out of 1000 (max. 500000)
+ 763 PDF objects out of 1000 (max. 8388607)
+ 687 compressed objects within 7 object streams
+ 138 named destinations out of 1000 (max. 500000)
  52701 words of extra memory for PDF output out of 61914 (max. 10000000)
 

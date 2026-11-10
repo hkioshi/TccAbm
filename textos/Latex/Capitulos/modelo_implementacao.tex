@@ -1,14 +1,38 @@
 \chapter{MODELO E IMPLEMENTAÇÃO}
 \label{cap:modelo}
 
-Este capítulo descreve o simulador em duas camadas ligadas entre si: o modelo conceitual (entidades, estados, processos e hipóteses) e sua implementação na plataforma GAMA. Cada elemento do modelo é apresentado junto do módulo GAML que o implementa. A descrição segue a lógica do protocolo ODD (Seção~\ref{sec:odd}): propósito e espaço, entidades, processos, inicialização, entradas e saídas. Os valores de todos os parâmetros estão no Apêndice~\ref{ap:parametros}.
+Este capítulo descreve o simulador em duas camadas ligadas entre si: o modelo conceitual (entidades, estados, processos e hipóteses) e sua implementação na plataforma GAMA. Cada elemento do modelo é apresentado junto do módulo GAML que o implementa. A descrição segue a lógica do protocolo ODD : propósito e espaço, entidades, processos, inicialização, entradas e saídas. Os valores de todos os parâmetros estão no Apêndice~\ref{sec:parametros}.
 
 \section{Propósito e representação espacial}
 
 O modelo representa, por meio de uma simulação espacial e estocástica baseada em agentes, as interações entre a população humana, os mosquitos vetores e o ambiente na transmissão da dengue. O que ele deixa de representar está na Seção~\ref{sec:escopo}.
 
-O espaço é um componente operacional da simulação: a localização de um agente determina com quais outras entidades ele pode interagir. As bases geográficas (Seção~\ref{sec:dados}) delimitam o ambiente e associam informações espaciais aos componentes do modelo. A população sintética é distribuída entre as cinco regiões do município (Centro, Norte, Leste, Sul e Oeste) segundo os percentuais da Tabela~\ref{tab:distribuicao-regional}. A resolução espacial é uma simplificação do território real.
+A população sintética é distribuída entre as cinco regiões do município
+(Centro, Norte, Leste, Sul e Oeste) segundo proporções agregadas derivadas
+dos dados demográficos utilizados no estudo \cite{prefeitura_sp_2024_populacao}.
+A quantidade de agentes em cada região é calculada a partir da população
+sintética total. A resolução espacial adotada constitui uma simplificação
+do território real.
 
+\begin{table}[htb]
+    \centering
+    \caption{Distribuição regional utilizada para a população sintética}
+    \label{tab:distribuicao-regional}
+    \begin{tabular}{l r}
+        \hline
+        \textbf{Região} & \textbf{Proporção utilizada} \\
+        \hline
+        Centro & 3,70\% \\
+        Norte  & 19,29\% \\
+        Leste  & 34,85\% \\
+        Sul    & 32,62\% \\
+        Oeste  & 9,54\% \\
+        \hline
+        Total & 100,00\% \\
+        \hline
+    \end{tabular}
+    \fonte{Elaborado pelo autor com base nos dados demográficos utilizados no estudo.}
+\end{table}
 \section{Arquitetura do projeto}
 \label{sec:arquitetura}
 
@@ -20,7 +44,7 @@ O projeto é organizado em arquivos GAML com responsabilidades distintas (Figura
     \label{fig:arquitetura}
     \begin{tikzpicture}[
         box/.style={draw, rounded corners, align=center, minimum height=0.9cm, font=\small},
-        sp/.style={box, text width=2.2cm},
+        sp/.style={box, text width=2.7cm},
         >=stealth, node distance=0.35cm]
         \node[box] (main) {\texttt{Main.gaml}\\[-2pt]{\scriptsize experimento e interface}};
         \node[box, below=0.7cm of main] (g) {\texttt{globals.gaml}\\[-2pt]{\scriptsize variáveis globais, inicialização, tempo, registro}};
@@ -42,35 +66,143 @@ O projeto é organizado em arquivos GAML com responsabilidades distintas (Figura
 A divisão evita concentrar todas as regras em um único arquivo, mas os módulos são interdependentes: os processos epidemiológicos, ambientais e espaciais compartilham informações globais durante a execução.
 
 \section{Entidades e estados epidemiológicos}
-
-A Tabela~\ref{tab:entidades} resume as entidades do modelo e o módulo que implementa cada uma.
+\label{sec:parametros}
+A espécie \texttt{pessoa} representa os agentes humanos da população sintética. Cada agente possui atributos demográficos e epidemiológicos próprios, além de uma condição individual de vacinação. A Tabela~\ref{tab:parametros-pessoa} apresenta os principais atributos e parâmetros utilizados pela espécie.
 
 \begin{table}[htb]
     \centering
-    \caption{Entidades do modelo e sua implementação}
-    \label{tab:entidades}
-    \begin{tabular}{p{2.6cm} p{2.9cm} p{5.0cm} p{3.0cm}}
+    \caption{Atributos e parâmetros da espécie \texttt{pessoa}}
+    \label{tab:parametros-pessoa}
+    \begin{tabular}{p{4.0cm} p{2.5cm} p{5.9cm}}
         \hline
-        \textbf{Entidade} & \textbf{Módulo} & \textbf{Atributos principais} & \textbf{Estados} \\
+        \textbf{Atributo ou parâmetro} & \textbf{Valor} & \textbf{Descrição} \\
         \hline
-        Pessoa & \texttt{Pessoa.gaml} & Localização, estado epidemiológico, idade (em dias), vacinado (lógico), velocidade & S, E, I, R \\
-        Mosquito (adulto) & \texttt{Mosquito.gaml} & Localização, estado epidemiológico & S, E, I \\
-        Imaturo & \texttt{Imaturo.gaml} & \texttt{estagio} (0 = ovo, 1 = larva, 2 = pupa), \texttt{idade}, \texttt{duracao\_estagio}, \texttt{poca\_natal} & --- \\
-        Criadouro (poça) & \texttt{Poca.gaml} & Imaturos associados e capacidade do local & --- \\
-        Ambiente & \texttt{Ambiente.gaml} & Componentes territoriais e informações espaciais & --- \\
+
+        \texttt{idade}
+        & 10--80 anos
+        & Idade inicial sorteada para cada agente, armazenada em dias. \\
+
+        \texttt{espectativaDeVida}
+        & 77 anos
+        & Expectativa de vida utilizada como referência \cite{usp_expectativa_vida_2024}. \\
+
+        \texttt{taxa\_natalidade}
+        & 0,00307
+        & Taxa utilizada pela regra de natalidade, baseada em dados do município de São Paulo \cite{prefeitura_sp_taxa_natalidade}. \\
+
+        \texttt{estado}
+        & Inicial: 0
+        & Representa o estado epidemiológico atual do agente na estrutura SEIR. \\
+
+        \texttt{dias\_Infectado}
+        & Inicial: 0
+        & Registra o tempo relacionado ao estado de infecção do agente. \\
+
+        \texttt{mortalidade\_menor\_1\_ano}
+        & 0,106
+        & Valor utilizado pela regra de mortalidade para agentes com menos de um ano \cite{souza_letalidade_dengue_2025}. \\
+
+        \texttt{mortalidade\_1\_a\_19\_anos}
+        & 0,018
+        & Valor utilizado pela regra de mortalidade para a faixa de 1 a 19 anos \cite{souza_letalidade_dengue_2025}. \\
+
+        \texttt{mortalidade\_20\_a\_39\_anos}
+        & 0,033
+        & Valor utilizado pela regra de mortalidade para a faixa de 20 a 39 anos \cite{souza_letalidade_dengue_2025}. \\
+
+        \texttt{mortalidade\_40\_a\_59\_anos}
+        & 0,068
+        & Valor utilizado pela regra de mortalidade para a faixa de 40 a 59 anos \cite{souza_letalidade_dengue_2025}. \\
+
+        \texttt{mortalidade\_60\_a\_79\_anos}
+        & 0,271
+        & Valor utilizado pela regra de mortalidade para a faixa de 60 a 79 anos \cite{souza_letalidade_dengue_2025}. \\
+
+        \texttt{mortalidade\_80\_anos\_ou\_mais}
+        & 1,52
+        & Valor utilizado pela regra de mortalidade para agentes com 80 anos ou mais \cite{souza_letalidade_dengue_2025}. \\
+
+        \texttt{prob\_transmissao}
+        & 60,0
+        & Valor utilizado nas tentativas de transmissão entre humanos e mosquitos \cite{jindal_rao_2017}. \\
+
+        \texttt{periodo\_incubacao}
+        & 5--7 dias
+        & Intervalo sorteado para representar o período de incubação \cite{periodo_incubacao_dengue}. \\
+
+        \texttt{periodo\_viral}
+        & 4--5 dias
+        & Intervalo sorteado para representar o período viral \cite{periodo_incubacao_dengue}. \\
+
+        \texttt{periodo\_recuperacao}
+        & 120 dias
+        & Período definido para a regra de recuperação \cite{periodo_recuperacao_dengue}. \\
+
+        \texttt{taxa\_de\_mortalidade\_dia}
+        & 0,0019
+        & Taxa diária utilizada pela regra geral de mortalidade, baseada em dados municipais. \\
+
+        \texttt{vacinado}
+        & \texttt{false}
+        & Indica se o agente está vacinado no início ou durante a execução do cenário. \\
+
         \hline
     \end{tabular}
-    \fonte{Elaborado pelo autor.}
+    \fonte{Elaborado pelo autor com base na implementação do modelo e nas fontes indicadas.}
 \end{table}
 
-\textbf{Pessoas.} Os agentes humanos formam uma população sintética, que não reproduz os habitantes reais do município. Cada pessoa mantém seu próprio estado epidemiológico, muda de localização conforme as regras de mobilidade e participa dos eventos de transmissão. A vacinação é um atributo lógico individual; a porcentagem de vacinados e a eficácia são parâmetros globais usados para configurar cenários.
+\textbf{Mosquitos.} Os mosquitos adultos participam diretamente da transmissão da dengue. Cada mosquito possui localização e estado epidemiológico e executa regras de deslocamento, alimentação, transmissão e mortalidade. A população inicial de mosquitos é definida pela configuração do cenário.
 
-\textbf{Mosquitos.} Os mosquitos adultos participam diretamente da transmissão. Cada mosquito possui regras de deslocamento, alimentação, transmissão e mortalidade. A reprodução e o desenvolvimento ficam a cargo dos imaturos e dos criadouros.
+Os parâmetros específicos da espécie \texttt{mosquito} devem ser apresentados de acordo com os valores confirmados na versão atual do arquivo \texttt{Mosquito.gaml}.
 
-\textbf{Imaturos e criadouros.} Os imaturos passam pelos estágios de ovo, larva e pupa, e cada um está associado a uma poça. Os criadouros são abstrações que representam a disponibilidade de locais para o desenvolvimento do vetor, e não os recipientes reais do município. A poça mantém as informações sobre os imaturos associados e sua capacidade, e liga as condições ambientais à população vetorial.
+\textbf{Imaturos.} A espécie \texttt{imaturo} representa as fases de desenvolvimento do mosquito antes da fase adulta. Cada agente passa pelos estágios de ovo, larva e pupa e permanece associado ao criadouro onde se desenvolve.
 
-\textbf{Estados e transições.} Humanos seguem a estrutura SEIR, e mosquitos, a estrutura SEI (Figura~\ref{fig:seir}). A passagem de suscetível a exposto ocorre por transmissão, e as demais transições ocorrem após intervalos de tempo (Apêndice~\ref{ap:parametros}). Para humanos, os intervalos são o período de incubação (5 a 7 dias), o período viral (4 a 5 dias) e o período de recuperação (120 dias). A implementação mantém separados o momento de aquisição da infecção e o momento em que o agente passa a transmitir, e as contagens por estado dependem de cada agente estar sempre em exatamente um estado.
+A Tabela~\ref{tab:parametros-imaturo} apresenta os atributos que controlam o desenvolvimento dos imaturos.
 
+\begin{table}[htb]
+    \centering
+    \caption{Parâmetros e atributos da espécie \texttt{imaturo}}
+    \label{tab:parametros-imaturo}
+    \begin{tabular}{p{4.2cm} p{2.5cm} p{6.0cm}}
+        \hline
+        \textbf{Parâmetro} & \textbf{Valor inicial} & \textbf{Descrição} \\
+        \hline
+        \texttt{estagio} & 0 & Estágio de desenvolvimento: 0 = ovo, 1 = larva e 2 = pupa. \\
+        \texttt{idade} & 0 & Idade do agente imaturo. \\
+        \texttt{duracao\_estagio} & 0 & Duração definida para o estágio atual. \\
+        \texttt{poca\_natal} & --- & Referência ao criadouro associado ao desenvolvimento. \\
+        \hline
+    \end{tabular}
+    \fonte{Elaborado pelo autor com base na implementação do modelo.}
+\end{table}
+
+\textbf{Criadouros.} A espécie \texttt{poca} representa os criadouros utilizados pelo modelo. As poças são abstrações da disponibilidade de locais para o desenvolvimento do vetor e não correspondem individualmente aos recipientes existentes no município. Cada criadouro mantém informações relacionadas à água, à capacidade e aos imaturos associados.
+
+A Tabela~\ref{tab:parametros-poca} apresenta os principais parâmetros utilizados na representação dos criadouros.
+
+\begin{table}[htb]
+    \centering
+    \caption{Parâmetros dos criadouros representados pela espécie \texttt{poca}}
+    \label{tab:parametros-poca}
+    \begin{tabular}{p{4.2cm} p{2.5cm} p{6.0cm}}
+        \hline
+        \textbf{Parâmetro} & \textbf{Valor} & \textbf{Descrição} \\
+        \hline
+        \texttt{nivel\_inicial\_poca} & 5,0 & Nível inicial de água das poças temporárias. \\
+        \texttt{capacidade\_poca} & 20 & Capacidade máxima configurada para imaturos. \\
+        \texttt{quantidade\_criadouros\_permanentes} & 20 & Quantidade inicial de criadouros permanentes. \\
+        \texttt{nivel\_inicial\_permanente} & 5,0 & Nível inicial dos criadouros permanentes. \\
+        \texttt{nivel\_minimo\_permanente} & 3,0 & Nível mínimo definido para os criadouros permanentes. \\
+        \hline
+    \end{tabular}
+    \fonte{Elaborado pelo autor com base na implementação do modelo.}
+\end{table}
+
+\textbf{Ambiente.} A espécie \texttt{ambiente} representa os componentes territoriais e espaciais da simulação. O ambiente delimita o espaço onde os agentes são distribuídos e interagem, utilizando os dados geográficos e climáticos definidos para o estudo.
+
+As variáveis de temperatura e chuva são atualizadas durante a execução conforme os dados climáticos utilizados como entrada.
+
+\textbf{Estados e transições.} Os humanos seguem a estrutura SEIR, enquanto os mosquitos seguem a estrutura SEI (Figura~\ref{fig:seir}). A passagem do estado suscetível para exposto ocorre por transmissão, e as demais transições são controladas pelas regras temporais do modelo. Os valores relacionados aos períodos epidemiológicos são apresentados na seção seguinte, dedicada aos processos de transmissão.
 \textbf{[PENDENTE: explicar o que o período de recuperação de 120 dias representa na regra (por exemplo, duração do estado recuperado) e informar os parâmetros do mosquito (período de incubação extrínseca, vida útil e velocidade).]}
 
 \section{Processos}
@@ -97,7 +229,7 @@ O controle temporal é global. Cinco ciclos computacionais correspondem a uma ho
 
 \textbf{Parâmetros.} Os parâmetros alteram aspectos do modelo sem mudar sua estrutura e podem ser ajustados pela interface do GAMA, sem editar o código-fonte. Seus valores têm origens distintas (dados disponíveis, literatura científica ou hipóteses de modelagem), e essa distinção evita que uma hipótese operacional seja lida como estimativa observada. Para que um parâmetro configurável tenha efeito, ele precisa estar ligado ao processo correspondente no código, o que a verificação confere (Seção~\ref{sec:res-verificacao}).
 
-\textbf{[PENDENTE: indicar, para cada parâmetro do Apêndice~\ref{ap:parametros}, se o valor vem da literatura (com citação), de dados ou de hipótese.]}
+\textbf{[PENDENTE: indicar, para cada parâmetro do Apêndice~\ref{sec:parametros}, se o valor vem da literatura (com citação), de dados ou de hipótese.]}
 
 \textbf{Entradas.} São os dados geográficos, os dados climáticos, as condições iniciais e os parâmetros de cada experimento.
 

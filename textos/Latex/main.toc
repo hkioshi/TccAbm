@@ -35,7 +35,7 @@
 \contentsline {chapter}{\chapternumberline {4}\MakeTextUppercase []{MODELO E IMPLEMENTAÇÃO}}{22}{chapter.4}%
 \contentsline {section}{\numberline {4.1}Propósito e representação espacial}{22}{section.4.1}%
 \contentsline {section}{\numberline {4.2}Arquitetura do projeto}{22}{section.4.2}%
-\contentsline {section}{\numberline {4.3}Entidades e estados epidemiológicos}{22}{section.4.3}%
+\contentsline {section}{\numberline {4.3}Entidades e estados epidemiológicos}{23}{section.4.3}%
 \contentsline {section}{\numberline {4.4}Processos}{24}{section.4.4}%
 \contentsline {subsection}{\numberline {4.4.1}Transmissão}{24}{subsection.4.4.1}%
 \contentsline {subsection}{\numberline {4.4.2}Mobilidade}{24}{subsection.4.4.2}%
@@ -45,24 +45,24 @@
 \contentsline {section}{\numberline {4.6}Rastreabilidade entre modelo e código}{25}{section.4.6}%
 \contentsline {section}{\numberline {4.7}Hipóteses e simplificações}{25}{section.4.7}%
 \setlength {\cftchapterindent }{0em} \setlength {\cftchapternumwidth }{\cftlastnumwidth }
-\contentsline {chapter}{\chapternumberline {5}\MakeTextUppercase []{EXPERIMENTOS E RESULTADOS}}{27}{chapter.5}%
-\contentsline {section}{\numberline {5.1}Verificação}{27}{section.5.1}%
-\contentsline {section}{\numberline {5.2}Cenário de referência}{28}{section.5.2}%
-\contentsline {section}{\numberline {5.3}Comparação entre cenários}{28}{section.5.3}%
-\contentsline {section}{\numberline {5.4}Variabilidade entre replicações}{28}{section.5.4}%
-\contentsline {section}{\numberline {5.5}Desempenho computacional}{29}{section.5.5}%
+\contentsline {chapter}{\chapternumberline {5}\MakeTextUppercase []{EXPERIMENTOS E RESULTADOS}}{29}{chapter.5}%
+\contentsline {section}{\numberline {5.1}Verificação}{29}{section.5.1}%
+\contentsline {section}{\numberline {5.2}Cenário de referência}{30}{section.5.2}%
+\contentsline {section}{\numberline {5.3}Comparação entre cenários}{30}{section.5.3}%
+\contentsline {section}{\numberline {5.4}Variabilidade entre replicações}{30}{section.5.4}%
+\contentsline {section}{\numberline {5.5}Desempenho computacional}{31}{section.5.5}%
 \setlength {\cftchapterindent }{0em} \setlength {\cftchapternumwidth }{\cftlastnumwidth }
-\contentsline {chapter}{\chapternumberline {6}\MakeTextUppercase []{DISCUSSÃO E CONCLUSÃO}}{30}{chapter.6}%
-\contentsline {section}{\numberline {6.1}Discussão dos resultados}{30}{section.6.1}%
-\contentsline {section}{\numberline {6.2}Limitações}{30}{section.6.2}%
-\contentsline {section}{\numberline {6.3}Contribuições}{31}{section.6.3}%
-\contentsline {section}{\numberline {6.4}Trabalhos futuros}{31}{section.6.4}%
-\contentsline {section}{\numberline {6.5}Conclusão}{32}{section.6.5}%
+\contentsline {chapter}{\chapternumberline {6}\MakeTextUppercase []{DISCUSSÃO E CONCLUSÃO}}{32}{chapter.6}%
+\contentsline {section}{\numberline {6.1}Discussão dos resultados}{32}{section.6.1}%
+\contentsline {section}{\numberline {6.2}Limitações}{32}{section.6.2}%
+\contentsline {section}{\numberline {6.3}Contribuições}{33}{section.6.3}%
+\contentsline {section}{\numberline {6.4}Trabalhos futuros}{33}{section.6.4}%
+\contentsline {section}{\numberline {6.5}Conclusão}{34}{section.6.5}%
 \vspace {\cftbeforechapterskip }
 \setlength {\cftchapterindent }{\cftlastnumwidth } \setlength {\cftchapternumwidth }{2em}
-\contentsline {chapter}{\MakeTextUppercase []{Refer\^encias}}{33}{section*.23}%
+\contentsline {chapter}{\MakeTextUppercase []{Refer\^encias}}{35}{section*.26}%
 \renewcommand *{\cftappendixname }{AP\^ENDICE \space }
 \setlength {\cftchapterindent }{0em} \setlength {\cftchapternumwidth }{\cftlastnumwidth }
 \setlength {\cftchapterindent }{\cftlastnumwidth } \setlength {\cftchapternumwidth }{2em}
 \cftinsert {A}
-\contentsline {appendix}{\chapternumberline {A}\MakeTextUppercase []{Repositório do Projeto no GitHub}}{34}{appendix.A}%
+\contentsline {appendix}{\chapternumberline {A}\MakeTextUppercase []{Repositório do Projeto no GitHub}}{37}{appendix.A}%

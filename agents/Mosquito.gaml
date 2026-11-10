@@ -41,7 +41,6 @@ species mosquito skills: [moving] {
 	// 3 - Infectados
 	int dias_infectado <- 0;
 	int dias_de_incubacao;
-	float r0 <- 0.0;
 
 	// Rosa: rgb(204, 121, 167) — Suscetível
 	// Amarelo: rgb(240, 228, 66) — Exposto
