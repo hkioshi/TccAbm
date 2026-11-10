@@ -13,7 +13,7 @@ species mosquito skills: [moving] {
 	// =========================
 	// Características básicas
 	// =========================
-	int idade <- rnd(1, 5);
+	int idade <- 0;
 	string sexo <- rnd(0, 1) = 0 ? "Macho" : "Femea";
 	float velocidade <- 100.0;
 
@@ -21,12 +21,13 @@ species mosquito skills: [moving] {
 	// Localização
 	// =========================
 	point poca_natal;
-	float alcance <- 350.0;
+	float alcance <- 3500.0; //isso é um teste na real é 350
 
 	// =========================
 	// Probabilidades
 	// =========================
-	float prob_morte <- 0.2;
+	float prob_morte <- 0.15; //https://pmc.ncbi.nlm.nih.gov/articles/PMC3470585/
+	float prob_morte_apos_10dias <- 0.81; //https://pmc.ncbi.nlm.nih.gov/articles/PMC3470585/
 	float prob_migracao <- 0.51;
 	float prob_picada <- 0.25;
 	float prob_transmissao <- 0.6;
@@ -100,16 +101,18 @@ species mosquito skills: [moving] {
 			list<poca> pocas <- poca where (each distance_to self <= alcance);
 			// 2. Reprodução
 			if (!empty(pocas)) {
-				poca pocaAlvo <- one_of(pocas);
-				if (length(pocaAlvo.imaturos) < pocaAlvo.tamanho * 20) {
-					create imaturo number: 100 returns: novosImaturos {
-						poca_natal <- pocaAlvo;
-					}
-	
-					add novosImaturos all: true to: pocaAlvo.imaturos;
-				}
-	
-			}
+
+		    poca pocaAlvo <- one_of(pocas);
+		
+		    if (length(pocaAlvo.imaturos) < pocaAlvo.capacidade) {
+		
+		        create imaturo number: 100 returns: novosImaturos {
+		            poca_natal <- pocaAlvo;
+		        }
+		
+		        add novosImaturos all: true to: pocaAlvo.imaturos;
+		    }
+		}
 		}
 	}
 
@@ -123,7 +126,12 @@ species mosquito skills: [moving] {
 
 		}
 
-		if (rnd(0.0, 1.0) < prob_morte) {
+		if(idade > 10)
+		{
+			if(rnd(0.0, 1.0) < prob_morte_apos_10dias) {
+				do die;
+			}
+		} else if(rnd(0.0, 1.0) < prob_morte) {
 			do die;
 		}
 
@@ -136,32 +144,32 @@ species mosquito skills: [moving] {
 			do wander speed: velocidade;
 		}
 
-//		if (rnd(0.000, 1.000) < prob_migracao) {
-//			point a <- any_location_in(one_of(ambiente).shape);
-//			int i <- estado;
-//			create mosquito number: 1 {
-//				location <- a;
-//				poca_natal <- a;
-//				estado <- i;
-//				switch estado {
-//					match 0 {
-//						cor <- rgb(204, 121, 167);
-//					}
-//
-//					match 1 {
-//						cor <- rgb(240, 228, 66);
-//					}
-//
-//					match 2 {
-//						cor <- rgb(51, 34, 136);
-//					}
-//
-//				}
-//
-//			}
-//
-//			do die;
-//		}
+		if (rnd(0.0, 1.0) < prob_migracao / 100) {
+			point a <- any_location_in(one_of(ambiente).shape);
+			int i <- estado;
+			create mosquito number: 1 {
+				location <- a;
+				poca_natal <- a;
+				estado <- i;
+				switch estado {
+					match 0 {
+						cor <- rgb(204, 121, 167);
+					}
+
+					match 1 {
+						cor <- rgb(240, 228, 66);
+					}
+
+					match 2 {
+						cor <- rgb(51, 34, 136);
+					}
+
+				}
+
+			}
+
+			do die;
+		}
 
 	}
 

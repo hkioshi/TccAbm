@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2026.10.30)  6 NOV 2026 22:29
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2026.10.30)  9 NOV 2026 17:48
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1108,33 +1108,10 @@ LaTeX Font Info:    External font `lmex10' loaded for size
 ] (./main.toc [8
 
 
-]) [9] (./Capitulos/Introducao.tex
-
-LaTeX Warning: Citation `brasil_dengue' on page 10 undefined on input line 6.
-
-
-LaTeX Warning: Citation `who_dengue' on page 10 undefined on input line 6.
-
-
-LaTeX Warning: Citation `who_dengue' on page 10 undefined on input line 6.
-
-
-LaTeX Warning: Citation `who_dengue' on page 10 undefined on input line 8.
-
-
-LaTeX Warning: Citation `macal_north_2010' on page 10 undefined on input line 10.
-
-
-LaTeX Warning: Citation `taillandier_etal_2019' on page 10 undefined on input line 10.
-
-[10
+]) [9] (./Capitulos/Introducao.tex [10
 
 
 ]) (./Capitulos/Teorica.tex [11] [12]
-
-LaTeX Warning: Citation `who_dengue' on page 13 undefined on input line 8.
-
-
 Underfull \hbox (badness 10000) in paragraph at lines 30--31
 []|\T1/lmr/m/n/12 (+20) Relações en-tre quan-ti-da-des
  []
@@ -1144,25 +1121,13 @@ Underfull \hbox (badness 1163) in paragraph at lines 32--32
 []|\T1/lmr/m/n/12 (+20) Entidades in-di-vi-du-ais e
  []
 
-
-LaTeX Warning: Citation `macal_north_2010' on page 13 undefined on input line 35.
-
-
-LaTeX Warning: Citation `macal_north_2010' on page 13 undefined on input line 35.
-
 [13
 
 ]
-
-LaTeX Warning: Citation `macal_north_2010' on page 14 undefined on input line 42.
-
 LaTeX Font Info:    Trying to load font information for TS1+lmr on input line 49.
-(/usr/share/texmf/tex/latex/lm/ts1lmr.fd
+ (/usr/share/texmf/tex/latex/lm/ts1lmr.fd
 File: ts1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 ) [14{/usr/share/texmf/fonts/enc/dvips/lm/lm-ts1.enc}]
-
-LaTeX Warning: Citation `taillandier_drogoul_2010' on page 15 undefined on input line 84.
-
 
 LaTeX Warning: Citation `sobol_2001' on page 15 undefined on input line 94.
 
@@ -1206,13 +1171,13 @@ LaTeX Warning: Citation `gharakhanlou_2020' on page 16 undefined on input line 1
 
 LaTeX Warning: Citation `gamal_etal_2025' on page 16 undefined on input line 131.
 
-
-LaTeX Warning: Citation `garcias_2024' on page 16 undefined on input line 137.
-
-
-LaTeX Warning: Citation `oliveira_etal_2025' on page 16 undefined on input line 137.
-
 [16]
+
+LaTeX Warning: Citation `garcias_2024' on page 17 undefined on input line 137.
+
+
+LaTeX Warning: Citation `oliveira_etal_2025' on page 17 undefined on input line 137.
+
 
 LaTeX Warning: Citation `gharakhanlou_2019' on page 17 undefined on input line 139.
 
@@ -1365,9 +1330,6 @@ Underfull \hbox (badness 2875) in paragraph at lines 72--73
 
  [31]
 bibitemlist
-
-LaTeX Warning: Empty `thebibliography' environment on input line 8.
-
 ) [32
 
 ] [33
@@ -1391,21 +1353,21 @@ L3 programming layer <2020/03/25>
 LaTeX Warning: There were undefined references.
 
 Package rerunfilecheck Info: File `main.brf' has not changed.
-(rerunfilecheck)             Checksum: C491E8315EF9FC290F82064B700C1A01;1398.
+(rerunfilecheck)             Checksum: 56C498DC403EE3828D0039421F2E6854;1359.
  ) 
 Here is how much of TeX's memory you used:
- 31791 strings out of 476162
- 571680 string characters out of 5794813
+ 31802 strings out of 476162
+ 571775 string characters out of 5794813
  1942975 words of memory out of 5000000
- 52928 multiletter control sequences out of 15000+600000
+ 52935 multiletter control sequences out of 15000+600000
  648685 words of font info for 193 fonts, out of 8000000 for 9000
  16 hyphenation exceptions out of 8191
  99i,13n,107p,1048b,878s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/share/texmf/fonts/type1/public/lm/lmbx10.pfb></usr/share/texmf/fonts/type1/public/lm/lmbx12.pfb></usr/share/texmf/fonts/type1/public/lm/lmbxi10.pfb></usr/share/texmf/fonts/type1/public/lm/lmr10.pfb></usr/share/texmf/fonts/type1/public/lm/lmr12.pfb></usr/share/texmf/fonts/type1/public/lm/lmr9.pfb></usr/share/texmf/fonts/type1/public/lm/lmri10.pfb></usr/share/texmf/fonts/type1/public/lm/lmri12.pfb></usr/share/texmf/fonts/type1/public/lm/lmss12.pfb></usr/share/texmf/fonts/type1/public/lm/lmss17.pfb></usr/share/texmf/fonts/type1/public/lm/lmssbx10.pfb></usr/share/texmf/fonts/type1/public/lm/lmtt10.pfb></usr/share/texmf/fonts/type1/public/lm/lmtt12.pfb>
-Output written on main.pdf (34 pages, 411000 bytes).
+Output written on main.pdf (34 pages, 413368 bytes).
 PDF statistics:
- 600 PDF objects out of 1000 (max. 8388607)
- 531 compressed objects within 6 object streams
- 118 named destinations out of 1000 (max. 500000)
+ 637 PDF objects out of 1000 (max. 8388607)
+ 566 compressed objects within 6 object streams
+ 122 named destinations out of 1000 (max. 500000)
  52701 words of extra memory for PDF output out of 61914 (max. 10000000)
 

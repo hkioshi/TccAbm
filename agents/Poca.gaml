@@ -3,93 +3,77 @@
  * Name: Poca
  * Author: henrique
  */
-
 model Poca
 
 import "Imaturo.gaml"
 import "../globals/globals.gaml"
 import "../globals/variaveis.gaml"
-
 species poca {
+	bool permanente <- false;
+	rgb cor <- #blue;
 
-    rgb cor <- #blue;
-    int tamanho <- 1;
-    list<imaturo> imaturos <- [];
+	// Nível de água da poça
+	float nivel_agua <- 5.0;
 
-    action Envelhecer (float qtd_chuva) {
+	// Capacidade máxima de imaturos
+	int capacidade <- 20;
+	list<imaturo> imaturos <- [];
 
-        /*
-         * SEM CHUVA
-         * A poça seca conforme a temperatura.
-         */
-        if (qtd_chuva = 0) {
+	action Envelhecer (float qtd_chuva) {
+		if (qtd_chuva = 0) {
+			if (temperatura > 30) {
+				nivel_agua <- nivel_agua - 2.0;
+			} else {
+				nivel_agua <- nivel_agua - 1.0;
+			}
 
-            if (temperatura > 30) {
-                tamanho <- tamanho - 2;
-            } else {
-                tamanho <- tamanho - 1;
-            }
+		} else if (qtd_chuva <= 10) {
+			nivel_agua <- nivel_agua + 1.0;
+		} else if (qtd_chuva <= 30) {
+			nivel_agua <- nivel_agua + 2.0;
+		} else if (qtd_chuva <= 60) {
+			nivel_agua <- nivel_agua + 3.0;
+		} else {
+			nivel_agua <- nivel_agua + 4.0;
+		}
 
-            /*
-             * A poça não pode ter tamanho negativo.
-             */
-            if (tamanho < 0) {
-                tamanho <- 0;
-            }
+		// Limites do nível da água
+		if (nivel_agua > 10.0) {
+			nivel_agua <- 10.0;
+		}
 
-        } else if (qtd_chuva <= 10) {
-            tamanho <- tamanho + 1;
+		// Criadouros permanentes nunca secam completamente
+		if (permanente) {
+			
+			if (nivel_agua < 3.0) {
+				nivel_agua <- 3.0;
+			}
 
-        } else if (qtd_chuva <= 30) {
-            tamanho <- tamanho + 2;
+		} else {
+			if (nivel_agua < 0.0) {
+				nivel_agua <- 0.0;
+			}
 
-        } else if (qtd_chuva <= 60) {
-            tamanho <- tamanho + 3;
+		}
 
-        } else {
-            tamanho <- tamanho + 4;
-        }
+		// Capacidade proporcional ao nível da água
+		capacidade <- int(nivel_agua * 2);
 
-        /*
-         * Limite máximo da poça.
-         */
-        if (tamanho > 5) {
-            tamanho <- 5;
-        }
+		// Limita os imaturos à capacidade
+		if (length(imaturos) > capacidade) {
+			int quantidade_excedente <- length(imaturos) - capacidade;
+			loop i from: 1 to: quantidade_excedente {
+				if (length(imaturos) > 0) {
+					ask one_of(imaturos) {
+						do die;
+					}
 
-        /*
-         * Cada nível suporta 20 ovos.
-         */
-        int capacidade <- tamanho * 20;
+				}
 
-        /*
-         * Os ovos excedentes morrem.
-         */
-        if (length(imaturos) > capacidade) {
-            int matar <- length(imaturos) - capacidade;
+			}
 
-            loop i from: 1 to: matar {
-                if (length(imaturos) > 0) {
-                    ask one_of(imaturos) {
-                        do die;
-                    }
-                }
-            }
-        }
+		} }
 
-        /*
-         * A poça desaparece quando chega a zero.
-         */
-        if (tamanho = 0) {
-            ask imaturos {
-                do die;
-            }
-
-            do die;
-        }
-    }
-
-    aspect default {
-        draw circle(250) color: cor;
-    }
-}
+	aspect default {
+		draw circle(250) color: cor;
+	} }

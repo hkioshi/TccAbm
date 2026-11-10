@@ -5,4 +5,26 @@
 \providecommand{\abntbstabout}[1]{}
 \abntbstabout{v-1.9.7 }
 
+\bibitem[Macal e North 2010]{Macal2010}
+\abntrefinfo{Macal e North}{MACAL; NORTH}{2010}
+{MACAL, C.~M.; NORTH, M.~J. Tutorial on agent-based modelling and simulation.
+\emph{Journal of Simulation}, v.~4, p. 151--162, 2010.}
+
+\bibitem[{Ministério da Saúde} 2025]{MinisterioSaude2025}
+\abntrefinfo{{Ministério da Saúde}}{{Ministério da Saúde}}{2025}
+{{Ministério da Saúde}. \emph{Dengue}. 2025.
+Acesso em: 26 maio 2025.
+Dispon{\'\i}vel em: \url{https://www.gov.br/saude/pt-br/assuntos/saude-de-a-a-z/d/dengue}.}
+
+\bibitem[Taillandier et al. 2019]{Taillandier2019}
+\abntrefinfo{Taillandier et al.}{TAILLANDIER et al.}{2019}
+{TAILLANDIER, P. et al. Construção, composição e experimentação de modelos espaciais complexos com a plataforma gama.
+\emph{GeoInformatica}, v.~23, n.~2, p. 299--322, 2019.}
+
+\bibitem[{World Health Organization} 2023]{WHO2023}
+\abntrefinfo{{World Health Organization}}{{World Health Organization}}{2023}
+{{World Health Organization}. \emph{Disease Outbreak News: Dengue – Global situation}. 2023.
+Acesso em: 26 maio 2025.
+Dispon{\'\i}vel em: \url{https://www.who.int/emergencies/disease-outbreak-news/item/2023-DON498}.}
+
 \end{thebibliography}

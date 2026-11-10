@@ -13,33 +13,69 @@ import "../agents/Poca.gaml"
 import "variaveis.gaml"
 
 global {
-// Dados climáticos
+	// Dados climáticos
+	
 	float temperatura;
 	float chuva <- 0.0;
+	
+	
 	// Tempo
+	
 	int tempo_hora <- 5;
 	int tempo_dia <- tempo_hora * 24;
 	int tempo_ano <- tempo_dia * 365;
+	
 	int mes <- 1;
 	int dia <- 0;
 	int hora <- 0;
 	int dia_simulacao <- 0;
+	
 	int velocidade_tempo;
+	
+	
 	// Dados geográficos
+	
 	file subprefeituras_shapefile <- file("../Gis/subprefeitura_v2.shp");
-	geometry shape <- envelope(subprefeituras_shapefile); // Nao mexer | caso de se trocar o nome nao sei o que acontece mas faz o mapa sumir
-	// Dados epidemiológicos
-	int quantidade_pessoas <- 1191; // escala de 1:10000
-	int mortos_por_dengue <- 0;
-	int mortes_menor_1_ano <- 0; // Menores de 1 ano
-	int mortes_1_a_19_anos <- 0; // 1 a 19 anos
-	int mortes_20_a_39_anos <- 0; // 20 a 39 anos
-	int mortes_40_a_59_anos <- 0; // 40 a 59 anos
-	int mortes_60_a_79_anos <- 0; // 60 a 79 anos
-	int mortes_80_anos_ou_mais <- 0; // 80 anos ou mais
-	float porcentagem_de_vacinados;
+	
+	geometry shape <- envelope(subprefeituras_shapefile);
+	
+	
+	// População humana
+	
+	int quantidade_pessoas <- 1191; // Escala de 1:10000
+	
+	
+	// População de mosquitos
+	
 	int quantidade_mosquito;
+	
+	
+	// Vacinação
+	
+	float porcentagem_de_vacinados;
 	int eficacia;
+	
+	
+	// Mortalidade por dengue
+	
+	int mortos_por_dengue <- 0;
+	
+	int mortes_menor_1_ano <- 0;
+	int mortes_1_a_19_anos <- 0;
+	int mortes_20_a_39_anos <- 0;
+	int mortes_40_a_59_anos <- 0;
+	int mortes_60_a_79_anos <- 0;
+	int mortes_80_anos_ou_mais <- 0;
+	// Criadouros
+
+	// Poças temporárias
+	float nivel_inicial_poca <- 5.0;
+	int capacidade_poca <- 20;
+
+	// Criadouros permanentes
+	int quantidade_criadouros_permanentes <- 20;
+	float nivel_inicial_permanente <- 5.0;
+	float nivel_minimo_permanente <- 3.0;
 
 	//| Região | População  | Participação |
 	//| ------ | ---------- | ------------ |
@@ -51,95 +87,61 @@ global {
 	//| Total  | 11.252.060 | 100%         |
 	//https://gestaourbana.prefeitura.sp.gov.br/wp-content/uploads/2024/05/IU_64_censo-2022-1.pdf	
 	action Relatorio {
-    save [
-    	seed,
-        dia_simulacao,
-        chuva,
-        temperatura,
+		save [seed, dia_simulacao, chuva, temperatura,
 
-        // Humanos
-        length(pessoa),
-        length(pessoa where (each.estado = 0)),
-        length(pessoa where (each.estado = 1)),
-        length(pessoa where (each.estado = 2)),
-        length(pessoa where (each.estado = 3)),
+		// Humanos
+		length(pessoa), length(pessoa where (each.estado = 0)), length(pessoa where (each.estado = 1)), length(pessoa where (each.estado = 2)), length(pessoa where (each.estado = 3)),
 
-        // Mosquitos
-        length(mosquito),
-        length(mosquito where (each.estado = 0)),
-        length(mosquito where (each.estado = 1)),
-        length(mosquito where (each.estado = 2)),
+		// Mosquitos
+		length(mosquito), length(mosquito where (each.estado = 0)), length(mosquito where (each.estado = 1)), length(mosquito where (each.estado = 2)),
 
-        // Mortalidade
-        mortos_por_dengue,
-        mortes_menor_1_ano,
-        mortes_1_a_19_anos,
-        mortes_20_a_39_anos,
-        mortes_40_a_59_anos,
-        mortes_60_a_79_anos,
-        mortes_80_anos_ou_mais
-	    ]
-	    to: "resultados/resultados_" + int(seed) + ".csv"
-	    format: "csv"
-	    rewrite: false
-	    header: false;
+		// Mortalidade
+		mortos_por_dengue, mortes_menor_1_ano, mortes_1_a_19_anos, mortes_20_a_39_anos, mortes_40_a_59_anos, mortes_60_a_79_anos, mortes_80_anos_ou_mais] to:
+		"resultados/resultados_" + int(seed) + ".csv" format: "csv" rewrite: false header: false;
 	}
-	
+
 	init {
 		seed <- float(round(seed));
 		loop while: seed = 77402 or seed <= 1 {
-    		seed <- float(round(rnd(1, 100000)));
-		}	
-		
-		
-		save [
-			"seed",
-		    "dia_simulacao",
-		    "chuva",
-		    "temperatura",
-		    "humanos_total",
-		    "humanos_suscetiveis",
-		    "humanos_expostos",
-		    "humanos_infectados",
-		    "humanos_recuperados",
-		    "mosquitos_total",
-		    "mosquitos_suscetiveis",
-		    "mosquitos_expostos",
-		    "mosquitos_infectados",
-		    "mortos_por_dengue"
-		]
-		to: "resultados/resultados_" + int(seed) + ".csv"
-		format: "csv"
-		rewrite: true
-		header: true;
-		
-		
-		
-		write "Seed utilizada: " + seed;
-		create ambiente from: subprefeituras_shapefile with: [nm_regiao_::read("nm_regiao_")];
-		create mosquito number: quantidade_mosquito {
-		    location <- any_location_in(one_of(ambiente));
-		
-		    poca_natal <- location;
-		
-		    estado <- rnd(0, 2);
-		
-		    switch estado {
-		
-		        match 0 {
-		            cor <- rgb(204, 121, 167);
-		        }
-		
-		        match 1 {
-		            cor <- rgb(240, 228, 66);
-		            dias_de_incubacao <- rnd(3, 10);
-		        }
-		
-		        match 2 {
-		            cor <- rgb(51, 34, 136);
-		        }
-		    }
+			seed <- float(round(rnd(1, 100000)));
 		}
+
+		save
+		["seed", "dia_simulacao", "chuva", "temperatura", "humanos_total", "humanos_suscetiveis", "humanos_expostos", "humanos_infectados", "humanos_recuperados", "mosquitos_total", "mosquitos_suscetiveis", "mosquitos_expostos", "mosquitos_infectados", "mortos_por_dengue"]
+		to: "resultados/resultados_" + int(seed) + ".csv" format: "csv" rewrite: true header: true;
+		write "Seed utilizada: " + seed;
+		// Criadouros permanentes
+		
+		create ambiente from: subprefeituras_shapefile with: [nm_regiao_::read("nm_regiao_")];
+		create poca number: quantidade_criadouros_permanentes {
+			permanente <- true;
+			nivel_agua <- nivel_inicial_permanente;
+			capacidade <- capacidade_poca;
+			location <- any_location_in(one_of(ambiente).shape);
+		}
+		
+		create mosquito number: quantidade_mosquito {
+			location <- any_location_in(one_of(ambiente));
+			poca_natal <- location;
+			estado <- rnd(0, 2);
+			switch estado {
+				match 0 {
+					cor <- rgb(204, 121, 167);
+				}
+
+				match 1 {
+					cor <- rgb(240, 228, 66);
+					dias_de_incubacao <- rnd(3, 10);
+				}
+
+				match 2 {
+					cor <- rgb(51, 34, 136);
+				}
+
+			}
+
+		}
+
 		int qtd_centro <- int(quantidade_pessoas * 0.0370);
 		int qtd_norte <- int(quantidade_pessoas * 0.1929);
 		int qtd_leste <- int(quantidade_pessoas * 0.3485);
@@ -182,17 +184,15 @@ global {
 
 	}
 
-	reflex evento when: every(tempo_dia ) {
-
-
+	reflex evento when: every(tempo_dia) {
 		if (dia > 30) {
-		    dia <- 1;
-		
-		    if (mes < 12) {
-		        mes <- mes + 1;
-		    } else {
-		        mes <- 1;
-		    }
+			dia <- 1;
+			if (mes < 12) {
+				mes <- mes + 1;
+			} else {
+				mes <- 1;
+			}
+
 		}
 
 		write "hoje é dia: " + dia_simulacao + " da simulação";
@@ -422,12 +422,7 @@ global {
 		}
 
 		temperatura <- rnd(temperatura_min, temperatura_max);
-		ask poca {
-			do Envelhecer(chuva);
-		}
-		dia_simulacao <- dia_simulacao + 1;
-
-		dia <- dia + 1;
+		// Criação de poças temporárias pela chuva
 		if (chuva > 0) {
 			int quantidade_pocas <- 0;
 			if (chuva <= 10) {
@@ -441,6 +436,8 @@ global {
 			}
 
 			create poca number: quantidade_pocas {
-				tamanho <- 1;
+				permanente <- false;
+				nivel_agua <- nivel_inicial_poca;
+				capacidade <- capacidade_poca;
 				location <- any_location_in(one_of(ambiente).shape);
 			} } } }

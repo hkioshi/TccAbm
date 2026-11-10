@@ -72,6 +72,8 @@ experiment MeuExperimento type: gui {
 		monitor "Mosquitos suscetíveis" value: length(mosquito where (each.estado = 0));
 		monitor "Mosquitos expostos" value: length(mosquito where (each.estado = 1));
 		monitor "Mosquitos infectados" value: length(mosquito where (each.estado = 2));
+		monitor "🟢 Imauros" value: length(imaturo);
+		
 	}
 }
 

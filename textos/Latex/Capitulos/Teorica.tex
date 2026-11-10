@@ -5,7 +5,7 @@ Este capítulo reúne os conceitos necessários para especificar o simulador: a 
 
 \section{Dengue, vetor e transmissão}
 
-A dengue é causada pelo vírus da dengue, que possui quatro sorotipos (DENV-1 a DENV-4), e é transmitida principalmente por mosquitos do gênero \textit{Aedes}. A infecção pode ser assintomática ou variar em gravidade, e a circulação de vários sorotipos afeta a resposta imunológica e o risco de formas graves \cite{who_dengue}. Um modelo que trate a doença como uma única dinâmica genérica é uma simplificação aceitável, desde que seja declarada.
+A dengue é causada pelo vírus da dengue, que possui quatro sorotipos (DENV-1 a DENV-4), e é transmitida principalmente por mosquitos do gênero \textit{Aedes}. A infecção pode ser assintomática ou variar em gravidade, e a circulação de vários sorotipos afeta a resposta imunológica e o risco de formas graves \cite{WHO2023}. Um modelo que trate a doença como uma única dinâmica genérica é uma simplificação aceitável, desde que seja declarada.
 
 No contexto urbano brasileiro, o \textit{Aedes aegypti} é o principal vetor. Somente as fêmeas adultas transmitem o vírus, mas o ciclo de vida inclui os estágios de ovo, larva e pupa, cujo desenvolvimento depende da temperatura e da disponibilidade de água em criadouros. A precipitação e a temperatura influenciam, assim, a população de mosquitos adultos.
 
@@ -32,14 +32,14 @@ A Tabela~\ref{tab:abordagens} compara as três abordagens mais comuns. Elas não
         Baseada em agentes & Entidades individuais e ambiente & Heterogeneidade e interações locais, com padrões coletivos emergentes \\
         \hline
     \end{tabular}
-    \fonte{Elaborado pelo autor, a partir de \citeonline{macal_north_2010}.}
+    \fonte{Elaborado pelo autor, a partir de \citeonline{Macal2010}.}
 \end{table}
 
 A finalidade do modelo determina suas abstrações, seus dados e os critérios de avaliação. Modelos explicativos investigam mecanismos capazes de produzir certos comportamentos; modelos preditivos estimam o comportamento futuro ou desconhecido de um sistema. Reproduzir um padrão observado não prova capacidade preditiva, e um modelo explicativo não precisa fazer previsões para cumprir seu objetivo.
 
 \section{Modelagem baseada em agentes e modelos de estados}
 
-Na modelagem baseada em agentes (ABM), o sistema é representado por entidades com atributos, variáveis de estado e comportamentos próprios, que interagem entre si e com o ambiente. O comportamento agregado emerge dessas interações individuais, sem ser definido por uma regra global \cite{macal_north_2010}. A abordagem é adequada a sistemas com entidades heterogêneas e interações dependentes do contexto local, como a dengue, em que pessoas e mosquitos têm posições e estados distintos. A emergência de um padrão, porém, não comprova que o modelo reproduz o sistema real.
+Na modelagem baseada em agentes (ABM), o sistema é representado por entidades com atributos, variáveis de estado e comportamentos próprios, que interagem entre si e com o ambiente. O comportamento agregado emerge dessas interações individuais, sem ser definido por uma regra global \cite{Macal2010}. A abordagem é adequada a sistemas com entidades heterogêneas e interações dependentes do contexto local, como a dengue, em que pessoas e mosquitos têm posições e estados distintos. A emergência de um padrão, porém, não comprova que o modelo reproduz o sistema real.
 
 Em modelos espaciais, a interação costuma depender de regras de vizinhança ou proximidade. Buscar vizinhos exaustivamente em grandes populações exige muitas comparações, de modo que a estratégia de busca afeta o custo computacional.
 
@@ -81,7 +81,7 @@ A implementação de um modelo epidemiológico equivale a uma máquina de estado
 
 \section{Representação espacial e mobilidade}
 
-Os Sistemas de Informação Geográfica (SIG) organizam dados associados a localizações, em formato vetorial (pontos, linhas e polígonos) ou matricial (superfícies e variáveis distribuídas). Em uma simulação, as geometrias podem delimitar o ambiente, orientar a distribuição dos agentes, restringir deslocamentos e apoiar cálculos de distância e proximidade, além de visualizar o território. Taillandier e Drogoul \cite{taillandier_drogoul_2010} descrevem três usos: ler arquivos espaciais para inicializar ou delimitar o ambiente, usar geometrias como elementos que condicionam operações do modelo e representar objetos geográficos como agentes. Para integrar dados e modelo, é preciso compatibilizar sistemas de coordenadas, unidades, qualidade das geometrias e nível de agregação.
+Os Sistemas de Informação Geográfica (SIG) organizam dados associados a localizações, em formato vetorial (pontos, linhas e polígonos) ou matricial (superfícies e variáveis distribuídas). Em uma simulação, as geometrias podem delimitar o ambiente, orientar a distribuição dos agentes, restringir deslocamentos e apoiar cálculos de distância e proximidade, além de visualizar o território. Taillandier e Drogoul \cite{Taillandier2019} descrevem três usos: ler arquivos espaciais para inicializar ou delimitar o ambiente, usar geometrias como elementos que condicionam operações do modelo e representar objetos geográficos como agentes. Para integrar dados e modelo, é preciso compatibilizar sistemas de coordenadas, unidades, qualidade das geometrias e nível de agregação.
 
 A mobilidade influencia as oportunidades de interação. Escolher um destino e definir a trajetória até ele são problemas distintos. Dados agregados, como os de deslocamento entre regiões, não fornecem as trajetórias individuais, de modo que a mobilidade em um ABM é sempre uma hipótese de modelagem que depende dos objetivos e dos dados disponíveis.
 
