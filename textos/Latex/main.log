@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2026.10.30)  10 NOV 2026 18:17
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2026.10.30)  10 NOV 2026 18:32
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1191,10 +1191,6 @@ Overfull \hbox (9.86386pt too wide) in paragraph at lines 62--63
 [22
 
 ]
-
-LaTeX Warning: Citation `usp_expectativa_vida_2024' on page 23 undefined on input line 87.
-
-
 Underfull \hbox (badness 1389) in paragraph at lines 87--88
 []|\T1/lmr/m/n/12 (+20) Expectativa de vida uti-li-zada
  []
@@ -1230,13 +1226,9 @@ Overfull \hbox (52.91406pt too wide) in paragraph at lines 121--122
  []
 
 
-LaTeX Warning: Citation `jindal_rao_2017' on page 23 undefined on input line 127.
-
-
-LaTeX Warning: Citation `periodo_incubacao_dengue' on page 23 undefined on input line 131.
-
-
-LaTeX Warning: Citation `periodo_incubacao_dengue' on page 23 undefined on input line 135.
+Underfull \hbox (badness 1308) in paragraph at lines 131--132
+[]|\T1/lmr/m/n/12 (+20) Intervalo sor-te-ado para re-pre-
+ []
 
 
 Overfull \hbox (3.51404pt too wide) in paragraph at lines 137--138
@@ -1244,15 +1236,12 @@ Overfull \hbox (3.51404pt too wide) in paragraph at lines 137--138
  []
 
 
-LaTeX Warning: Citation `periodo_recuperacao_dengue' on page 23 undefined on input line 139.
-
-
 Overfull \hbox (28.21405pt too wide) in paragraph at lines 141--142
 []|\T1/lmtt/m/n/12 taxa_de_mortalidade_dia| 
  []
 
 
-LaTeX Warning: Float too large for page by 50.91661pt on input line 152.
+LaTeX Warning: Float too large for page by 94.41661pt on input line 152.
 
 
 Overfull \hbox (84.27362pt too wide) in paragraph at lines 193--193
@@ -1270,9 +1259,6 @@ Overfull \hbox (22.52359pt too wide) in paragraph at lines 195--195
  []
 
 [23]
-
-LaTeX Warning: Reference `tab:parametros-epidemiologicos' on page 24 undefined on input line 212.
-
 
 LaTeX Warning: Reference `tab:parametros-deslocamento' on page 24 undefined on input line 216.
 
@@ -1347,18 +1333,18 @@ Package rerunfilecheck Info: File `main.brf' has not changed.
 (rerunfilecheck)             Checksum: 8A03E31AF7BCE1B8AE1EC8829CC96054;2443.
  ) 
 Here is how much of TeX's memory you used:
- 31874 strings out of 476162
- 573602 string characters out of 5794813
- 1952975 words of memory out of 5000000
- 52985 multiletter control sequences out of 15000+600000
- 649072 words of font info for 196 fonts, out of 8000000 for 9000
+ 31887 strings out of 476162
+ 573924 string characters out of 5794813
+ 1953975 words of memory out of 5000000
+ 52992 multiletter control sequences out of 15000+600000
+ 649201 words of font info for 197 fonts, out of 8000000 for 9000
  16 hyphenation exceptions out of 8191
  99i,13n,107p,1048b,878s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/share/texmf/fonts/type1/public/lm/lmbx10.pfb></usr/share/texmf/fonts/type1/public/lm/lmbx12.pfb></usr/share/texmf/fonts/type1/public/lm/lmbxi10.pfb></usr/share/texmf/fonts/type1/public/lm/lmr10.pfb></usr/share/texmf/fonts/type1/public/lm/lmr12.pfb></usr/share/texmf/fonts/type1/public/lm/lmr9.pfb></usr/share/texmf/fonts/type1/public/lm/lmri10.pfb></usr/share/texmf/fonts/type1/public/lm/lmri12.pfb></usr/share/texmf/fonts/type1/public/lm/lmss12.pfb></usr/share/texmf/fonts/type1/public/lm/lmss17.pfb></usr/share/texmf/fonts/type1/public/lm/lmssbx10.pfb></usr/share/texmf/fonts/type1/public/lm/lmtt10.pfb></usr/share/texmf/fonts/type1/public/lm/lmtt12.pfb>
-Output written on main.pdf (38 pages, 434601 bytes).
+Output written on main.pdf (38 pages, 438128 bytes).
 PDF statistics:
- 763 PDF objects out of 1000 (max. 8388607)
- 687 compressed objects within 7 object streams
- 138 named destinations out of 1000 (max. 500000)
+ 791 PDF objects out of 1000 (max. 8388607)
+ 714 compressed objects within 8 object streams
+ 142 named destinations out of 1000 (max. 500000)
  52701 words of extra memory for PDF output out of 61914 (max. 10000000)
 

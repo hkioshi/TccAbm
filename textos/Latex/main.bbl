@@ -23,6 +23,19 @@ Dispon{\'\i}vel em: \url{https://run.unl.pt/server/api/core/bitstreams/9433923f-
 {GRIMM, V. et al. The {ODD} protocol: A review and first update.
 \emph{Ecological Modelling}, v.~221, n.~23, p. 2760--2768, 2010.}
 
+\bibitem[Jindal e Rao 2017]{jindal_rao_2017}
+\abntrefinfo{Jindal e Rao}{JINDAL; RAO}{2017}
+{JINDAL, A.; RAO, S. Agent-based modeling and simulation of mosquito-borne disease transmission. In:  \emph{Proceedings of the 16th International Conference on Autonomous Agents and Multiagent Systems}. São Paulo, Brazil: [s.n.], 2017. p. 426--435. Dispon{\'\i}vel em: \url{https://aamas.csc.liv.ac.uk/AAMAS/aamas2017/proceedings/pdfs/p426.pdf}.}
+
+\bibitem[{Jornal da USP} 2024]{usp_expectativa_vida_2024}
+\abntrefinfo{{Jornal da USP}}{{Jornal da USP}}{2024}
+{{Jornal da USP}. \emph{Expectativa de vida alcança maior patamar da história no Estado de São Paulo}. 2024.
+Dispon{\'\i}vel em: \url{https://jornal.usp.br/radio-usp/expectativa-de-vida-alcanca-maior-patamar-da-historia-no-estado-de-sao-paulo/}.}
+
+\bibitem[Kang et al. 2019]{periodo_recuperacao_dengue}
+\abntrefinfo{Kang et al.}{KANG et al.}{2019}
+{KANG, J.~Y. et al. Cybergis-jupyter for spatially explicit agent-based modeling: A case study on influenza transmission. In:  \emph{Proceedings of the 2nd ACM SIGSPATIAL International Workshop on GeoSpatial Simulation, GeoSim 2019}. Association for Computing Machinery, 2019. p. 32--35. Dispon{\'\i}vel em: \url{https://doi.org/10.1145/3356470.3365531}.}
+
 \bibitem[Macal e North 2010]{Macal2010}
 \abntrefinfo{Macal e North}{MACAL; NORTH}{2010}
 {MACAL, C.~M.; NORTH, M.~J. Tutorial on agent-based modelling and simulation.
@@ -40,6 +53,12 @@ Dispon{\'\i}vel em: \url{https://www.sciencedirect.com/science/article/pii/S1574
 {{Ministério da Saúde}. \emph{Dengue}. 2025.
 Acesso em: 26 maio 2025.
 Dispon{\'\i}vel em: \url{https://www.gov.br/saude/pt-br/assuntos/saude-de-a-a-z/d/dengue}.}
+
+\bibitem[Nguyen et al. 2013]{periodo_incubacao_dengue}
+\abntrefinfo{Nguyen et al.}{NGUYEN et al.}{2013}
+{NGUYEN, N.~M. et al. Host and viral features of human dengue cases shape the population of infected and infectious {Aedes aegypti} mosquitoes.
+\emph{Proceedings of the National Academy of Sciences}, v.~110, n.~22, p. 9072--9077, 2013.
+Dispon{\'\i}vel em: \url{https://pmc.ncbi.nlm.nih.gov/articles/PMC3670336/}.}
 
 \bibitem[Oliveira et al. 2025]{oliveira_etal_2025}
 \abntrefinfo{Oliveira et al.}{OLIVEIRA et al.}{2025}
